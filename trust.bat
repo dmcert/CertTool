@@ -7,8 +7,8 @@ set testMode=off
 ::Set current version
 set currMajorVer=2
 set currMinorVer=0
-set currPatchVer=0
-set currBuild=19
+set currPatchVer=1
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -576,23 +576,26 @@ goto uninstallFailureChoice
 ::Choose to download the latest version or continue
 echo [1] Re-download the software through your default browser ^(Recommended^)
 echo [2] Re-download the software through the built-in downloader
-echo [2] Continue uninstalling ^(may damage your system^)
-echo [3] Return to main menu
-echo [4] Exit
-set /p usersChoiceUninstallFailure=Please enter your choice ^(1-4^):
+echo [3] Continue uninstalling ^(may damage your system^)
+echo [4] Return to main menu
+echo [5] Exit
+set /p usersChoiceUninstallFailure=Please enter your choice ^(1-5^):
 if %usersChoiceUninstallFailure%==1 (
 	goto updateBrowser
 )
 if %usersChoiceUninstallFailure%==2 (
+	goto updateWget
+)
+if %usersChoiceUninstallFailure%==3 (
 	cls
 	echo %name%
 	goto uninstall
 )
-if %usersChoiceUninstallFailure%==3 (
+if %usersChoiceUninstallFailure%==4 (
 	set echoName=true
 	goto choice
 )
-if %usersChoiceUninstallFailure%==4 (
+if %usersChoiceUninstallFailure%==5 (
 	goto exit
 )
 set choice=uninstallFailure
