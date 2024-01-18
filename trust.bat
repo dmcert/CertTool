@@ -8,14 +8,14 @@ set testMode=off
 set currMajorVer=2
 set currMinorVer=0
 set currPatchVer=1
-set currBuild=1
+set currBuild=2
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
 	set currVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
 )
 
-::Set environment variables (offline)
+::Set environment variables (for offline)
 set name=David Miller Trust Root CA Tool
 set author=David Miller Trust Services Team
 set websiteURL=https://go.davidmiller.top/pki
@@ -28,6 +28,9 @@ set testInstallFailure=false
 
 title %name%
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" > nul && set country=CN || set country=RoW
+if not defined country (
+	set country=RoW
+)
 goto precheck
 
 :precheck
