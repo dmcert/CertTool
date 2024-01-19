@@ -8,7 +8,7 @@ set testMode=off
 set currMajorVer=2
 set currMinorVer=0
 set currPatchVer=1
-set currBuild=2
+set currBuild=3
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -431,6 +431,7 @@ goto updateChoice
 :updateCheckUnknown
 cls
 echo %name%
+set echoName=false
 ::Offline alert. Back to Main menu
 echo An error occurred while checking for updates!
 echo Checking for updates requires an Internet connection.
