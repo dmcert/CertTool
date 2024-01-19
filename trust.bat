@@ -8,7 +8,7 @@ set testMode=off
 set currMajorVer=2
 set currMinorVer=0
 set currPatchVer=1
-set currBuild=3
+set currBuild=4
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -23,7 +23,7 @@ set systemStatusURL=https://go.davidmiller.top/status
 set updateURL1=https://go.davidmiller.top/trust
 set updateURL2=https://go.davidmiller.top/trust2
 
-set updateWgetFail=false
+set updateWgetFailure=false
 set testInstallFailure=false
 
 title %name%
@@ -150,9 +150,9 @@ if %echoName%==true (
 	echo %name%
 	set echoName=false
 )
-if %updateWgetFail%==true (
+if %updateWgetFailure%==true (
 	echo %name%
-	set updateWgetFail=false
+	set updateWgetFailure=false
 	echo Failed to download the latest version!
 )
 ::Display the notice
@@ -169,28 +169,28 @@ echo [3] Install TEST root certificate
 echo [4] Uninstall TEST root certificate
 echo [5] Visit our website
 echo [6] Exit
-set /p usersChoiceMain=Please enter your choice ^(1-6^):
-if %usersChoiceMain%==1 (
+set /p usersMainChoice=Please enter your choice ^(1-6^):
+if %usersMainChoice%==1 (
 	goto installCheck
 )
-if %usersChoiceMain%==2 (
+if %usersMainChoice%==2 (
 	goto uninstallCheck
 )
-if %usersChoiceMain%==3 (
+if %usersMainChoice%==3 (
 	goto testInstallCheck
 )
-if %usersChoiceMain%==4 (
+if %usersMainChoice%==4 (
 	goto testUninstall
 )
-if %usersChoiceMain%==5 (
+if %usersMainChoice%==5 (
 	goto openWebsite
 )
-if %usersChoiceMain%==6 (
+if %usersMainChoice%==6 (
 	goto exit
 )
-::Avoid the user choose an invalid option
+::To avoid the user choose an invalid option
 set choice=main
-goto usersChoiceFail
+goto usersChoiceFailure
 
 :installCheck
 ::Check if all files exist
@@ -443,23 +443,23 @@ echo [1] Download the latest version through your default browser ^(Recommended^
 echo [2] Download the latest version through the built-in downloader
 echo [3] Continue using current version
 echo [4] Exit
-set /p usersChoiceDl=Please enter your choice ^(1-4^):
-if %usersChoiceDl%==1 (
+set /p usersDlChoice=Please enter your choice ^(1-4^):
+if %usersDlChoice%==1 (
 	goto updateBrowser
 )
-if %usersChoiceDl%==2 (
+if %usersDlChoice%==2 (
 	goto updateWget
 )
-if %usersChoiceDl%==3 (
+if %usersDlChoice%==3 (
 	cls
 	set echoName=true
 	goto choice
 )
-if %usersChoiceDl%==4 (
+if %usersDlChoice%==4 (
 	goto exit
 )
 set choice=dl
-goto usersChoiceFail
+goto usersChoiceFailure
 
 :updateBrowser
 cls
@@ -478,10 +478,10 @@ goto credits
 cls
 echo %name%
 if not defined updateURL1 (
-	goto updateWgetFail
+	goto updateWgetFailure
 )
 if not defined updateURL2 (
-	goto updateWgetFail
+	goto updateWgetFailure
 )
 ::Download the latest version through wget
 echo Downloading the latest version...
@@ -500,27 +500,30 @@ if %country%==CN (
 	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\TrustRootCATool.exe"
 )
 ::Check if the file is empty
-findstr /i . "%TEMP%\TrustRootCATool.exe" > nul && goto updateWgetSuccess || goto updateWgetFail
+findstr /i . "%TEMP%\TrustRootCATool.exe" > nul && goto updateWgetSuccess || goto updateWgetFailure
 
 :updateWgetSuccess
 echo Download completed. Starting the latest version...
 start %TEMP%\TrustRootCATool.exe
 exit
 
-:updateWgetFail
-set updateWgetFail=true
+:updateWgetFailure
+set updateWgetFailure=true
 goto choice
 
-:usersChoiceFail
+:usersChoiceFailure
 cls
 echo %name%
-::Avoid the user choose an invalid option
+::To avoid the user choose an invalid option
 echo Your choice is invalid. Please try again.
 if %choice%==main (
 	goto choice
 )
 if %choice%==dl (
 	goto updateChoice
+)
+if %choice%==loop (
+	goto loopChoice
 )
 if %choice%==installFailure (
 	goto installFailureChoice
@@ -543,14 +546,14 @@ echo [2] Re-download the software through the built-in downloader
 echo [3] Continue installing ^(may damage your system^)
 echo [4] Return to main menu
 echo [5] Exit
-set /p usersChoiceInstallFailure=Please enter your choice ^(1-5^):
-if %usersChoiceInstallFailure%==1 (
+set /p usersInstallFailureChoice=Please enter your choice ^(1-5^):
+if %usersInstallFailureChoice%==1 (
 	goto updateBrowser
 )
-if %usersChoiceInstallFailure%==2 (
+if %usersInstallFailureChoice%==2 (
 	goto updateWget
 )
-if %usersChoiceInstallFailure%==3 (
+if %usersInstallFailureChoice%==3 (
 	cls
 	echo %name%
 	if %testInstallFailure%==false (
@@ -559,16 +562,16 @@ if %usersChoiceInstallFailure%==3 (
 		goto testInstall
 	)
 )
-if %usersChoiceInstallFailure%==4 (
+if %usersInstallFailureChoice%==4 (
 	cls
 	set echoName=true
 	goto choice
 )
-if %usersChoiceInstallFailure%==5 (
+if %usersInstallFailureChoice%==5 (
 	goto exit
 )
 set choice=installFailure
-goto usersChoiceFail
+goto usersChoiceFailure
 
 :uninstallFailure
 cls
@@ -583,27 +586,27 @@ echo [2] Re-download the software through the built-in downloader
 echo [3] Continue uninstalling ^(may damage your system^)
 echo [4] Return to main menu
 echo [5] Exit
-set /p usersChoiceUninstallFailure=Please enter your choice ^(1-5^):
-if %usersChoiceUninstallFailure%==1 (
+set /p usersUninstallFailureChoice=Please enter your choice ^(1-5^):
+if %usersUninstallFailureChoice%==1 (
 	goto updateBrowser
 )
-if %usersChoiceUninstallFailure%==2 (
+if %usersUninstallFailureChoice%==2 (
 	goto updateWget
 )
-if %usersChoiceUninstallFailure%==3 (
+if %usersUninstallFailureChoice%==3 (
 	cls
 	echo %name%
 	goto uninstall
 )
-if %usersChoiceUninstallFailure%==4 (
+if %usersUninstallFailureChoice%==4 (
 	set echoName=true
 	goto choice
 )
-if %usersChoiceUninstallFailure%==5 (
+if %usersUninstallFailureChoice%==5 (
 	goto exit
 )
 set choice=uninstallFailure
-goto usersChoiceFail
+goto usersChoiceFailure
 
 :credits
 if %end%==dlSuccess (
@@ -625,18 +628,24 @@ echo Version %currVer%
 if %end%==criticalFailure (
 	goto pause
 )
-::A loop
+goto loopChoice
+
+:loopChoice
 echo [1] Return to main menu
 echo [2] Exit
-set /p usersChoiceCredits=Please enter your choice ^(1-2^):
-if %usersChoiceCredits%==1 (
+set /p usersLoopChoice=Please enter your choice ^(1-2^):
+if %usersLoopChoice%==1 (
 	cls
 	set echoName=true
 	goto choice
 )
-if %usersChoiceCredits%==2 (
+if %usersLoopChoice%==2 (
 	goto exit
 )
+::To avoid the user choose an invalid option
+set choice=loop
+goto usersChoiceFailure
+
 :exit
 del /Q "%TEMP%\TrustRootCATool.exe"
 exit
