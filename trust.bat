@@ -40,7 +40,7 @@ if not exist "wget.exe" (
 	goto wgetFailure
 )
 "%Windir%\System32\certutil.exe" -hashfile "wget.exe" SHA256 > "wget.exe.sha256"
-findstr /i D68286C89F448F67749370FC349AE8F3F11EBAF49330A60470168959BC92047F "wget.exe.sha256" > nul || goto wgetFailure
+findstr d68286c89f448f67749370fc349ae8f3f11ebaf49330a60470168959bc92047f "wget.exe.sha256" > nul || goto wgetFailure
 goto dlConfig
 
 :dlConfig
@@ -213,23 +213,23 @@ if not exist "R4_RootCertificateAuthority.reg" (
 "%Windir%\System32\certutil.exe" -hashfile "R4_RootCertificateAuthority.reg" SHA256 > "R4_RootCertificateAuthority.reg.sha256"
 
 ::Compare file hash
-findstr /i F56E728F435AF6322561FA9A62C366A6032DE8C371155572004F7FE4A48C0371 "R4_R1RootCA.crt.sha256" > nul
+findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "R4_R1RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr /i A33F7F708FBB18326315BF469E8A77FEB234478683B249AD5AD3A13F4F631742 "R4_R2RootCA.crt.sha256" > nul
+findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "R4_R2RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr /i CFE2A8C5EC0D2828E06B2A6306C5FB6722581DC10864059463356904915750A4 "R4_R3RootCA.crt.sha256" > nul
+findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "R4_R3RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr /i 00714CECB03A5EEC64570E5B0CCF90A9A1BB429825C2A83A9E719558C7738248 "R4RootCA.reg.sha256" > nul
+findstr 00714cecb03a5eec64570e5b0ccf90a9a1bb429825c2a83a9e719558c7738248 "R4RootCA.reg.sha256" > nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr /i 674095A879128F7E13D8336051CF1A622EDA5A29E93FACA302FBF7B59E90031B "R4_RootCertificateAuthority.reg.sha256" > nul
+findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "R4_RootCertificateAuthority.reg.sha256" > nul
 if errorlevel 1 (
 	goto installFailure
 )
@@ -279,19 +279,19 @@ if not exist R4_RootCertificateAuthority.reg (
 "%Windir%\System32\certutil.exe" -hashfile "R4_RootCertificateAuthority.reg" SHA256 > "R4_RootCertificateAuthority.reg.sha256"
 
 ::Compare file hash
-findstr /i F56E728F435AF6322561FA9A62C366A6032DE8C371155572004F7FE4A48C0371 "R4_R1RootCA.crt.sha256" > nul
+findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "R4_R1RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	goto uninstallFailure
 )
-findstr /i A33F7F708FBB18326315BF469E8A77FEB234478683B249AD5AD3A13F4F631742 "R4_R2RootCA.crt.sha256" > nul
+findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "R4_R2RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	goto uninstallFailure
 )
-findstr /i CFE2A8C5EC0D2828E06B2A6306C5FB6722581DC10864059463356904915750A4 "R4_R3RootCA.crt.sha256" > nul
+findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "R4_R3RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	goto uninstallFailure
 )
-findstr /i 674095A879128F7E13D8336051CF1A622EDA5A29E93FACA302FBF7B59E90031B "R4_RootCertificateAuthority.reg.sha256" > nul
+findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "R4_RootCertificateAuthority.reg.sha256" > nul
 if errorlevel 1 (
 	goto uninstallFailure
 )
@@ -337,7 +337,7 @@ if not exist "T4RootCA.crt" (
 ::Compute file's SHA256 checksum
 "%Windir%\System32\certutil.exe" -hashfile "T4RootCA.crt" SHA256 > "T4RootCA.crt.sha256"
 ::Compare file hash
-findstr /i 7C842E48C25CE222B3B7D003C76BD433C2C18A8A34CF73013D67A7298AB4D0F6 "T4RootCA.crt.sha256" > nul
+findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "T4RootCA.crt.sha256" > nul
 if errorlevel 1 (
 	::Save disk space
 	set testInstallFailure=true
