@@ -1,14 +1,12 @@
 @echo off
 cd /d %~dp0
 chcp 65001 > nul
-set testMode=off
-::set testMode=on
 
 ::Set current version
 set currMajorVer=2
-set currMinorVer=0
-set currPatchVer=1
-set currBuild=4
+set currMinorVer=1
+set currPatchVer=0
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -49,14 +47,10 @@ goto dlConfig
 ::Check for updates through TrustRootCATool API
 echo %name%
 echo Checking for updates...
-if %testMode%==on (
-	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config_test.ini -q -T 5 -t 2 -O "config.ini"
+if %country%==CN (
+	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
 ) else (
-	if %country%==CN (
-		"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
-	) else (
-		"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
-	)
+	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
 )
 ::Check if the file is empty
 findstr /i . "config.ini" > nul && goto importConfig || goto re-dlConfig
