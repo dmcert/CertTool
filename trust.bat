@@ -6,12 +6,13 @@ chcp 65001 > nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=0
-set currBuild=1
+set currBuild=2
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
 	set currVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
 )
+set currInternalVer=%currMajorVer%.%currMinorVer%.%currPatchVer%.%currBuild%
 
 ::Set environment variables (for offline)
 set name=David Miller Trust Root CA Tool
@@ -78,6 +79,7 @@ for /f "tokens=1,2 delims==" %%i in (
 	if "%%i"=="update_url2" set updateURL2=%%j
 	if "%%i"=="status" set status=%%j
 	if "%%i"=="status_notice" set statusNotice=%%j
+	if "%%i"=="banned_version" set bannedVer=%%j
 	if "%%i"=="notice" set notice=%%j
 	if "%%i"=="major_version" set latestMajorVer=%%j
 	if "%%i"=="minor_version" set latestMinorVer=%%j
@@ -114,6 +116,9 @@ if %status%==available (
 )
 
 :updateCheck
+if defined bannedVer (
+	echo %bannedVer% | findstr "%currInternalVer%" > nul && goto updateCheckFailure
+)
 ::Compare current version number with the latest version number
 if %currMajorVer% lss %latestMajorVer% (
 	goto updateCheckFailure
