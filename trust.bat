@@ -6,7 +6,7 @@ chcp 65001 > nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=0
-set currBuild=2
+set currBuild=3
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -117,7 +117,7 @@ if %status%==available (
 
 :updateCheck
 if defined bannedVer (
-	echo %bannedVer% | findstr "%currInternalVer%" > nul && goto updateCheckFailure
+	echo %bannedVer% | findstr "%currInternalVer%" > nul && goto UpdateCheckCriticalFailure
 )
 ::Compare current version number with the latest version number
 if %currMajorVer% lss %latestMajorVer% (
@@ -427,6 +427,16 @@ if defined notice (
 echo Due to security concerns, updating to the latest version is recommended.
 goto updateChoice
 
+:UpdateCheckCriticalFailure
+cls
+echo %name%
+::Banned Version alert. Cannot be skipped by user
+if defined notice (
+	echo %notice%
+)
+echo Due to security concerns, updating to the latest version is required.
+goto updateBannedVerChoice
+
 :updateCheckUnknown
 cls
 echo %name%
@@ -458,6 +468,24 @@ if %usersDlChoice%==4 (
 	goto exit
 )
 set choice=dl
+goto usersChoiceFailure
+
+:updateBannedVerChoice
+::Download the latest version or exit
+echo [1] Download the latest version through your default browser ^(Recommended^)
+echo [2] Download the latest version through the built-in downloader
+echo [3] Exit
+set /p usersDlChoice=Please enter your choice ^(1-3^):
+if %usersDlChoice%==1 (
+	goto updateBrowser
+)
+if %usersDlChoice%==2 (
+	goto updateWget
+)
+if %usersDlChoice%==3 (
+	goto exit
+)
+set choice=dlBannedVer
 goto usersChoiceFailure
 
 :updateBrowser
@@ -523,6 +551,9 @@ if %choice%==dl (
 )
 if %choice%==loop (
 	goto loopChoice
+)
+if %choice%==dlBannedVer (
+	goto updateBannedVerChoice
 )
 if %choice%==installFailure (
 	goto installFailureChoice
