@@ -261,14 +261,14 @@ goto credits
 :uninstall
 ::Uninstall root certificates
 echo Removing David Miller Root CA - R1 ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
 echo Removing David Miller Root CA - R2 ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
 echo Removing David Miller Root CA - R3 ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
 echo Removing David Miller Root CA - R4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f > nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f > nul
