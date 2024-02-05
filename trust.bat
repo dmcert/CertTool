@@ -173,7 +173,7 @@ if %usersMainChoice%==1 (
 	goto installCheck
 )
 if %usersMainChoice%==2 (
-	goto uninstallCheck
+	goto uninstall
 )
 if %usersMainChoice%==3 (
 	goto testInstallCheck
@@ -258,61 +258,14 @@ regedit.exe /s "R4_RootCertificateAuthority.reg" > nul
 set end=success
 goto credits
 
-:uninstallCheck
-::Check if all files exist
-echo Validating integrity of 5 files...
-if not exist R4_R1RootCA.crt (
-	goto uninstallFailure
-)
-if not exist R4_R2RootCA.crt (
-	goto uninstallFailure
-)
-if not exist R4_R3RootCA.crt (
-	goto uninstallFailure
-)
-if not exist R4RootCA.reg (
-	goto uninstallFailure
-)
-if not exist R4_RootCertificateAuthority.reg (
-	goto uninstallFailure
-)
-
-::Compute file's SHA256 checksum
-"%Windir%\System32\certutil.exe" -hashfile "R4_R1RootCA.crt" SHA256 > "R4_R1RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4_R2RootCA.crt" SHA256 > "R4_R2RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4_R3RootCA.crt" SHA256 > "R4_R3RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4_RootCertificateAuthority.reg" SHA256 > "R4_RootCertificateAuthority.reg.sha256"
-
-::Compare file hash
-findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "R4_R1RootCA.crt.sha256" > nul
-if errorlevel 1 (
-	goto uninstallFailure
-)
-findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "R4_R2RootCA.crt.sha256" > nul
-if errorlevel 1 (
-	goto uninstallFailure
-)
-findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "R4_R3RootCA.crt.sha256" > nul
-if errorlevel 1 (
-	goto uninstallFailure
-)
-findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "R4_RootCertificateAuthority.reg.sha256" > nul
-if errorlevel 1 (
-	goto uninstallFailure
-)
-cls
-echo %name%
-echo All 5 files successfully validated!
-goto uninstall
-
 :uninstall
 ::Uninstall root certificates
 echo Removing David Miller Root CA - R1 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -delstore CA "R4_R1RootCA.crt" > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
 echo Removing David Miller Root CA - R2 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -delstore CA "R4_R2RootCA.crt" > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
 echo Removing David Miller Root CA - R3 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -delstore CA "R4_R3RootCA.crt" > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
 echo Removing David Miller Root CA - R4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f > nul
 echo Removing David Miller Root Certificate Authority ^(cross-signed by R4^)...
