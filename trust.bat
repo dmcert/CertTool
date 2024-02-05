@@ -6,7 +6,7 @@ chcp 65001 > nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=0
-set currBuild=3
+set currBuild=4
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -326,8 +326,6 @@ echo Removing David Miller Root CA - R3...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\26D964969AAC0B5AA7756BDBF00EC82467CDD17F" /f > nul
 echo Removing David Miller Root Certificate Authority ^(cross-signed by R1^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" /f > nul
-echo Removing David Miller Code Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" /f > nul
 set end=success
 goto credits
 
@@ -393,19 +391,6 @@ cls
 echo %name%
 ::Unable to find wget
 echo "wget.exe" is missing or corrupted!
-set end=criticalFailure
-goto credits
-
-:statusFailure
-cls
-echo %name%
-::System outstage or critical security issues
-if defined statusNotice (
-	echo NOTE: %statusNotice%
-) else (
-	echo Something went wrong. Please try again later.
-)
-echo Check system status: %systemStatusURL%
 set end=criticalFailure
 goto credits
 
