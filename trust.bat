@@ -6,7 +6,7 @@ chcp 65001 > nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=0
-set currBuild=6
+set currBuild=8
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -478,6 +478,9 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3CD6E170B
 echo Removing David Miller Code Signing CA - G2 - SHA384...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EDD4A7BB0BE7B15F20F7F49519AD31D5AB4DA893" /f > nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EDD4A7BB0BE7B15F20F7F49519AD31D5AB4DA893" /f > nul
+echo Removing David Miller Code Signing CA - G3 - SHA384...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
 echo Removing David Miller Domain Validation Server CA - G4 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
