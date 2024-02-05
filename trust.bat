@@ -5,8 +5,8 @@ chcp 65001 > nul
 ::Set current version
 set currMajorVer=2
 set currMinorVer=1
-set currPatchVer=0
-set currBuild=9
+set currPatchVer=1
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -26,7 +26,7 @@ set updateWgetFailure=false
 set testInstallFailure=false
 
 title %name%
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" > nul && set country=CN || set country=RoW
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" 2> nul && set country=CN || set country=RoW
 if not defined country (
 	set country=RoW
 )
@@ -252,304 +252,304 @@ echo Installing David Miller Root CA - R2 ^(cross-signed by R4^)...
 echo Installing David Miller Root CA - R3 ^(cross-signed by R4^)...
 "%Windir%\System32\certutil.exe" -addstore CA "R4_R3RootCA.crt" > nul
 echo Installing David Miller Root CA - R4...
-regedit.exe /s "R4RootCA.reg" > nul
+regedit.exe /s "R4RootCA.reg" 2> nul
 echo Installing David Miller Root Certificate Authority ^(cross-signed by R4^)...
-regedit.exe /s "R4_RootCertificateAuthority.reg" > nul
+regedit.exe /s "R4_RootCertificateAuthority.reg" 2> nul
 set end=success
 goto credits
 
 :uninstall
 ::Uninstall root certificates
 echo Removing David Miller Root CA - R1 ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f 2> nul
 echo Removing David Miller Root CA - R2 ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" /f 2> nul
 echo Removing David Miller Root CA - R3 ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f 2> nul
 echo Removing David Miller Root CA - R4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f 2> nul
 echo Removing David Miller Root Certificate Authority ^(cross-signed by R4^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f 2> nul
 echo Removing David Miller Root CA - R4 ^(cross-signed by R1^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\552918E3B7F913232AA7FC07D531F5D03EA113E3" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\552918E3B7F913232AA7FC07D531F5D03EA113E3" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\552918E3B7F913232AA7FC07D531F5D03EA113E3" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\552918E3B7F913232AA7FC07D531F5D03EA113E3" /f 2> nul
 echo Removing David Miller Root CA - R4 ^(cross-signed by R2^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\917E60F37D4C95B1DD26A3BD0CCF690EA220D249" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\917E60F37D4C95B1DD26A3BD0CCF690EA220D249" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\917E60F37D4C95B1DD26A3BD0CCF690EA220D249" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\917E60F37D4C95B1DD26A3BD0CCF690EA220D249" /f 2> nul
 echo Removing David Miller Root CA - R4 ^(cross-signed by R3^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B5B3AC85DF129E6D2355384A7808C2CF71558929" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B5B3AC85DF129E6D2355384A7808C2CF71558929" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B5B3AC85DF129E6D2355384A7808C2CF71558929" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B5B3AC85DF129E6D2355384A7808C2CF71558929" /f 2> nul
 ::Uninstall EOL root certificates
 echo Removing David Miller Root CA - R1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\73298F6468D150007B2EFFFABAAF1956401D0283" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\73298F6468D150007B2EFFFABAAF1956401D0283" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\73298F6468D150007B2EFFFABAAF1956401D0283" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\73298F6468D150007B2EFFFABAAF1956401D0283" /f 2> nul
 echo Removing David Miller Root CA - R2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\4A24E7FC6C80EA54BEF5883DD83248F9A1509362" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\4A24E7FC6C80EA54BEF5883DD83248F9A1509362" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\4A24E7FC6C80EA54BEF5883DD83248F9A1509362" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\4A24E7FC6C80EA54BEF5883DD83248F9A1509362" /f 2> nul
 echo Removing David Miller Root CA - R3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\26D964969AAC0B5AA7756BDBF00EC82467CDD17F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\26D964969AAC0B5AA7756BDBF00EC82467CDD17F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\26D964969AAC0B5AA7756BDBF00EC82467CDD17F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\26D964969AAC0B5AA7756BDBF00EC82467CDD17F" /f 2> nul
 echo Removing David Miller Root CA - R3 ^(cross-signed by R1^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" /f 2> nul
 echo Removing David Miller Root Certificate Authority ^(cross-signed by R1^)...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" /f 2> nul
 ::Uninstall intermediate certificates
 echo Removing David Miller Code Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F518737DB8B5D44357B5A0582791477C3152BFD4" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F518737DB8B5D44357B5A0582791477C3152BFD4" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F518737DB8B5D44357B5A0582791477C3152BFD4" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F518737DB8B5D44357B5A0582791477C3152BFD4" /f 2> nul
 echo Removing David Miller Code Signing CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F43C7CAE86044A2E4D6E35AF5C9399D8B15F1880" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F43C7CAE86044A2E4D6E35AF5C9399D8B15F1880" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F43C7CAE86044A2E4D6E35AF5C9399D8B15F1880" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F43C7CAE86044A2E4D6E35AF5C9399D8B15F1880" /f 2> nul
 echo Removing David Miller Code Signing CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\271A3451AA0567DC45B2675FAFE96622EB1474C1" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\271A3451AA0567DC45B2675FAFE96622EB1474C1" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\271A3451AA0567DC45B2675FAFE96622EB1474C1" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\271A3451AA0567DC45B2675FAFE96622EB1474C1" /f 2> nul
 echo Removing David Miller Trust Services External RSA CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E65B658FECAF89159C1FCAA06CEEFE038E2887AE" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E65B658FECAF89159C1FCAA06CEEFE038E2887AE" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E65B658FECAF89159C1FCAA06CEEFE038E2887AE" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E65B658FECAF89159C1FCAA06CEEFE038E2887AE" /f 2> nul
 echo Removing David Miller SHA2 EFS CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A4625D74932A13DAAF47B411FC76EE9E6D6342B" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A4625D74932A13DAAF47B411FC76EE9E6D6342B" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A4625D74932A13DAAF47B411FC76EE9E6D6342B" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A4625D74932A13DAAF47B411FC76EE9E6D6342B" /f 2> nul
 echo Removing David Miller SHA2 EFS CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\97FB911E9133C8A2BDE8E45F572C22E64F0BA844" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\97FB911E9133C8A2BDE8E45F572C22E64F0BA844" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\97FB911E9133C8A2BDE8E45F572C22E64F0BA844" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\97FB911E9133C8A2BDE8E45F572C22E64F0BA844" /f 2> nul
 echo Removing David Miller EV Code Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\87FD477463C7D4830AC8982FA1E12BA02C27ED37" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\87FD477463C7D4830AC8982FA1E12BA02C27ED37" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\87FD477463C7D4830AC8982FA1E12BA02C27ED37" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\87FD477463C7D4830AC8982FA1E12BA02C27ED37" /f 2> nul
 echo Removing David Miller EV Code Signing CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\86676466785B6F3EA24926AE79ADCC756B61B7D6" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\86676466785B6F3EA24926AE79ADCC756B61B7D6" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\86676466785B6F3EA24926AE79ADCC756B61B7D6" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\86676466785B6F3EA24926AE79ADCC756B61B7D6" /f 2> nul
 echo Removing David Miller EV Code Signing CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\FBEC5EBDDD53C9F94403A384490D1255548945A6" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\FBEC5EBDDD53C9F94403A384490D1255548945A6" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\FBEC5EBDDD53C9F94403A384490D1255548945A6" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\FBEC5EBDDD53C9F94403A384490D1255548945A6" /f 2> nul
 echo Removing David Miller EV Code Signing CA - G4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\194A956FEFA656E0772478A76AB94A81F513FEE0" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\194A956FEFA656E0772478A76AB94A81F513FEE0" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\194A956FEFA656E0772478A76AB94A81F513FEE0" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\194A956FEFA656E0772478A76AB94A81F513FEE0" /f 2> nul
 echo Removing David Miller Open RSA CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1124924F03EA6E52CC54B38BD8DA9D865A6D9157" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1124924F03EA6E52CC54B38BD8DA9D865A6D9157" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1124924F03EA6E52CC54B38BD8DA9D865A6D9157" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1124924F03EA6E52CC54B38BD8DA9D865A6D9157" /f 2> nul
 echo Removing David Miller RSA4096 SHA256 Timestamping CA - G6...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAFAB19410C4D343ED24F0A7D138E92FB1EB2BEE" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAFAB19410C4D343ED24F0A7D138E92FB1EB2BEE" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAFAB19410C4D343ED24F0A7D138E92FB1EB2BEE" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAFAB19410C4D343ED24F0A7D138E92FB1EB2BEE" /f 2> nul
 echo Removing David Miller RSA4096 SHA384 Code Signing CA1 - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6E84B61282D7A2ED3DDE8488033B757EECE2B3B6" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6E84B61282D7A2ED3DDE8488033B757EECE2B3B6" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6E84B61282D7A2ED3DDE8488033B757EECE2B3B6" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6E84B61282D7A2ED3DDE8488033B757EECE2B3B6" /f 2> nul
 echo Removing David Miller SHA2 Client Authentication CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5CE32B0E07CE4B3FB5AE4825AD0AD0E8DECDFE02" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5CE32B0E07CE4B3FB5AE4825AD0AD0E8DECDFE02" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5CE32B0E07CE4B3FB5AE4825AD0AD0E8DECDFE02" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5CE32B0E07CE4B3FB5AE4825AD0AD0E8DECDFE02" /f 2> nul
 echo Removing David Miller SHA2 Client Authentication CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\73BA45A24A0FF8857800FA5D420DCE64E714C38B" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\73BA45A24A0FF8857800FA5D420DCE64E714C38B" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\73BA45A24A0FF8857800FA5D420DCE64E714C38B" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\73BA45A24A0FF8857800FA5D420DCE64E714C38B" /f 2> nul
 echo Removing David Miller SHA2 Code Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4963E0540A1A7F9101FCE7C9983F02AA29E097B6" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4963E0540A1A7F9101FCE7C9983F02AA29E097B6" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4963E0540A1A7F9101FCE7C9983F02AA29E097B6" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4963E0540A1A7F9101FCE7C9983F02AA29E097B6" /f 2> nul
 echo Removing David Miller SHA2 Code Signing CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B541B4D18D119C755B750EA28D410DE3C695404F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B541B4D18D119C755B750EA28D410DE3C695404F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B541B4D18D119C755B750EA28D410DE3C695404F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B541B4D18D119C755B750EA28D410DE3C695404F" /f 2> nul
 echo Removing David Miller SHA2 Code Signing CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\54E992AA87FA67669F890783DAD42D77F124AC59" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\54E992AA87FA67669F890783DAD42D77F124AC59" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\54E992AA87FA67669F890783DAD42D77F124AC59" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\54E992AA87FA67669F890783DAD42D77F124AC59" /f 2> nul
 echo Removing David Miller SHA2 Domain Validation Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\721AC3543D5AF6297C38796E687EE634D66B1BD9" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\721AC3543D5AF6297C38796E687EE634D66B1BD9" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\721AC3543D5AF6297C38796E687EE634D66B1BD9" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\721AC3543D5AF6297C38796E687EE634D66B1BD9" /f 2> nul
 echo Removing David Miller SHA2 Domain Validation Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" /f 2> nul
 echo Removing David Miller SHA2 Domain Validation Server CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CD1648DEA60B093672A8CBC9F11A95A7862E0" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CD1648DEA60B093672A8CBC9F11A95A7862E0" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CD1648DEA60B093672A8CBC9F11A95A7862E0" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CD1648DEA60B093672A8CBC9F11A95A7862E0" /f 2> nul
 echo Removing David Miller SHA2 Document Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\957801A5B6B59A441B61F1B1163BB8F6E29437F3" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\957801A5B6B59A441B61F1B1163BB8F6E29437F3" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\957801A5B6B59A441B61F1B1163BB8F6E29437F3" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\957801A5B6B59A441B61F1B1163BB8F6E29437F3" /f 2> nul
 echo Removing David Miller SHA2 EV Code Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC68C2F2A5641D976353FCD92D54B7920A678C0" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC68C2F2A5641D976353FCD92D54B7920A678C0" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC68C2F2A5641D976353FCD92D54B7920A678C0" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC68C2F2A5641D976353FCD92D54B7920A678C0" /f 2> nul
 echo Removing David Miller SHA2 EV Code Signing CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\63DA30C37A9EC7A95FAE37FF7FEF3D85E8A7AD19" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\63DA30C37A9EC7A95FAE37FF7FEF3D85E8A7AD19" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\63DA30C37A9EC7A95FAE37FF7FEF3D85E8A7AD19" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\63DA30C37A9EC7A95FAE37FF7FEF3D85E8A7AD19" /f 2> nul
 echo Removing David Miller SHA2 EV Code Signing CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04E1E14E0CD1648AA2FE791EA2E36F7BDC96931E" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04E1E14E0CD1648AA2FE791EA2E36F7BDC96931E" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04E1E14E0CD1648AA2FE791EA2E36F7BDC96931E" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04E1E14E0CD1648AA2FE791EA2E36F7BDC96931E" /f 2> nul
 echo Removing David Miller SHA2 Extended Validation Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\33BB1891420F63AC91349B238EF1D84090078B36" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\33BB1891420F63AC91349B238EF1D84090078B36" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\33BB1891420F63AC91349B238EF1D84090078B36" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\33BB1891420F63AC91349B238EF1D84090078B36" /f 2> nul
 echo Removing David Miller SHA2 Extended Validation Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\14CBA80A1C82E93890DEA20374D12BB0F0D22CCD" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\14CBA80A1C82E93890DEA20374D12BB0F0D22CCD" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\14CBA80A1C82E93890DEA20374D12BB0F0D22CCD" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\14CBA80A1C82E93890DEA20374D12BB0F0D22CCD" /f 2> nul
 echo Removing David Miller SHA2 Extended Validation Server CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3F6D1ABC45FC22838A95D3FC1B451C17852BCE2D" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3F6D1ABC45FC22838A95D3FC1B451C17852BCE2D" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3F6D1ABC45FC22838A95D3FC1B451C17852BCE2D" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3F6D1ABC45FC22838A95D3FC1B451C17852BCE2D" /f 2> nul
 echo Removing David Miller SHA2 Organization Validation Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4D772614849F17C42E707B19200E97A8591EC5C1" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4D772614849F17C42E707B19200E97A8591EC5C1" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4D772614849F17C42E707B19200E97A8591EC5C1" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4D772614849F17C42E707B19200E97A8591EC5C1" /f 2> nul
 echo Removing David Miller SHA2 Organization Validation Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\CFDEF3B1192389BC61EE1C6D26615344D948FCEA" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\CFDEF3B1192389BC61EE1C6D26615344D948FCEA" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\CFDEF3B1192389BC61EE1C6D26615344D948FCEA" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\CFDEF3B1192389BC61EE1C6D26615344D948FCEA" /f 2> nul
 echo Removing David Miller SHA2 Organization Validation Server CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\350E3F3B5C5B43C9587C8601FD070CDDEB28E461" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\350E3F3B5C5B43C9587C8601FD070CDDEB28E461" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\350E3F3B5C5B43C9587C8601FD070CDDEB28E461" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\350E3F3B5C5B43C9587C8601FD070CDDEB28E461" /f 2> nul
 echo Removing David Miller SHA2 Organization Validation Server CA - G4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\00BA4CCF9D439D1EAFDE5EA13B021CD1DF4BB613" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\00BA4CCF9D439D1EAFDE5EA13B021CD1DF4BB613" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\00BA4CCF9D439D1EAFDE5EA13B021CD1DF4BB613" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\00BA4CCF9D439D1EAFDE5EA13B021CD1DF4BB613" /f 2> nul
 echo Removing David Miller SHA2 Secure Mail CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\22730BE91C45B7E4FB3D854A61DB825247F976A9" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\22730BE91C45B7E4FB3D854A61DB825247F976A9" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\22730BE91C45B7E4FB3D854A61DB825247F976A9" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\22730BE91C45B7E4FB3D854A61DB825247F976A9" /f 2> nul
 echo Removing David Miller SHA2 Email Protection CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1A1238B6EC146C4630482F7356CA58A5267B8040" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1A1238B6EC146C4630482F7356CA58A5267B8040" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1A1238B6EC146C4630482F7356CA58A5267B8040" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1A1238B6EC146C4630482F7356CA58A5267B8040" /f 2> nul
 echo Removing David Miller SHA2 Secure Email CA - G4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7CA13FF8D8A4EE1607001913598828A9B291238D" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7CA13FF8D8A4EE1607001913598828A9B291238D" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7CA13FF8D8A4EE1607001913598828A9B291238D" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7CA13FF8D8A4EE1607001913598828A9B291238D" /f 2> nul
 echo Removing David Miller SHA2 Secure Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E1EFB1300969862E7225086B9288913009684205" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E1EFB1300969862E7225086B9288913009684205" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E1EFB1300969862E7225086B9288913009684205" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E1EFB1300969862E7225086B9288913009684205" /f 2> nul
 echo Removing David Miller SHA2 Secure Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\10F00A2FD1AC37EBB49E58BD7E03F61E175D1564" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\10F00A2FD1AC37EBB49E58BD7E03F61E175D1564" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\10F00A2FD1AC37EBB49E58BD7E03F61E175D1564" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\10F00A2FD1AC37EBB49E58BD7E03F61E175D1564" /f 2> nul
 echo Removing David Miller SHA2 Timestamping CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A724DB3FCC09305E9344C34D6773FE37E1E9EF2" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A724DB3FCC09305E9344C34D6773FE37E1E9EF2" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A724DB3FCC09305E9344C34D6773FE37E1E9EF2" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A724DB3FCC09305E9344C34D6773FE37E1E9EF2" /f 2> nul
 echo Removing David Miller SHA2 Timestamping CA - G4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\02E9634F821255D60CF199937A62DC022FB302B1" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\02E9634F821255D60CF199937A62DC022FB302B1" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\02E9634F821255D60CF199937A62DC022FB302B1" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\02E9634F821255D60CF199937A62DC022FB302B1" /f 2> nul
 echo Removing David Miller Trust Services External ECC CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f 2> nul
 echo Removing David Miller ECC Domain Validation Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f 2> nul
 echo Removing David Miller ECC Domain Validation Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\01244CA428A104A8FD6C41B0EA13858489DF60EB" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\01244CA428A104A8FD6C41B0EA13858489DF60EB" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\01244CA428A104A8FD6C41B0EA13858489DF60EB" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\01244CA428A104A8FD6C41B0EA13858489DF60EB" /f 2> nul
 echo Removing David Miller ECC Domain Validation Server CA - G4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7A3C6449234457CDED311C616A5D2989617A3267" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7A3C6449234457CDED311C616A5D2989617A3267" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7A3C6449234457CDED311C616A5D2989617A3267" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7A3C6449234457CDED311C616A5D2989617A3267" /f 2> nul
 echo Removing David Miller ECC Extended Validation Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\118F70646B14EA96BDD4BE4972F81F3F8B0A81D5" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\118F70646B14EA96BDD4BE4972F81F3F8B0A81D5" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\118F70646B14EA96BDD4BE4972F81F3F8B0A81D5" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\118F70646B14EA96BDD4BE4972F81F3F8B0A81D5" /f 2> nul
 echo Removing David Miller ECC Extended Validation Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\965CCCA329763BCD317B8A6F5F26E6ED65001E63" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\965CCCA329763BCD317B8A6F5F26E6ED65001E63" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\965CCCA329763BCD317B8A6F5F26E6ED65001E63" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\965CCCA329763BCD317B8A6F5F26E6ED65001E63" /f 2> nul
 echo Removing David Miller ECC Extended Validation Server CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ED35CD47413428097FAA30698BB54516DFA5DCE7" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ED35CD47413428097FAA30698BB54516DFA5DCE7" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ED35CD47413428097FAA30698BB54516DFA5DCE7" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ED35CD47413428097FAA30698BB54516DFA5DCE7" /f 2> nul
 echo Removing David Miller ECC Organization Validation Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\69E92C5D7E030FE6898467262588E84434BE4230" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\69E92C5D7E030FE6898467262588E84434BE4230" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\69E92C5D7E030FE6898467262588E84434BE4230" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\69E92C5D7E030FE6898467262588E84434BE4230" /f 2> nul
 echo Removing David Miller ECC Organization Validation Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9DCD649CFBA5ED1C9F99FD131BAB2C2F5F4E8A78" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9DCD649CFBA5ED1C9F99FD131BAB2C2F5F4E8A78" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9DCD649CFBA5ED1C9F99FD131BAB2C2F5F4E8A78" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9DCD649CFBA5ED1C9F99FD131BAB2C2F5F4E8A78" /f 2> nul
 echo Removing David Miller ECC Organization Validation Server CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CE8EF0D7A45DB90EE6A710E65417CA904A4E9" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CE8EF0D7A45DB90EE6A710E65417CA904A4E9" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CE8EF0D7A45DB90EE6A710E65417CA904A4E9" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CE8EF0D7A45DB90EE6A710E65417CA904A4E9" /f 2> nul
 echo Removing David Miller ECC Organization Validation Server CA - G4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EE044237479E0C64AB577E950CAFBA823D1396D6" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EE044237479E0C64AB577E950CAFBA823D1396D6" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EE044237479E0C64AB577E950CAFBA823D1396D6" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EE044237479E0C64AB577E950CAFBA823D1396D6" /f 2> nul
 echo Removing David Miller ECC Organization Validation Server CA - G5...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\032BDEACB643C633F2632D242B3209F107745921" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\032BDEACB643C633F2632D242B3209F107745921" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\032BDEACB643C633F2632D242B3209F107745921" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\032BDEACB643C633F2632D242B3209F107745921" /f 2> nul
 echo Removing David Miller ECC Secure Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\110C3AED5334C79E63135E8F7DA7646B2C391A23" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\110C3AED5334C79E63135E8F7DA7646B2C391A23" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\110C3AED5334C79E63135E8F7DA7646B2C391A23" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\110C3AED5334C79E63135E8F7DA7646B2C391A23" /f 2> nul
 echo Removing David Miller ECC Secure Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\80D1F2BDFC55BF9D2BF2808F8DCCBC272ACDF59A" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\80D1F2BDFC55BF9D2BF2808F8DCCBC272ACDF59A" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\80D1F2BDFC55BF9D2BF2808F8DCCBC272ACDF59A" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\80D1F2BDFC55BF9D2BF2808F8DCCBC272ACDF59A" /f 2> nul
 echo Removing David Miller Code Signing CA2 - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6D415D8B211A35E777D32347F6E13D5778A8A795" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6D415D8B211A35E777D32347F6E13D5778A8A795" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6D415D8B211A35E777D32347F6E13D5778A8A795" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6D415D8B211A35E777D32347F6E13D5778A8A795" /f 2> nul
 echo Removing David Miller ECC High Assurance Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A35EFE29FCC310EB1C451EBBF15DCF68D3867441" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A35EFE29FCC310EB1C451EBBF15DCF68D3867441" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A35EFE29FCC310EB1C451EBBF15DCF68D3867441" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A35EFE29FCC310EB1C451EBBF15DCF68D3867441" /f 2> nul
 echo Removing David Miller ECC High Assurance Server CA - G3...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9A059D7F4FB52FF8E638787E92B0109321815BAE" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9A059D7F4FB52FF8E638787E92B0109321815BAE" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9A059D7F4FB52FF8E638787E92B0109321815BAE" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9A059D7F4FB52FF8E638787E92B0109321815BAE" /f 2> nul
 echo Removing David Miller High Assurance Code Signing CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BB28E685918A386FDAEAD2FF1FCE9D8D7533DC2B" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BB28E685918A386FDAEAD2FF1FCE9D8D7533DC2B" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BB28E685918A386FDAEAD2FF1FCE9D8D7533DC2B" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BB28E685918A386FDAEAD2FF1FCE9D8D7533DC2B" /f 2> nul
 echo Removing David Miller High Assurance Code Signing CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2425C624410303E3D305CEB27D7970D04AB5D78F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2425C624410303E3D305CEB27D7970D04AB5D78F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2425C624410303E3D305CEB27D7970D04AB5D78F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2425C624410303E3D305CEB27D7970D04AB5D78F" /f 2> nul
 echo Removing David Miller SHA2 EV Code Signing CA2 - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f 2> nul
 echo Removing David Miller SHA2 High Assurance Server CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f 2> nul
 echo Removing David Miller SHA2 High Assurance Server CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\926B14B08E51B20D43DDDDEFFD5E4A8AEEB0470F" /f 2> nul
 echo Removing David Miller Client Authentication CA - G3 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3CD6E170B9491B7D48C739FAFFC9297DCA1FE8AD" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3CD6E170B9491B7D48C739FAFFC9297DCA1FE8AD" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3CD6E170B9491B7D48C739FAFFC9297DCA1FE8AD" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3CD6E170B9491B7D48C739FAFFC9297DCA1FE8AD" /f 2> nul
 echo Removing David Miller Code Signing CA - G2 - SHA384...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EDD4A7BB0BE7B15F20F7F49519AD31D5AB4DA893" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EDD4A7BB0BE7B15F20F7F49519AD31D5AB4DA893" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EDD4A7BB0BE7B15F20F7F49519AD31D5AB4DA893" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EDD4A7BB0BE7B15F20F7F49519AD31D5AB4DA893" /f 2> nul
 echo Removing David Miller Code Signing CA - G3 - SHA384...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f 2> nul
 echo Removing David Miller Domain Validation Server CA - G4 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f 2> nul
 echo Removing David Miller Document Signing CA - G2 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" /f 2> nul
 echo Removing David Miller ECC Domain Validation Server CA - G5 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\671C57EFA9031AAC98406758C96B2C66EF10122F" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\671C57EFA9031AAC98406758C96B2C66EF10122F" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\671C57EFA9031AAC98406758C96B2C66EF10122F" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\671C57EFA9031AAC98406758C96B2C66EF10122F" /f 2> nul
 echo Removing David Miller ECC Extended Validation Server CA - G4 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EFFF0E2D44A21F20DA9AEEFBF9480BC919A1D661" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EFFF0E2D44A21F20DA9AEEFBF9480BC919A1D661" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EFFF0E2D44A21F20DA9AEEFBF9480BC919A1D661" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EFFF0E2D44A21F20DA9AEEFBF9480BC919A1D661" /f 2> nul
 echo Removing David Miller ECC Organization Validation Server CA - G6 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\961113EBC0FAEB80F5D17F22B67DA53641622B83" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\961113EBC0FAEB80F5D17F22B67DA53641622B83" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\961113EBC0FAEB80F5D17F22B67DA53641622B83" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\961113EBC0FAEB80F5D17F22B67DA53641622B83" /f 2> nul
 echo Removing David Miller Extended Validation Server CA - G4 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EA2F26175237A54066E9AAD9F6D3189B886818E9" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EA2F26175237A54066E9AAD9F6D3189B886818E9" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EA2F26175237A54066E9AAD9F6D3189B886818E9" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EA2F26175237A54066E9AAD9F6D3189B886818E9" /f 2> nul
 echo Removing David Miller External CA - G4 - SHA384...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8A0105B6F5795E11D1E6AD11A1DF4D7FA7B063C7" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8A0105B6F5795E11D1E6AD11A1DF4D7FA7B063C7" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8A0105B6F5795E11D1E6AD11A1DF4D7FA7B063C7" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8A0105B6F5795E11D1E6AD11A1DF4D7FA7B063C7" /f 2> nul
 echo Removing David Miller Internal PCA - G5 - SHA384...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4CA6C71CE659F6D3FFB3C2C811107A6B9FD531E8" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4CA6C71CE659F6D3FFB3C2C811107A6B9FD531E8" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4CA6C71CE659F6D3FFB3C2C811107A6B9FD531E8" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\4CA6C71CE659F6D3FFB3C2C811107A6B9FD531E8" /f 2> nul
 echo Removing David Miller Internal Server PCA - G2 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8809FB1EC9278061EBFCFBE6A29E95B7E559F1C5" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8809FB1EC9278061EBFCFBE6A29E95B7E559F1C5" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8809FB1EC9278061EBFCFBE6A29E95B7E559F1C5" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8809FB1EC9278061EBFCFBE6A29E95B7E559F1C5" /f 2> nul
 echo Removing David Miller Organization Validation Server CA - G5 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC027633F1893336C718B1E72738D25CB690704" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC027633F1893336C718B1E72738D25CB690704" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC027633F1893336C718B1E72738D25CB690704" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC027633F1893336C718B1E72738D25CB690704" /f 2> nul
 echo Removing David Miller Organization Validation Server CA - G6 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\774B37BFD0CDDFAF8B179809BBADE5BA392B3ADF" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\774B37BFD0CDDFAF8B179809BBADE5BA392B3ADF" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\774B37BFD0CDDFAF8B179809BBADE5BA392B3ADF" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\774B37BFD0CDDFAF8B179809BBADE5BA392B3ADF" /f 2> nul
 echo Removing David Miller David Miller Secure Email CA - G5 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1221503CA1E1011B8EB539B15702F3BDBD016CF8" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1221503CA1E1011B8EB539B15702F3BDBD016CF8" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1221503CA1E1011B8EB539B15702F3BDBD016CF8" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1221503CA1E1011B8EB539B15702F3BDBD016CF8" /f 2> nul
 echo Removing David Miller Test Domain Validation Server CA - G1 - SHA1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04169974CD77CDDAB83494B8942A7903C5A75696" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04169974CD77CDDAB83494B8942A7903C5A75696" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04169974CD77CDDAB83494B8942A7903C5A75696" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\04169974CD77CDDAB83494B8942A7903C5A75696" /f 2> nul
 echo Removing David Miller Timestamping CA - G7 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\349084EAD0068C41DB38611E6E20D06C2CA657EE" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\349084EAD0068C41DB38611E6E20D06C2CA657EE" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\349084EAD0068C41DB38611E6E20D06C2CA657EE" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\349084EAD0068C41DB38611E6E20D06C2CA657EE" /f 2> nul
 echo Removing David Miller Timestamping CA - G8 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" /f 2> nul
 echo Removing David Miller Global Services CA1 - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A68740725EFAE8E1553503C0ACE56E4CB638C35" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A68740725EFAE8E1553503C0ACE56E4CB638C35" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A68740725EFAE8E1553503C0ACE56E4CB638C35" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\0A68740725EFAE8E1553503C0ACE56E4CB638C35" /f 2> nul
 echo Removing David Miller Global Services CA2 - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\78077CDEFBA88DB6FD5DCFC9EA7038439A089291" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\78077CDEFBA88DB6FD5DCFC9EA7038439A089291" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\78077CDEFBA88DB6FD5DCFC9EA7038439A089291" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\78077CDEFBA88DB6FD5DCFC9EA7038439A089291" /f 2> nul
 echo Removing David Miller Global Services CA3 - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7CE074777FECA7C4902EEDDFBDDBDA1C" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7CE074777FECA7C4902EEDDFBDDBDA1C" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7CE074777FECA7C4902EEDDFBDDBDA1C" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7CE074777FECA7C4902EEDDFBDDBDA1C" /f 2> nul
 echo Removing David Miller Global Services CA4 - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f > nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f 2> nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f 2> nul
 echo You may still need to remove personal certificates.
 set end=success
 goto credits
@@ -588,9 +588,9 @@ cls
 echo %name%
 ::Uninstall test root certificate
 echo Removing David Miller Test Root CA - T4...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f 2> nul
 echo Removing David Miller Test Timestamping CA - G1 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f > nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f 2> nul
 set end=success
 goto credits
 
