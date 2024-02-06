@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=1
-set currBuild=2
+set currBuild=3
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -770,14 +770,13 @@ if %choice%==dlBannedVer (
 if %choice%==installFailure (
 	goto installFailureChoice
 )
-if %choice%==uninstallFailure (
-	goto uninstallFailureChoice
-)
+set end=criticalFailure
+goto credits
 
 :installFailure
 cls
 echo %name%
-::Cannot find certain files or fail to match checksum
+::Failed to find certain files or match checksum
 echo Some files are missing or corrupted!
 goto installFailureChoice
 
@@ -813,41 +812,6 @@ if %usersInstallFailureChoice%==5 (
 	goto exit
 )
 set choice=installFailure
-goto usersChoiceFailure
-
-:uninstallFailure
-cls
-echo %name%
-echo Some files are missing or corrupted!
-goto uninstallFailureChoice
-
-:uninstallFailureChoice
-::Choose to download the latest version or continue
-echo [1] Re-download the software through your default browser ^(Recommended^)
-echo [2] Re-download the software through the built-in downloader
-echo [3] Continue uninstalling ^(may damage your system^)
-echo [4] Return to main menu
-echo [5] Exit
-set /p usersUninstallFailureChoice=Please enter your choice ^(1-5^):
-if %usersUninstallFailureChoice%==1 (
-	goto updateBrowser
-)
-if %usersUninstallFailureChoice%==2 (
-	goto updateWget
-)
-if %usersUninstallFailureChoice%==3 (
-	cls
-	echo %name%
-	goto uninstall
-)
-if %usersUninstallFailureChoice%==4 (
-	set echoName=true
-	goto choice
-)
-if %usersUninstallFailureChoice%==5 (
-	goto exit
-)
-set choice=uninstallFailure
 goto usersChoiceFailure
 
 :credits
