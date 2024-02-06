@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=1
-set currBuild=3
+set currBuild=4
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -331,6 +331,15 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\FBEC5EBDD
 echo Removing David Miller EV Code Signing CA - G4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\194A956FEFA656E0772478A76AB94A81F513FEE0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\194A956FEFA656E0772478A76AB94A81F513FEE0" /f >nul 2>nul
+echo Removing David Miller Public RSA CA - G1...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F7BD40153609E7094BDAC59F4CC349548B484FA0" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F7BD40153609E7094BDAC59F4CC349548B484FA0" /f >nul 2>nul
+echo Removing David Miller Public SHA2 Code Signing CA - G1...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3576C91ABAA9B39F9DBA384810B19B6B7F80D9E0" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3576C91ABAA9B39F9DBA384810B19B6B7F80D9E0" /f >nul 2>nul
+echo Removing David Miller David Miller Public SHA2 Timestamping CA - G1...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\746AE0745FF1E6DAC03FF38C59A06873E308EC77" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\746AE0745FF1E6DAC03FF38C59A06873E308EC77" /f >nul 2>nul
 echo Removing David Miller Open RSA CA - G2...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1124924F03EA6E52CC54B38BD8DA9D865A6D9157" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1124924F03EA6E52CC54B38BD8DA9D865A6D9157" /f >nul 2>nul
@@ -550,7 +559,7 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7
 echo Removing David Miller Global Services CA4 - G1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f >nul 2>nul
-echo You may still need to remove personal certificates.
+echo You may still need to remove personal certificates manually.
 set end=success
 goto credits
 
@@ -770,7 +779,7 @@ if %choice%==dlBannedVer (
 if %choice%==installFailure (
 	goto installFailureChoice
 )
-set end=criticalFailure
+set end=failure
 goto credits
 
 :installFailure
