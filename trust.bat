@@ -6,13 +6,13 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=1
 set currPatchVer=1
-set currBuild=4
+set currBuild=5
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
 	set currVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
 )
-set currInternalVer=%currMajorVer%.%currMinorVer%.%currPatchVer%.%currBuild%
+set currInternalVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
 
 ::Set environment variables (for offline)
 set name=David Miller Trust Root CA Tool
