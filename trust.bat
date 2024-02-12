@@ -4,9 +4,9 @@ chcp 65001 >nul 2>nul
 
 ::Set current version
 set currMajorVer=2
-set currMinorVer=1
-set currPatchVer=1
-set currBuild=5
+set currMinorVer=2
+set currPatchVer=0
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -40,8 +40,9 @@ if not exist "%Windir%\System32\certutil.exe" (
 if not exist "wget.exe" (
 	goto wgetFailure
 )
-"%Windir%\System32\certutil.exe" -hashfile "wget.exe" SHA256 > "wget.exe.sha256"
-findstr d68286c89f448f67749370fc349ae8f3f11ebaf49330a60470168959bc92047f "wget.exe.sha256" >nul 2>nul || goto wgetFailure
+md temp
+"%Windir%\System32\certutil.exe" -hashfile "wget.exe" SHA256 > "%~dp0\temp\wget.exe.sha256"
+findstr d68286c89f448f67749370fc349ae8f3f11ebaf49330a60470168959bc92047f "%~dp0\temp\wget.exe.sha256" >nul 2>nul || goto wgetFailure
 goto dlConfig
 
 :dlConfig
@@ -49,27 +50,33 @@ goto dlConfig
 echo %name%
 echo Checking for updates...
 if %country%==CN (
-	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
+	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 ) else (
-	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
+	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 )
 ::Check if the file is empty
-findstr /i . "config.ini" >nul 2>nul && goto importConfig || goto re-dlConfig
+if exist "%~dp0\.wget-hsts" (
+	move "%~dp0\.wget-hsts" "%~dp0\temp"
+)
+findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto re-dlConfig
 
 :re-dlConfig
 ::Check for updates through TrustRootCATool API
 if %country%==CN (
-	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
+	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 ) else (
-	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "config.ini"
+	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 )
 ::Check if the file is empty
-findstr /i . "config.ini" >nul 2>nul && goto importConfig || goto updateCheckUnknown
+if exist "%~dp0\.wget-hsts" (
+	move "%~dp0\.wget-hsts" "%~dp0\temp"
+)
+findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto updateCheckUnknown
 
 :importConfig
 setlocal EnableDelayedExpansion
 for /f "tokens=1,2 delims==" %%i in (
-	config.ini
+	temp\config.ini
 ) do (
 	if "%%i"=="name" set name=%%j
 	if "%%i"=="author" set author=%%j
@@ -163,9 +170,9 @@ if defined notice (
 )
 echo Please disable antivirus program before starting!
 echo [1] Install root certificates ^(Recommended^)
-echo [2] Uninstall root and intermediate certifcates
+echo [2] Uninstall CA certifcates
 echo [3] Install TEST root certificate
-echo [4] Uninstall TEST root and intermediate certificates
+echo [4] Uninstall TEST CA certificates
 echo [5] Visit our website
 echo [6] Exit
 set /p usersMainChoice=Please enter your choice ^(1-6^):
@@ -193,48 +200,48 @@ goto usersChoiceFailure
 
 :installCheck
 ::Check if all files exist
-echo Validating integrity 5 files...
-if not exist "R4_R1RootCA.crt" (
+echo Validating integrity of 5 files...
+if not exist "%~dp0\cross-sign\R4_R1RootCA.crt" (
 	goto installFailure
 )
-if not exist "R4_R2RootCA.crt" (
+if not exist "%~dp0\cross-sign\R4_R2RootCA.crt" (
 	goto installFailure
 )
-if not exist "R4_R3RootCA.crt" (
+if not exist "%~dp0\cross-sign\R4_R3RootCA.crt" (
 	goto installFailure
 )
-if not exist "R4RootCA.reg" (
+if not exist "%~dp0\root\R4RootCA.reg" (
 	goto installFailure
 )
-if not exist "R4_RootCertificateAuthority.reg" (
+if not exist "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" (
 	goto installFailure
 )
 
 ::Compute file's SHA256 checksum
-"%Windir%\System32\certutil.exe" -hashfile "R4_R1RootCA.crt" SHA256 > "R4_R1RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4_R2RootCA.crt" SHA256 > "R4_R2RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4_R3RootCA.crt" SHA256 > "R4_R3RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4RootCA.reg" SHA256 > "R4RootCA.reg.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "R4_RootCertificateAuthority.reg" SHA256 > "R4_RootCertificateAuthority.reg.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R1RootCA.crt" SHA256 > "%~dp0\temp\R4_R1RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R2RootCA.crt" SHA256 > "%~dp0\temp\R4_R2RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R3RootCA.crt" SHA256 > "%~dp0\temp\R4_R3RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\R4RootCA.reg" SHA256 > "%~dp0\temp\R4RootCA.reg.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" SHA256 > "%~dp0\temp\R4_RootCertificateAuthority.reg.sha256"
 
 ::Compare file hash
-findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "R4_R1RootCA.crt.sha256" >nul 2>nul
+findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "%~dp0\temp\R4_R1RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "R4_R2RootCA.crt.sha256" >nul 2>nul
+findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "%~dp0\temp\R4_R2RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "R4_R3RootCA.crt.sha256" >nul 2>nul
+findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "%~dp0\temp\R4_R3RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr 00714cecb03a5eec64570e5b0ccf90a9a1bb429825c2a83a9e719558c7738248 "R4RootCA.reg.sha256" >nul 2>nul
+findstr 00714cecb03a5eec64570e5b0ccf90a9a1bb429825c2a83a9e719558c7738248 "%~dp0\temp\R4RootCA.reg.sha256" >nul 2>nul
 if errorlevel 1 (
 	goto installFailure
 )
-findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "R4_RootCertificateAuthority.reg.sha256" >nul 2>nul
+findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "%~dp0\temp\R4_RootCertificateAuthority.reg.sha256" >nul 2>nul
 if errorlevel 1 (
 	goto installFailure
 )
@@ -246,15 +253,15 @@ goto install
 :install
 ::Install root certificates
 echo Installing David Miller Root CA - R1 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -addstore CA "R4_R1RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R1RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R2 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -addstore CA "R4_R2RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R2RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R3 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -addstore CA "R4_R3RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R3RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R4...
-regedit.exe /s "R4RootCA.reg" >nul 2>nul
+regedit.exe /s "%~dp0\root\R4RootCA.reg" >nul 2>nul
 echo Installing David Miller Root Certificate Authority ^(cross-signed by R4^)...
-regedit.exe /s "R4_RootCertificateAuthority.reg" >nul 2>nul
+regedit.exe /s "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" >nul 2>nul
 set end=success
 goto credits
 
@@ -566,15 +573,15 @@ goto credits
 :testInstallCheck
 ::Check if all file exists
 echo Validating integrity of 1 file...
-if not exist "T4RootCA.crt" (
+if not exist "%~dp0\root\T4RootCA.crt" (
 	::Save disk space
 	set testInstallFailure=true
 	goto installFailure
 )
 ::Compute file's SHA256 checksum
-"%Windir%\System32\certutil.exe" -hashfile "T4RootCA.crt" SHA256 > "T4RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
 ::Compare file hash
-findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "T4RootCA.crt.sha256" >nul 2>nul
+findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
 	::Save disk space
 	set testInstallFailure=true
@@ -588,7 +595,7 @@ goto testInstall
 :testInstall
 ::Install test root certificate
 echo Installing David Miller Test Root CA - T4...
-"%Windir%\System32\certutil.exe" -addstore ROOT "T4RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0\root\T4RootCA.crt" >nul 2>nul
 set end=success
 goto credits
 
@@ -598,8 +605,10 @@ echo %name%
 ::Uninstall test root certificate
 echo Removing David Miller Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 echo Removing David Miller Test Timestamping CA - G1 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 set end=success
 goto credits
 
