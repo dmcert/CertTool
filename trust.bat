@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=0
-set currBuild=1
+set currBuild=2
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -40,7 +40,7 @@ if not exist "%Windir%\System32\certutil.exe" (
 if not exist "wget.exe" (
 	goto wgetFailure
 )
-md temp
+md temp >nul 2>nul
 "%Windir%\System32\certutil.exe" -hashfile "wget.exe" SHA256 > "%~dp0\temp\wget.exe.sha256"
 findstr d68286c89f448f67749370fc349ae8f3f11ebaf49330a60470168959bc92047f "%~dp0\temp\wget.exe.sha256" >nul 2>nul || goto wgetFailure
 goto dlConfig
@@ -56,7 +56,7 @@ if %country%==CN (
 )
 ::Check if the file is empty
 if exist "%~dp0\.wget-hsts" (
-	move "%~dp0\.wget-hsts" "%~dp0\temp"
+	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
 )
 findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto re-dlConfig
 
@@ -69,7 +69,7 @@ if %country%==CN (
 )
 ::Check if the file is empty
 if exist "%~dp0\.wget-hsts" (
-	move "%~dp0\.wget-hsts" "%~dp0\temp"
+	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
 )
 findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto updateCheckUnknown
 
@@ -126,6 +126,11 @@ if %status%==available (
 if defined bannedVer (
 	echo %bannedVer% | findstr "%currInternalVer%" >nul 2>nul && goto UpdateCheckCriticalFailure
 )
+if %latestPatchVer%==0 (
+	set latestVer=%latestMajorVer%.%latestMinorVer%
+) else ( 
+	set latestVer=%latestMajorVer%.%latestMinorVer%.%latestPatchVer%
+)
 ::Compare current version number with the latest version number
 if %currMajorVer% lss %latestMajorVer% (
 	goto updateCheckFailure
@@ -174,8 +179,15 @@ echo [2] Uninstall CA certifcates
 echo [3] Install TEST root certificate
 echo [4] Uninstall TEST CA certificates
 echo [5] Visit our website
-echo [6] Exit
-set /p usersMainChoice=Please enter your choice ^(1-6^):
+if %updateCheckStatus% neq failure (
+	echo [6] Exit
+	set /p usersMainChoice=Please enter your choice ^(1-6^):
+)
+if %updateCheckStatus%==failure (
+	echo [6] Update to the latest version ^(v%currVer%--^>v%latestVer%^)
+	echo [7] Exit
+	set /p usersMainChoice=Please enter your choice ^(1-7^):
+)
 if %usersMainChoice%==1 (
 	goto installCheck
 )
@@ -191,8 +203,18 @@ if %usersMainChoice%==4 (
 if %usersMainChoice%==5 (
 	goto openWebsite
 )
-if %usersMainChoice%==6 (
-	goto exit
+if %updateCheckStatus% neq failure (
+	if %usersMainChoice%==6 (
+		goto exit
+	)
+)
+if %updateCheckStatus% == failure (
+	if %usersMainChoice%==6 (
+		goto updateChoice
+	)
+	if %usersMainChoice%==7 (
+		goto exit
+	)
 )
 ::To avoid the user choose an invalid option
 set choice=main
@@ -644,6 +666,7 @@ cls
 echo %name%
 ::All brand new
 set echoName=false
+set updateCheckStatus=success
 echo Your software is up to date.
 goto choice
 
@@ -651,11 +674,13 @@ goto choice
 cls
 echo %name%
 ::Version alert. Can be skipped by user
+set echoName=false
 if defined notice (
 	echo %notice%
 )
+set updateCheckStatus=failure
 echo Due to security concerns, updating to the latest version is recommended.
-goto updateChoice
+goto choice
 
 :UpdateCheckCriticalFailure
 cls
@@ -664,6 +689,7 @@ echo %name%
 if defined notice (
 	echo %notice%
 )
+set updateCheckStatus=criticalFailure
 echo Due to security concerns, updating to the latest version is required.
 goto updateBannedVerChoice
 
@@ -671,12 +697,17 @@ goto updateBannedVerChoice
 cls
 echo %name%
 set echoName=false
+set updateCheckStatus=unknown
 ::Offline alert. Back to Main menu
 echo An error occurred while checking for updates!
-echo Checking for updates requires an Internet connection.
 goto choice
 
 :updateChoice
+cls
+echo %name%
+if defined notice (
+	echo %notice%
+)
 ::Download the latest version or continue
 echo [1] Download the latest version through your default browser ^(Recommended^)
 echo [2] Download the latest version through the built-in downloader
@@ -871,6 +902,7 @@ set choice=loop
 goto usersChoiceFailure
 
 :exit
+rd /s /Q "%~dp0\temp"
 del /Q "%TEMP%\TrustRootCATool.exe"
 exit
 
