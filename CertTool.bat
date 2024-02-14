@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=1
-set currBuild=2
+set currBuild=3
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -174,8 +174,8 @@ if defined notice (
 	echo NOTE: %notice%
 )
 echo Please disable antivirus program before starting!
-echo [1] Install CA certificates ^(Recommended^)
-echo [2] Uninstall CA certifcates
+echo [1] Install production CA certificates ^(Recommended^)
+echo [2] Uninstall production and TEST CA certifcates
 echo [3] Install TEST root certificate
 echo [4] Uninstall TEST CA certificates
 echo [5] Visit our website
@@ -187,6 +187,10 @@ if %updateCheckStatus%==failure (
 	echo [6] Update to the latest version ^(v%currVer%--^>v%latestVer%^)
 	echo [7] Exit
 	set /p usersMainChoice=Please enter your choice ^(1-7^):
+)
+if not defined usersMainChoice (
+	set choice=main
+	goto usersChoiceFailure
 )
 if %usersMainChoice%==1 (
 	goto installCheck
@@ -852,6 +856,10 @@ echo [2] Download the latest version through the built-in downloader
 echo [3] Continue using current version
 echo [4] Exit
 set /p usersDlChoice=Please enter your choice ^(1-4^):
+if not defined usersDlChoice (
+	set choice=dl
+	goto usersChoiceFailure
+)
 if %usersDlChoice%==1 (
 	goto updateBrowser
 )
@@ -874,14 +882,18 @@ goto usersChoiceFailure
 echo [1] Download the latest version through your default browser ^(Recommended^)
 echo [2] Download the latest version through the built-in downloader
 echo [3] Exit
-set /p usersDlChoice=Please enter your choice ^(1-3^):
-if %usersDlChoice%==1 (
+set /p usersDlBannedVerChoice=Please enter your choice ^(1-3^):
+if not defined usersDlBannedVerChoice (
+	set choice=dlBannedVer
+	goto usersChoiceFailure
+)
+if %usersDlBannedVerChoice%==1 (
 	goto updateBrowser
 )
-if %usersDlChoice%==2 (
+if %usersDlBannedVerChoice%==2 (
 	goto updateWget
 )
-if %usersDlChoice%==3 (
+if %usersDlBannedVerChoice%==3 (
 	goto exit
 )
 set choice=dlBannedVer
@@ -935,6 +947,9 @@ if exist "%~dp0\.wget-hsts" (
 echo Download completed. Starting the latest version...
 start %TEMP%\CertTool.exe >nul 2>nul
 rd /s /Q "%~dp0\temp" >nul 2>nul
+if exist "%TEMP%\TrustRootCATool.exe" (
+	del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
+)
 exit
 
 :updateWgetFailure
@@ -979,6 +994,10 @@ echo [3] Continue installing ^(may damage your system^)
 echo [4] Return to main menu
 echo [5] Exit
 set /p usersInstallFailureChoice=Please enter your choice ^(1-5^):
+if not defined usersInstallFailureChoice (
+	set choice=installFailure
+	goto usersChoiceFailure
+)
 if %usersInstallFailureChoice%==1 (
 	goto updateBrowser
 )
@@ -1031,6 +1050,10 @@ goto loopChoice
 echo [1] Return to main menu
 echo [2] Exit
 set /p usersLoopChoice=Please enter your choice ^(1-2^):
+if not defined usersLoopChoice (
+	set choice=loop
+	goto usersChoiceFailure
+)
 if %usersLoopChoice%==1 (
 	cls
 	set echoName=true
@@ -1045,7 +1068,12 @@ goto usersChoiceFailure
 
 :exit
 rd /s /Q "%~dp0\temp" >nul 2>nul
-del /Q "%TEMP%\CertTool.exe" >nul 2>nul
+if exist "%TEMP%\CertTool.exe" (
+	del /Q "%TEMP%\CertTool.exe" >nul 2>nul
+)
+if exist "%TEMP%\TrustRootCATool.exe" (
+	del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
+)
 exit
 
 :pause
