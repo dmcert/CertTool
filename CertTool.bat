@@ -5,8 +5,8 @@ chcp 65001 >nul 2>nul
 ::Set current version
 set currMajorVer=2
 set currMinorVer=2
-set currPatchVer=0
-set currBuild=6
+set currPatchVer=1
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -19,8 +19,8 @@ set name=David Miller Certificate Tool
 set author=David Miller Trust Services Team
 set websiteURL=https://go.davidmiller.top/pki
 set systemStatusURL=https://go.davidmiller.top/status
-set updateURL1=https://go.davidmiller.top/trust
-set updateURL2=https://go.davidmiller.top/trust2
+set updateURL1=https://go.davidmiller.top/ct
+set updateURL2=https://go.davidmiller.top/ct2
 
 set updateWgetFailure=false
 set testInstallFailure=false
