@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=0
-set currBuild=5
+set currBuild=6
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -174,7 +174,7 @@ if defined notice (
 	echo NOTE: %notice%
 )
 echo Please disable antivirus program before starting!
-echo [1] Install root certificates ^(Recommended^)
+echo [1] Install CA certificates ^(Recommended^)
 echo [2] Uninstall CA certifcates
 echo [3] Install TEST root certificate
 echo [4] Uninstall TEST CA certificates
@@ -222,7 +222,7 @@ goto usersChoiceFailure
 
 :installCheck
 ::Check if all files exist
-echo Validating integrity of 5 files...
+echo Validating integrity of 18 files...
 if not exist "%~dp0\cross-sign\R4_R1RootCA.crt" (
 	goto installFailure
 )
@@ -238,6 +238,45 @@ if not exist "%~dp0\root\R4RootCA.reg" (
 if not exist "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" (
 	goto installFailure
 )
+if not exist "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\DVServerCAG4SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\EVServerCAG4SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\ExternalCAG4SHA384.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\OVServerCAG5SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\OVServerCAG6SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" (
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\TimestampingCAG8SHA256.crt" (
+	goto installFailure
+)
 
 ::Compute file's SHA256 checksum
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R1RootCA.crt" SHA256 > "%~dp0\temp\R4_R1RootCA.crt.sha256"
@@ -245,6 +284,19 @@ if not exist "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" (
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R3RootCA.crt" SHA256 > "%~dp0\temp\R4_R3RootCA.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\R4RootCA.reg" SHA256 > "%~dp0\temp\R4RootCA.reg.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" SHA256 > "%~dp0\temp\R4_RootCertificateAuthority.reg.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" SHA256 > "%~dp0\temp\ClientAuthCAG3SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" SHA256 > "%~dp0\temp\CodeSigningCAG3SHA384.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" SHA256 > "%~dp0\temp\DocumentSigningCAG2SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\DVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\DVServerCAG4SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" SHA256 > "%~dp0\temp\ECCDVServerCAG5SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\ECCEVServerCAG4SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" SHA256 > "%~dp0\temp\ECCOVServerCAG6SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\EVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\EVServerCAG4SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ExternalCAG4SHA384.crt" SHA256 > "%~dp0\temp\ExternalCAG4SHA384.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\OVServerCAG5SHA256.crt" SHA256 > "%~dp0\temp\OVServerCAG5SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\OVServerCAG6SHA256.crt" SHA256 > "%~dp0\temp\OVServerCAG6SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" SHA256 > "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TimestampingCAG8SHA256.crt" SHA256 > "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256"
 
 ::Compare file hash
 findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "%~dp0\temp\R4_R1RootCA.crt.sha256" >nul 2>nul
@@ -267,9 +319,61 @@ findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "%~dp0\
 if errorlevel 1 (
 	goto installFailure
 )
+findstr 0c27b946daeb726ac8d84bcbe2c7cc6355262a68989532e94050db10c8aa71f4 "%~dp0\temp\ClientAuthCAG3SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 53999bfc6b657f8975f131a30c1f4c8b2b4600854570e99d97ce6ff08ab8596d "%~dp0\temp\CodeSigningCAG3SHA384.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 564eb266594a6a48b57c3139dcd679b7b358e6ee277001643f007af460532663 "%~dp0\temp\DVServerCAG4SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 24e33eeb2553d919c68c912da4c8b37b99228567d209f867f9fcd6930c2d7fb8 "%~dp0\temp\DocumentSigningCAG2SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 6977c709a643b4c8afe0756c9337dfce6bbe871891c6f6f501714e08e187f1ec "%~dp0\temp\ECCDVServerCAG5SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr c28eec34793954c458e281b47a8ae4d47c80f067041b2c4ba11ec98d578b907b "%~dp0\temp\ECCEVServerCAG4SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 34d98e0e1e60f7121f22e68d75e397bd0eea8970dc8710afc00122a5b55f05dc "%~dp0\temp\ECCOVServerCAG6SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 3e191ad3d0bee6333b34b6e5bab844ca0b32c88d240f8e0469d71f35d5e6801a "%~dp0\temp\EVServerCAG4SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 49827bf2365f057bda6ce55a0e6f7758f30280a13835fc79326ca48f1c95e467 "%~dp0\temp\ExternalCAG4SHA384.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 37155abeb071af179410c4368c6154c262efe0c362fc572d448c9303ba8edd8f "%~dp0\temp\OVServerCAG5SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 2d80d1d7e9d8d7ae71602842a7a350ed3f9fd84f1b60acaaf6333f604777b268 "%~dp0\temp\OVServerCAG6SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 412556f536caf1295eeaacc093f6dee5d10b08796110a4667e908b2b1fa99d4c "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
+findstr 487fcfb818b20c395e03baf22fc470df5845b2785c372505b48f6ba257938935 "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	goto installFailure
+)
 cls
 echo %name%
-echo All 5 files successfully validated!
+echo All 18 files successfully validated!
 goto install
 
 :install
@@ -284,6 +388,33 @@ echo Installing David Miller Root CA - R4...
 regedit.exe /s "%~dp0\root\R4RootCA.reg" >nul 2>nul
 echo Installing David Miller Root Certificate Authority ^(cross-signed by R4^)...
 regedit.exe /s "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" >nul 2>nul
+::Install intermediate certificates
+echo Installing David Miller Client Authentication CA - G3 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" >nul 2>nul
+echo Installing David Miller Code Signing CA - G3 - SHA384...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" >nul 2>nul
+echo Installing David Miller Document Signing CA - G2 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DVServerCAG4SHA256.crt" >nul 2>nul
+echo Installing David Miller Domain Validation Server CA - G4 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" >nul 2>nul
+echo Installing David Miller ECC Domain Validation Server CA - G5 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" >nul 2>nul
+echo Installing David Miller ECC Extended Validation Server CA - G4 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" >nul 2>nul
+echo Installing David Miller ECC Organization Validation Server CA - G6 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" >nul 2>nul
+echo Installing David Miller Extended Validation Server CA - G4 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\EVServerCAG4SHA256.crt" >nul 2>nul
+echo Installing David Miller External CA - G4 - SHA384...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ExternalCAG4SHA384.crt" >nul 2>nul
+echo Installing David Miller Organization Validation Server CA - G5 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\OVServerCAG5SHA256.crt" >nul 2>nul
+echo Installing David Miller Organization Validation Server CA - G6 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\OVServerCAG6SHA256.crt" >nul 2>nul
+echo Installing David Miller Secure Email CA - G5 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
+echo Installing David Miller Timestamping CA - G8 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
 set end=success
 goto credits
 
@@ -532,8 +663,8 @@ echo Removing David Miller Code Signing CA - G3 - SHA384...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f >nul 2>nul
 echo Removing David Miller Domain Validation Server CA - G4 - SHA256...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f >nul 2>nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" /f >nul 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ACDC4FEFAA6BB0DEAFB4D1B3CE6B2E7C2D1B52DE" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ACDC4FEFAA6BB0DEAFB4D1B3CE6B2E7C2D1B52DE" /f >nul 2>nul
 echo Removing David Miller Document Signing CA - G2 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" /f >nul 2>nul
@@ -588,6 +719,13 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7
 echo Removing David Miller Global Services CA4 - G1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f >nul 2>nul
+::Uninstall test CA certificates
+echo Removing David Miller Test Root CA - T4...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
+echo Removing David Miller Test Timestamping CA - G1 - SHA256...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 echo You may still need to remove personal certificates manually.
 set end=success
 goto credits
@@ -624,7 +762,7 @@ goto credits
 :testUninstall
 cls
 echo %name%
-::Uninstall test root certificate
+::Uninstall test CA certificates
 echo Removing David Miller Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
