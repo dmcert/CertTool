@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=0
-set currBuild=4
+set currBuild=5
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -15,7 +15,7 @@ if %currPatchVer%==0 (
 set currInternalVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
 
 ::Set environment variables (for offline)
-set name=David Miller Trust Root CA Tool
+set name=David Miller Certificate Tool
 set author=David Miller Trust Services Team
 set websiteURL=https://go.davidmiller.top/pki
 set systemStatusURL=https://go.davidmiller.top/status
@@ -46,13 +46,13 @@ findstr d68286c89f448f67749370fc349ae8f3f11ebaf49330a60470168959bc92047f "%~dp0\
 goto dlConfig
 
 :dlConfig
-::Check for updates through TrustRootCATool API
+::Check for updates through CertTool API
 echo %name%
 echo Checking for updates...
 if %country%==CN (
-	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
+	"%~dp0\wget.exe" https://api.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 ) else (
-	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
+	"%~dp0\wget.exe" https://api2.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 )
 ::Check if the file is empty
 if exist "%~dp0\.wget-hsts" (
@@ -61,11 +61,11 @@ if exist "%~dp0\.wget-hsts" (
 findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto re-dlConfig
 
 :re-dlConfig
-::Check for updates through TrustRootCATool API
+::Check for updates through CertTool API
 if %country%==CN (
-	"%~dp0\wget.exe" https://api2.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
+	"%~dp0\wget.exe" https://api2.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 ) else (
-	"%~dp0\wget.exe" https://api.davidmiller.top/trust/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
+	"%~dp0\wget.exe" https://api.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
 )
 ::Check if the file is empty
 if exist "%~dp0\.wget-hsts" (
@@ -774,25 +774,25 @@ if not defined updateURL2 (
 ::Download the latest version through wget
 echo Downloading the latest version...
 if %country%==CN (
-	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\TrustRootCATool.exe"
+	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
 ) else (
-	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\TrustRootCATool.exe"
+	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
 )
 ::Check if the file is empty
-findstr /i . "%TEMP%\TrustRootCATool.exe" >nul 2>nul && goto updateWgetSuccess || goto re-updateWget
+findstr /i . "%TEMP%\CertTool.exe" >nul 2>nul && goto updateWgetSuccess || goto re-updateWget
 
 :re-updateWget
 if %country%==CN (
-	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\TrustRootCATool.exe"
+	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
 ) else (
-	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\TrustRootCATool.exe"
+	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
 )
 ::Check if the file is empty
-findstr /i . "%TEMP%\TrustRootCATool.exe" >nul 2>nul && goto updateWgetSuccess || goto updateWgetFailure
+findstr /i . "%TEMP%\CertTool.exe" >nul 2>nul && goto updateWgetSuccess || goto updateWgetFailure
 
 :updateWgetSuccess
 echo Download completed. Starting the latest version...
-start %TEMP%\TrustRootCATool.exe >nul 2>nul
+start %TEMP%\CertTool.exe >nul 2>nul
 rd /s /Q "%~dp0\temp" >nul 2>nul
 exit
 
@@ -904,7 +904,7 @@ goto usersChoiceFailure
 
 :exit
 rd /s /Q "%~dp0\temp" >nul 2>nul
-del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
+del /Q "%TEMP%\CertTool.exe" >nul 2>nul
 exit
 
 :pause
