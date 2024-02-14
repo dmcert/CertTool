@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=0
-set currBuild=3
+set currBuild=4
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -792,8 +792,8 @@ findstr /i . "%TEMP%\TrustRootCATool.exe" >nul 2>nul && goto updateWgetSuccess |
 
 :updateWgetSuccess
 echo Download completed. Starting the latest version...
-start %TEMP%\TrustRootCATool.exe
-rd /s /Q "%~dp0\temp"
+start %TEMP%\TrustRootCATool.exe >nul 2>nul
+rd /s /Q "%~dp0\temp" >nul 2>nul
 exit
 
 :updateWgetFailure
@@ -903,8 +903,8 @@ set choice=loop
 goto usersChoiceFailure
 
 :exit
-rd /s /Q "%~dp0\temp"
-del /Q "%TEMP%\TrustRootCATool.exe"
+rd /s /Q "%~dp0\temp" >nul 2>nul
+del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
 exit
 
 :pause
