@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=0
-set currBuild=2
+set currBuild=3
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -793,6 +793,7 @@ findstr /i . "%TEMP%\TrustRootCATool.exe" >nul 2>nul && goto updateWgetSuccess |
 :updateWgetSuccess
 echo Download completed. Starting the latest version...
 start %TEMP%\TrustRootCATool.exe
+rd /s /Q "%~dp0\temp"
 exit
 
 :updateWgetFailure
