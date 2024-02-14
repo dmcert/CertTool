@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=1
-set currBuild=1
+set currBuild=2
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -929,6 +929,9 @@ if %country%==CN (
 findstr /i . "%TEMP%\CertTool.exe" >nul 2>nul && goto updateWgetSuccess || goto updateWgetFailure
 
 :updateWgetSuccess
+if exist "%~dp0\.wget-hsts" (
+	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
+)
 echo Download completed. Starting the latest version...
 start %TEMP%\CertTool.exe >nul 2>nul
 rd /s /Q "%~dp0\temp" >nul 2>nul
