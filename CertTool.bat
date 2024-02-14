@@ -5,8 +5,8 @@ chcp 65001 >nul 2>nul
 ::Set current version
 set currMajorVer=2
 set currMinorVer=2
-set currPatchVer=1
-set currBuild=3
+set currPatchVer=2
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -226,6 +226,8 @@ goto usersChoiceFailure
 
 :installCheck
 ::Check if all files exist
+cls
+echo %name%
 echo Validating integrity of 18 files...
 if not exist "%~dp0\cross-sign\R4_R1RootCA.crt" (
 	goto installFailure
@@ -375,8 +377,6 @@ findstr 487fcfb818b20c395e03baf22fc470df5845b2785c372505b48f6ba257938935 "%~dp0\
 if errorlevel 1 (
 	goto installFailure
 )
-cls
-echo %name%
 echo All 18 files successfully validated!
 goto install
 
@@ -423,6 +423,8 @@ set end=success
 goto credits
 
 :uninstall
+cls
+echo %name%
 ::Uninstall root certificates
 echo Removing David Miller Root CA - R1 ^(cross-signed by R4^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" /f >nul 2>nul
@@ -735,6 +737,8 @@ set end=success
 goto credits
 
 :testInstallCheck
+cls
+echo %name%
 ::Check if all file exists
 echo Validating integrity of 1 file...
 if not exist "%~dp0\root\T4RootCA.crt" (
@@ -751,8 +755,6 @@ if errorlevel 1 (
 	set testInstallFailure=true
 	goto installFailure
 )
-cls
-echo %name%
 echo All 1 file successfully validated!
 goto testInstall
 
