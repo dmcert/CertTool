@@ -175,7 +175,7 @@ if defined notice (
 )
 echo Please disable antivirus program before starting!
 echo [1] Install production CA certificates ^(Recommended^)
-echo [2] Uninstall production and TEST CA certifcates
+echo [2] Uninstall production and TEST CA certificates
 echo [3] Install TEST CA certificates
 echo [4] Uninstall TEST CA certificates
 echo [5] Visit our website
