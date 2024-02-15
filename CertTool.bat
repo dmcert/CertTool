@@ -6,7 +6,7 @@ chcp 65001 >nul 2>nul
 set currMajorVer=2
 set currMinorVer=2
 set currPatchVer=2
-set currBuild=1
+set currBuild=2
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -176,7 +176,7 @@ if defined notice (
 echo Please disable antivirus program before starting!
 echo [1] Install production CA certificates ^(Recommended^)
 echo [2] Uninstall production and TEST CA certifcates
-echo [3] Install TEST root certificate
+echo [3] Install TEST CA certificates
 echo [4] Uninstall TEST CA certificates
 echo [5] Visit our website
 if %updateCheckStatus% neq failure (
@@ -740,28 +740,39 @@ goto credits
 cls
 echo %name%
 ::Check if all file exists
-echo Validating integrity of 1 file...
+echo Validating integrity of 2 files...
 if not exist "%~dp0\root\T4RootCA.crt" (
-	::Save disk space
+	set testInstallFailure=true
+	goto installFailure
+)
+if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
 	set testInstallFailure=true
 	goto installFailure
 )
 ::Compute file's SHA256 checksum
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0\temp\TestTimestampingCASHA256.crt.sha256"
+
 ::Compare file hash
 findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
-	::Save disk space
 	set testInstallFailure=true
 	goto installFailure
 )
-echo All 1 file successfully validated!
+findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0\temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul
+if errorlevel 1 (
+	set testInstallFailure=true
+	goto installFailure
+)
+echo All 2 files successfully validated!
 goto testInstall
 
 :testInstall
 ::Install test root certificate
 echo Installing David Miller Test Root CA - T4...
 "%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0\root\T4RootCA.crt" >nul 2>nul
+echo Installing David Miller Test Timestamping CA - G1 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TestTimestampingCASHA256.crt" >nul 2>nul
 set end=success
 goto credits
 
