@@ -4,9 +4,9 @@ chcp 65001 >nul 2>nul
 
 ::Set current version
 set currMajorVer=2
-set currMinorVer=2
-set currPatchVer=2
-set currBuild=4
+set currMinorVer=3
+set currPatchVer=0
+set currBuild=1
 if %currPatchVer%==0 (
 	set currVer=%currMajorVer%.%currMinorVer%
 ) else ( 
@@ -17,6 +17,7 @@ set currInternalVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
 ::Set environment variables (for offline)
 set name=David Miller Certificate Tool
 set author=David Miller Trust Services Team
+set filename=CertTool.exe
 set websiteURL=https://go.davidmiller.top/pki
 set systemStatusURL=https://go.davidmiller.top/status
 set updateURL1=https://go.davidmiller.top/ct
@@ -80,6 +81,7 @@ for /f "tokens=1,2 delims==" %%i in (
 ) do (
 	if "%%i"=="name" set name=%%j
 	if "%%i"=="author" set author=%%j
+	if "%%i"=="filename" set filename=%%j
 	if "%%i"=="website_url" set websiteURL=%%j
 	if "%%i"=="system_status_url" set systemStatusURL=%%j
 	if "%%i"=="update_url1" set updateURL1=%%j
@@ -939,31 +941,36 @@ if not defined updateURL2 (
 ::Download the latest version through wget
 echo Downloading the latest version...
 if %country%==CN (
-	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
+	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\%filename%"
 ) else (
-	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
+	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\%filename%"
 )
 ::Check if the file is empty
-findstr /i . "%TEMP%\CertTool.exe" >nul 2>nul && goto updateWgetSuccess || goto re-updateWget
+findstr /i . "%TEMP%\%filename%" >nul 2>nul && goto updateWgetSuccess || goto re-updateWget
 
 :re-updateWget
 if %country%==CN (
-	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
+	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\%filename%"
 ) else (
-	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\CertTool.exe"
+	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\%filename%"
 )
 ::Check if the file is empty
-findstr /i . "%TEMP%\CertTool.exe" >nul 2>nul && goto updateWgetSuccess || goto updateWgetFailure
+findstr /i . "%TEMP%\%filename%" >nul 2>nul && goto updateWgetSuccess || goto updateWgetFailure
 
 :updateWgetSuccess
 if exist "%~dp0\.wget-hsts" (
 	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
 )
 echo Download completed. Starting the latest version...
-start %TEMP%\CertTool.exe >nul 2>nul
+start %TEMP%\%filename% >nul 2>nul
 rd /s /Q "%~dp0\temp" >nul 2>nul
 if exist "%TEMP%\TrustRootCATool.exe" (
 	del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
+)
+if %filename% neq CertTool.exe (
+	if exist "%TEMP%\CertTool.exe" (
+		del /Q "%TEMP%\CertTool.exe" >nul 2>nul
+	)
 )
 exit
 
@@ -1083,8 +1090,13 @@ goto usersChoiceFailure
 
 :exit
 rd /s /Q "%~dp0\temp" >nul 2>nul
-if exist "%TEMP%\CertTool.exe" (
-	del /Q "%TEMP%\CertTool.exe" >nul 2>nul
+if exist "%TEMP%\%filename%" (
+	del /Q "%TEMP%\%filename%" >nul 2>nul
+)
+if %filename% neq CertTool.exe (
+	if exist "%TEMP%\CertTool.exe" (
+		del /Q "%TEMP%\CertTool.exe" >nul 2>nul
+	)
 )
 if exist "%TEMP%\TrustRootCATool.exe" (
 	del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
