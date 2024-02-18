@@ -4,8 +4,8 @@ chcp 65001 >nul 2>nul
 
 set testInstallFailure=false
 set echoName=true
-
 md temp >nul 2>nul
+
 goto choice
 
 :choice
@@ -41,7 +41,6 @@ if %usersMainChoice%==5 (
 	goto openWebsite
 )
 if %usersMainChoice%==6 (
-	rd /s /Q "%~dp0\temp" >nul 2>nul
 	exit
 )
 set choice=main
@@ -237,6 +236,7 @@ echo Installing David Miller Secure Email CA - G5 - SHA256...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
 echo Installing David Miller Timestamping CA - G8 - SHA256...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
+
 set end=success
 goto credits
 
@@ -660,7 +660,6 @@ if %usersInstallFailureChoice%==3 (
 	goto choice
 )
 if %usersInstallFailureChoice%==4 (
-	rd /s /Q "%~dp0\temp" >nul 2>nul
 	exit
 )
 set choice=installFailure
@@ -671,7 +670,6 @@ cls
 echo David Miller Certificate Tool
 echo Starting your default browser...
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || set start https://go.davidmiller.top/ct2
-rd /s /Q "%~dp0\temp" >nul 2>nul
 exit
 
 :credits
@@ -706,7 +704,6 @@ if %usersLoopChoice%==1 (
 	goto choice
 )
 if %usersLoopChoice%==2 (
-	rd /s /Q "%~dp0\temp" >nul 2>nul
 	exit
 )
 set choice=loop
