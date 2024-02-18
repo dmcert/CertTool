@@ -27,32 +27,39 @@ if not defined mainOption (
 	goto invalidOption
 )
 if %mainOption%==1 (
+	set mainOption=
 	set installationMode=production
 	set installIntermediateCA=false
 	goto installationPrecheck
 )
 if %mainOption%==2 (
+	set mainOption=
 	goto uninstallation
 )
 if %mainOption%==3 (
+	set mainOption=
 	set installationMode=production
 	set installIntermediateCA=true
 	goto installationPrecheck
 )
 if %mainOption%==4 (
+	set mainOption=
 	set installationMode=test
 	goto testInstallationPrecheck
 )
 if %mainOption%==5 (
+	set mainOption=
 	goto testUninstallation
 )
 if %mainOption%==6 (
+	set mainOption=
 	goto openWebsite
 )
 if %mainOption%==7 (
 	exit
 )
 set choice=main
+set mainOption=
 goto invalidOption
 
 :installationPrecheck
@@ -595,9 +602,11 @@ if not defined installFailedOption (
 	goto invalidOption
 )
 if %installFailedOption%==1 (
+	set installFailedOption=
 	goto dl
 )
 if %installFailedOption%==2 (
+	set installFailedOption=
 	cls
 	echo David Miller Certificate Tool
 	if %installationMode%==production (
@@ -607,6 +616,7 @@ if %installFailedOption%==2 (
 	)
 )
 if %installFailedOption%==3 (
+	set installFailedOption=
 	cls
 	set echoName=true
 	goto choice
@@ -615,6 +625,7 @@ if %installFailedOption%==4 (
 	exit
 )
 set choice=installationFailed
+set installFailedOption=
 goto invalidOption
 
 :dl
@@ -642,10 +653,12 @@ if not defined loopOption (
 if %loopOption%==1 (
 	cls
 	set echoName=true
+	set installFailedOption=
 	goto choice
 )
 if %loopOption%==2 (
 	exit
 )
 set choice=loop
+set installFailedOption=
 goto invalidOption
