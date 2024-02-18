@@ -1,11 +1,9 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-
-set testInstallFailure=false
-set echoName=true
 md temp >nul 2>nul
 
+set echoName=true
 goto choice
 
 :choice
@@ -26,12 +24,14 @@ if not defined usersMainChoice (
 	goto usersChoiceFailure
 )
 if %usersMainChoice%==1 (
+	set installationMode=production
 	goto installCheck
 )
 if %usersMainChoice%==2 (
 	goto uninstall
 )
 if %usersMainChoice%==3 (
+	set installationMode=test
 	goto testInstallCheck
 )
 if %usersMainChoice%==4 (
@@ -558,11 +558,9 @@ cls
 echo David Miller Certificate Tool
 echo Validating integrity of 2 files...
 if not exist "%~dp0\root\T4RootCA.crt" (
-	set testInstallFailure=true
 	goto installFailure
 )
 if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
-	set testInstallFailure=true
 	goto installFailure
 )
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
@@ -570,12 +568,10 @@ if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
 
 findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
-	set testInstallFailure=true
 	goto installFailure
 )
 findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0\temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul
 if errorlevel 1 (
-	set testInstallFailure=true
 	goto installFailure
 )
 echo All 2 files successfully validated!
@@ -648,7 +644,7 @@ if %usersInstallFailureChoice%==1 (
 if %usersInstallFailureChoice%==2 (
 	cls
 	echo David Miller Certificate Tool
-	if %testInstallFailure%==false (
+	if %installationMode%==production (
 		goto install
 	) else (
 		goto testInstall
