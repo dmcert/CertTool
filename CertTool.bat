@@ -2,178 +2,16 @@
 cd /d %~dp0
 chcp 65001 >nul 2>nul
 
-::Set current version
-set currMajorVer=2
-set currMinorVer=3
-set currPatchVer=0
-set currBuild=1
-if %currPatchVer%==0 (
-	set currVer=%currMajorVer%.%currMinorVer%
-) else ( 
-	set currVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
-)
-set currInternalVer=%currMajorVer%.%currMinorVer%.%currPatchVer%
-
-::Set environment variables (for offline)
-set name=David Miller Certificate Tool
-set author=David Miller Trust Services Team
-set filename=CertTool.exe
-set websiteURL=https://go.davidmiller.top/pki
-set systemStatusURL=https://go.davidmiller.top/status
-set updateURL1=https://go.davidmiller.top/ct
-set updateURL2=https://go.davidmiller.top/ct2
-
-set updateWgetFailure=false
 set testInstallFailure=false
+set echoName=true
 
-title %name%
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && set country=CN || set country=RoW
-if not defined country (
-	set country=RoW
-)
-goto precheck
-
-:precheck
-::Check if certutil and wget exists
-if not exist "%Windir%\System32\certutil.exe" (
-	goto certutilFailure
-)
-if not exist "wget.exe" (
-	goto wgetFailure
-)
 md temp >nul 2>nul
-"%Windir%\System32\certutil.exe" -hashfile "wget.exe" SHA256 > "%~dp0\temp\wget.exe.sha256"
-findstr d68286c89f448f67749370fc349ae8f3f11ebaf49330a60470168959bc92047f "%~dp0\temp\wget.exe.sha256" >nul 2>nul || goto wgetFailure
-goto dlConfig
-
-:dlConfig
-::Check for updates through CertTool API
-echo %name%
-echo Checking for updates...
-if %country%==CN (
-	"%~dp0\wget.exe" https://api.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
-) else (
-	"%~dp0\wget.exe" https://api2.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
-)
-::Check if the file is empty
-if exist "%~dp0\.wget-hsts" (
-	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
-)
-findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto re-dlConfig
-
-:re-dlConfig
-::Check for updates through CertTool API
-if %country%==CN (
-	"%~dp0\wget.exe" https://api2.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
-) else (
-	"%~dp0\wget.exe" https://api.davidmiller.top/CertTool/config.ini -q -T 5 -t 2 -O "%~dp0\temp\config.ini"
-)
-::Check if the file is empty
-if exist "%~dp0\.wget-hsts" (
-	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
-)
-findstr /i . "%~dp0\temp\config.ini" >nul 2>nul && goto importConfig || goto updateCheckUnknown
-
-:importConfig
-setlocal EnableDelayedExpansion
-for /f "tokens=1,2 delims==" %%i in (
-	temp\config.ini
-) do (
-	if "%%i"=="name" set name=%%j
-	if "%%i"=="author" set author=%%j
-	if "%%i"=="filename" set filename=%%j
-	if "%%i"=="website_url" set websiteURL=%%j
-	if "%%i"=="system_status_url" set systemStatusURL=%%j
-	if "%%i"=="update_url1" set updateURL1=%%j
-	if "%%i"=="update_url2" set updateURL2=%%j
-	if "%%i"=="status" set status=%%j
-	if "%%i"=="status_notice" set statusNotice=%%j
-	if "%%i"=="banned_version" set bannedVer=%%j
-	if "%%i"=="notice" set notice=%%j
-	if "%%i"=="major_version" set latestMajorVer=%%j
-	if "%%i"=="minor_version" set latestMinorVer=%%j
-	if "%%i"=="patch_version" set latestPatchVer=%%j
-	if "%%i"=="build" set latestBuild=%%j
-)
-setlocal DisableDelayedExpansion
-title %name%
-
-::Check if all required variables are imported
-if not defined status (
-	goto updateCheckFailure
-)
-if not defined latestMajorVer (
-	goto updateCheckFailure
-)
-if not defined latestMinorVer (
-	goto updateCheckFailure
-)
-if not defined latestPatchVer (
-	goto updateCheckFailure
-)
-if not defined latestBuild (
-	goto updateCheckFailure
-)
-goto statusCheck
-
-:statusCheck
-::Check system status
-if %status%==available (
-	goto updateCheck
-) else (
-	goto statusFailure
-)
-
-:updateCheck
-if defined bannedVer (
-	echo %bannedVer% | findstr "%currInternalVer%" >nul 2>nul && goto UpdateCheckCriticalFailure
-)
-if %latestPatchVer%==0 (
-	set latestVer=%latestMajorVer%.%latestMinorVer%
-) else ( 
-	set latestVer=%latestMajorVer%.%latestMinorVer%.%latestPatchVer%
-)
-::Compare current version number with the latest version number
-if %currMajorVer% lss %latestMajorVer% (
-	goto updateCheckFailure
-)
-if %currMajorVer% gtr %latestMajorVer% (
-	goto updateCheckSuccess
-)
-if %currMinorVer% lss %latestMinorVer% (
-	goto updateCheckFailure
-)
-if %currMinorVer% gtr %latestMinorVer% (
-	goto updateCheckSuccess
-)
-if %currPatchVer% lss %latestPatchVer% (
-	goto updateCheckFailure
-)
-if %currPatchVer% gtr %latestPatchVer% (
-	goto updateCheckSuccess
-)
-if %currBuild% lss %latestBuild% (
-	goto updateCheckFailure
-)
-goto updateCheckSuccess
+goto choice
 
 :choice
-::Avoid to show the name again when returning to main menu
 if %echoName%==true (
-	echo %name%
+	echo David Miller Certificate Tool
 	set echoName=false
-)
-if %updateWgetFailure%==true (
-	echo %name%
-	set updateWgetFailure=false
-	echo Failed to download the latest version!
-)
-::Display the notice
-if defined statusNotice (
-	echo NOTE: %statusNotice%
-)
-if defined notice (
-	echo NOTE: %notice%
 )
 echo Please disable antivirus program before starting!
 echo [1] Install production CA certificates ^(Recommended^)
@@ -181,15 +19,8 @@ echo [2] Uninstall production and TEST CA certificates
 echo [3] Install TEST CA certificates
 echo [4] Uninstall TEST CA certificates
 echo [5] Visit our website
-if %updateCheckStatus% neq failure (
-	echo [6] Exit
-	set /p usersMainChoice=Please enter your choice ^(1-6^):
-)
-if %updateCheckStatus%==failure (
-	echo [6] Update to the latest version ^(v%currVer%--^>v%latestVer%^)
-	echo [7] Exit
-	set /p usersMainChoice=Please enter your choice ^(1-7^):
-)
+echo [6] Exit
+set /p usersMainChoice=Please enter your choice ^(1-6^):
 if not defined usersMainChoice (
 	set choice=main
 	goto usersChoiceFailure
@@ -209,27 +40,16 @@ if %usersMainChoice%==4 (
 if %usersMainChoice%==5 (
 	goto openWebsite
 )
-if %updateCheckStatus% neq failure (
-	if %usersMainChoice%==6 (
-		goto exit
-	)
+if %usersMainChoice%==6 (
+	rd /s /Q "%~dp0\temp" >nul 2>nul
+	exit
 )
-if %updateCheckStatus% == failure (
-	if %usersMainChoice%==6 (
-		goto updateChoice
-	)
-	if %usersMainChoice%==7 (
-		goto exit
-	)
-)
-::To avoid the user choose an invalid option
 set choice=main
 goto usersChoiceFailure
 
 :installCheck
-::Check if all files exist
 cls
-echo %name%
+echo David Miller Certificate Tool
 echo Validating integrity of 18 files...
 if not exist "%~dp0\cross-sign\R4_R1RootCA.crt" (
 	goto installFailure
@@ -286,7 +106,6 @@ if not exist "%~dp0\intermediate\TimestampingCAG8SHA256.crt" (
 	goto installFailure
 )
 
-::Compute file's SHA256 checksum
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R1RootCA.crt" SHA256 > "%~dp0\temp\R4_R1RootCA.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R2RootCA.crt" SHA256 > "%~dp0\temp\R4_R2RootCA.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R3RootCA.crt" SHA256 > "%~dp0\temp\R4_R3RootCA.crt.sha256"
@@ -306,7 +125,6 @@ if not exist "%~dp0\intermediate\TimestampingCAG8SHA256.crt" (
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" SHA256 > "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TimestampingCAG8SHA256.crt" SHA256 > "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256"
 
-::Compare file hash
 findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "%~dp0\temp\R4_R1RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
 	goto installFailure
@@ -383,7 +201,6 @@ echo All 18 files successfully validated!
 goto install
 
 :install
-::Install root certificates
 echo Installing David Miller Root CA - R1 ^(cross-signed by R4^)...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R1RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R2 ^(cross-signed by R4^)...
@@ -394,7 +211,6 @@ echo Installing David Miller Root CA - R4...
 regedit.exe /s "%~dp0\root\R4RootCA.reg" >nul 2>nul
 echo Installing David Miller Root Certificate Authority ^(cross-signed by R4^)...
 regedit.exe /s "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" >nul 2>nul
-::Install intermediate certificates
 echo Installing David Miller Client Authentication CA - G3 - SHA256...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" >nul 2>nul
 echo Installing David Miller Code Signing CA - G3 - SHA384...
@@ -426,8 +242,7 @@ goto credits
 
 :uninstall
 cls
-echo %name%
-::Uninstall root certificates
+echo David Miller Certificate Tool
 echo Removing David Miller Root CA - R1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\73298F6468D150007B2EFFFABAAF1956401D0283" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\73298F6468D150007B2EFFFABAAF1956401D0283" /f >nul 2>nul
@@ -470,7 +285,6 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B
 echo Removing David Miller Root Certificate Authority ^(cross-signed by R4^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f >nul 2>nul
-::Uninstall intermediate certificates
 echo Removing David Miller Code Signing CA - G1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F518737DB8B5D44357B5A0582791477C3152BFD4" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\F518737DB8B5D44357B5A0582791477C3152BFD4" /f >nul 2>nul
@@ -729,7 +543,6 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7
 echo Removing David Miller Global Services CA4 - G1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3B89233A57C6EA723CC479F0BBA58709E157818C" /f >nul 2>nul
-::Uninstall test CA certificates
 echo Removing David Miller Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
@@ -742,8 +555,7 @@ goto credits
 
 :testInstallCheck
 cls
-echo %name%
-::Check if all file exists
+echo David Miller Certificate Tool
 echo Validating integrity of 2 files...
 if not exist "%~dp0\root\T4RootCA.crt" (
 	set testInstallFailure=true
@@ -753,11 +565,9 @@ if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
 	set testInstallFailure=true
 	goto installFailure
 )
-::Compute file's SHA256 checksum
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0\temp\TestTimestampingCASHA256.crt.sha256"
 
-::Compare file hash
 findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul
 if errorlevel 1 (
 	set testInstallFailure=true
@@ -772,7 +582,6 @@ echo All 2 files successfully validated!
 goto testInstall
 
 :testInstall
-::Install test root certificate
 echo Installing David Miller Test Root CA - T4...
 "%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0\root\T4RootCA.crt" >nul 2>nul
 echo Installing David Miller Test Timestamping CA - G1 - SHA256...
@@ -782,8 +591,7 @@ goto credits
 
 :testUninstall
 cls
-echo %name%
-::Uninstall test CA certificates
+echo David Miller Certificate Tool
 echo Removing David Miller Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
@@ -795,205 +603,22 @@ goto credits
 
 :openWebsite
 cls
-echo %name%
-::Open website
+echo David Miller Certificate Tool
 echo Starting your default browser...
-start %websiteURL%
+start https://go.davidmiller.top/pki
 cls
 set echoName=true
 goto choice
 
-:certutilFailure
-cls
-echo %name%
-::Unable to find cerutil
-echo "certutil.exe" is missing!
-echo You may need to reinstall Windows.
-set end=criticalFailure
-goto credits
-
-:wgetFailure
-cls
-echo %name%
-::Unable to find wget
-echo "wget.exe" is missing or corrupted!
-set end=criticalFailure
-goto credits
-
-:updateCheckSuccess
-cls
-echo %name%
-::All brand new
-set echoName=false
-set updateCheckStatus=success
-echo Your software is up to date.
-goto choice
-
-:updateCheckFailure
-cls
-echo %name%
-::Version alert. Can be skipped by user
-set echoName=false
-if defined notice (
-	echo %notice%
-)
-set updateCheckStatus=failure
-echo Due to security concerns, updating to the latest version is recommended.
-goto choice
-
-:UpdateCheckCriticalFailure
-cls
-echo %name%
-::Banned Version alert. Cannot be skipped by user
-if defined notice (
-	echo %notice%
-)
-set updateCheckStatus=criticalFailure
-echo Due to security concerns, updating to the latest version is required.
-goto updateBannedVerChoice
-
-:updateCheckUnknown
-cls
-echo %name%
-set echoName=false
-set updateCheckStatus=unknown
-::Offline alert. Back to Main menu
-echo An error occurred while checking for updates!
-goto choice
-
-:updateChoice
-cls
-echo %name%
-if defined notice (
-	echo %notice%
-)
-::Download the latest version or continue
-echo [1] Download the latest version through your default browser ^(Recommended^)
-echo [2] Download the latest version through the built-in downloader
-echo [3] Continue using current version
-echo [4] Exit
-set /p usersDlChoice=Please enter your choice ^(1-4^):
-if not defined usersDlChoice (
-	set choice=dl
-	goto usersChoiceFailure
-)
-if %usersDlChoice%==1 (
-	goto updateBrowser
-)
-if %usersDlChoice%==2 (
-	goto updateWget
-)
-if %usersDlChoice%==3 (
-	cls
-	set echoName=true
-	goto choice
-)
-if %usersDlChoice%==4 (
-	goto exit
-)
-set choice=dl
-goto usersChoiceFailure
-
-:updateBannedVerChoice
-::Download the latest version or exit
-echo [1] Download the latest version through your default browser ^(Recommended^)
-echo [2] Download the latest version through the built-in downloader
-echo [3] Exit
-set /p usersDlBannedVerChoice=Please enter your choice ^(1-3^):
-if not defined usersDlBannedVerChoice (
-	set choice=dlBannedVer
-	goto usersChoiceFailure
-)
-if %usersDlBannedVerChoice%==1 (
-	goto updateBrowser
-)
-if %usersDlBannedVerChoice%==2 (
-	goto updateWget
-)
-if %usersDlBannedVerChoice%==3 (
-	goto exit
-)
-set choice=dlBannedVer
-goto usersChoiceFailure
-
-:updateBrowser
-cls
-echo %name%
-::Download the latest version through browser
-echo Starting your default browser...
-if %country%==CN (
-	start %updateURL1%
-) else (
-	start %updateURL2%
-)
-set end=dlSuccess
-goto credits
-
-:updateWget
-cls
-echo %name%
-if not defined updateURL1 (
-	goto updateWgetFailure
-)
-if not defined updateURL2 (
-	goto updateWgetFailure
-)
-::Download the latest version through wget
-echo Downloading the latest version...
-if %country%==CN (
-	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\%filename%"
-) else (
-	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\%filename%"
-)
-::Check if the file is empty
-findstr /i . "%TEMP%\%filename%" >nul 2>nul && goto updateWgetSuccess || goto re-updateWget
-
-:re-updateWget
-if %country%==CN (
-	"%~dp0\wget.exe" %updateURL2% -q -T 5 -t 2 -O "%TEMP%\%filename%"
-) else (
-	"%~dp0\wget.exe" %updateURL1% -q -T 5 -t 2 -O "%TEMP%\%filename%"
-)
-::Check if the file is empty
-findstr /i . "%TEMP%\%filename%" >nul 2>nul && goto updateWgetSuccess || goto updateWgetFailure
-
-:updateWgetSuccess
-if exist "%~dp0\.wget-hsts" (
-	move "%~dp0\.wget-hsts" "%~dp0\temp" >nul 2>nul
-)
-echo Download completed. Starting the latest version...
-start %TEMP%\%filename% >nul 2>nul
-rd /s /Q "%~dp0\temp" >nul 2>nul
-if exist "%TEMP%\TrustRootCATool.exe" (
-	del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
-)
-if %filename% neq CertTool.exe (
-	if exist "%TEMP%\CertTool.exe" (
-		del /Q "%TEMP%\CertTool.exe" >nul 2>nul
-	)
-)
-exit
-
-:updateWgetFailure
-set updateWgetFailure=true
-goto choice
-
 :usersChoiceFailure
 cls
-echo %name%
-::To avoid the user choose an invalid option
+echo David Miller Certificate Tool
 echo Your choice is invalid. Please try again.
 if %choice%==main (
 	goto choice
 )
-if %choice%==dl (
-	goto updateChoice
-)
 if %choice%==loop (
-	goto loopChoice
-)
-if %choice%==dlBannedVer (
-	goto updateBannedVerChoice
+	goto choice
 )
 if %choice%==installFailure (
 	goto installFailureChoice
@@ -1003,53 +628,53 @@ goto credits
 
 :installFailure
 cls
-echo %name%
-::Failed to find certain files or match checksum
+echo David Miller Certificate Tool
 echo Some files are missing or corrupted!
 goto installFailureChoice
 
 :installFailureChoice
-::Choose to download the latest version or continue
 echo [1] Re-download the software through your default browser ^(Recommended^)
-echo [2] Re-download the software through the built-in downloader
-echo [3] Continue installing ^(may damage your system^)
-echo [4] Return to main menu
-echo [5] Exit
-set /p usersInstallFailureChoice=Please enter your choice ^(1-5^):
+echo [2] Continue installing ^(may damage your system^)
+echo [3] Return to main menu
+echo [4] Exit
+set /p usersInstallFailureChoice=Please enter your choice ^(1-4^):
 if not defined usersInstallFailureChoice (
 	set choice=installFailure
 	goto usersChoiceFailure
 )
 if %usersInstallFailureChoice%==1 (
-	goto updateBrowser
+	goto dlBrowser
 )
 if %usersInstallFailureChoice%==2 (
-	goto updateWget
-)
-if %usersInstallFailureChoice%==3 (
 	cls
-	echo %name%
+	echo David Miller Certificate Tool
 	if %testInstallFailure%==false (
 		goto install
 	) else (
 		goto testInstall
 	)
 )
-if %usersInstallFailureChoice%==4 (
+if %usersInstallFailureChoice%==3 (
 	cls
 	set echoName=true
 	goto choice
 )
-if %usersInstallFailureChoice%==5 (
-	goto exit
+if %usersInstallFailureChoice%==4 (
+	rd /s /Q "%~dp0\temp" >nul 2>nul
+	exit
 )
 set choice=installFailure
 goto usersChoiceFailure
 
+:dlBrowser
+cls
+echo David Miller Certificate Tool
+echo Starting your default browser...
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || set start https://go.davidmiller.top/ct2
+rd /s /Q "%~dp0\temp" >nul 2>nul
+exit
+
 :credits
-if %end%==dlSuccess (
-	goto exit
-)
 if %end%==success (
 	echo Finished!
 ) 
@@ -1059,12 +684,11 @@ if %end%==failure (
 if %end%==criticalFailure (
 	echo Failed!
 )
-::Show the author, website and version number
-echo Author: %author%
-echo Website: %websiteURL%
-echo Version %currVer%
+echo Author: David Miller Trust Services Team
+echo Website: https://go.davidmiller.top/pki
+echo Version 2.3
 if %end%==criticalFailure (
-	goto pause
+	echo This window can now be safely closed! & pause >nul 2>nul
 )
 goto loopChoice
 
@@ -1082,26 +706,8 @@ if %usersLoopChoice%==1 (
 	goto choice
 )
 if %usersLoopChoice%==2 (
-	goto exit
+	rd /s /Q "%~dp0\temp" >nul 2>nul
+	exit
 )
-::To avoid the user choose an invalid option
 set choice=loop
 goto usersChoiceFailure
-
-:exit
-rd /s /Q "%~dp0\temp" >nul 2>nul
-if exist "%TEMP%\%filename%" (
-	del /Q "%TEMP%\%filename%" >nul 2>nul
-)
-if %filename% neq CertTool.exe (
-	if exist "%TEMP%\CertTool.exe" (
-		del /Q "%TEMP%\CertTool.exe" >nul 2>nul
-	)
-)
-if exist "%TEMP%\TrustRootCATool.exe" (
-	del /Q "%TEMP%\TrustRootCATool.exe" >nul 2>nul
-)
-exit
-
-:pause
-echo This window can now be safely closed! & pause >nul 2>nul
