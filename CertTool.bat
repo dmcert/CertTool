@@ -1,7 +1,8 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool
+title David Miller Certificate Tool ^(x64^)
+::title David Miller Certificate Tool ^(x86^)
 md temp >nul 2>nul
 
 set echoName=true
