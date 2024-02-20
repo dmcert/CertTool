@@ -18,8 +18,10 @@ echo [1] Install root CA ^(Recommended^)
 echo [2] Uninstall root CA and intermediate CA ^(Recommended^)
 echo [3] Visit our website
 echo [4] Show more options
-echo [5] Exit
-set /p mainOption=Please enter your choice ^(1-5^):
+echo [5] Download the latest version
+echo [6] Check system status
+echo [7] Exit
+set /p mainOption=Please enter your choice ^(1-7^):
 if not defined mainOption (
 	set choice=main
 	goto invalidOption
@@ -36,7 +38,8 @@ if %mainOption%==2 (
 )
 if %mainOption%==3 (
 	set mainOption=
-	goto openWebsite
+	set url=pki
+	goto openURL
 )
 if %mainOption%==4 (
 	set mainOption=
@@ -45,6 +48,16 @@ if %mainOption%==4 (
 	goto moreChoice
 )
 if %mainOption%==5 (
+	set mainOption=
+	set url=dl
+	goto openURL
+)
+if %mainOption%==6 (
+	set mainOption=
+	set url=systemStatus
+	goto openURL
+)
+if %mainOption%==7 (
 	exit
 )
 set choice=main
@@ -559,6 +572,32 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF
 echo You may still need to remove personal certificates manually.
 goto credits
 
+:openURL
+cls
+echo David Miller Certificate Tool
+echo Starting your default browser...
+if %url%==pki (
+	start https://go.davidmiller.top/pki
+	cls
+	set echoName=true
+	goto choice
+)
+if %url%==dl (
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || start https://go.davidmiller.top/ct2
+	exit
+)
+if %url%==systemStatus (
+	start https://go.davidmiller.top/status
+	cls
+	set echoName=true
+	goto choice
+)
+
+:dl
+cls
+echo David Miller Certificate Tool
+echo Starting your default browser...
+
 :testInstallationPrecheck
 cls
 echo David Miller Certificate Tool
@@ -595,15 +634,6 @@ reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 goto credits
 
-:openWebsite
-cls
-echo David Miller Certificate Tool
-echo Starting your default browser...
-start https://go.davidmiller.top/pki
-cls
-set echoName=true
-goto choice
-
 :invalidOption
 cls
 echo David Miller Certificate Tool
@@ -639,7 +669,8 @@ if not defined installFailedOption (
 )
 if %installFailedOption%==1 (
 	set installFailedOption=
-	goto dl
+	set url=dl
+	goto openURL
 )
 if %installFailedOption%==2 (
 	set installFailedOption=
@@ -664,18 +695,11 @@ set choice=installationFailed
 set installFailedOption=
 goto invalidOption
 
-:dl
-cls
-echo David Miller Certificate Tool
-echo Starting your default browser...
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage >nul 2>nul | find "0804" && start https://go.davidmiller.top/ct || start https://go.davidmiller.top/ct2
-exit
-
 :credits
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.3.2 ^(Build 1^)
+echo Version 2.3.2 ^(Build 2^)
 goto loopChoice
 
 :loopChoice
