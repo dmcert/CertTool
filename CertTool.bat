@@ -14,14 +14,12 @@ if %echoName%==true (
 	set echoName=false
 )
 echo Please disable antivirus program before starting!
-echo [1] Install production root CA ^(Recommended^)
-echo [2] Uninstall all CA ^(Recommended^)
-echo [3] Install production root CA and intermediate CA
-echo [4] Install TEST CA
-echo [5] Uninstall TEST CA
-echo [6] Visit our website
-echo [7] Exit
-set /p mainOption=Please enter your choice ^(1-7^):
+echo [1] Install root CA ^(Recommended^)
+echo [2] Uninstall root CA and intermediate CA ^(Recommended^)
+echo [3] Visit our website
+echo [4] Show more options
+echo [5] Exit
+set /p mainOption=Please enter your choice ^(1-5^):
 if not defined mainOption (
 	set choice=main
 	goto invalidOption
@@ -38,28 +36,63 @@ if %mainOption%==2 (
 )
 if %mainOption%==3 (
 	set mainOption=
-	set installationMode=production
-	set installIntermediateCA=true
-	goto installationPrecheck
+	goto openWebsite
 )
 if %mainOption%==4 (
 	set mainOption=
-	set installationMode=test
-	goto testInstallationPrecheck
+	set echoName=true
+	cls
+	goto moreChoice
 )
 if %mainOption%==5 (
-	set mainOption=
-	goto testUninstallation
-)
-if %mainOption%==6 (
-	set mainOption=
-	goto openWebsite
-)
-if %mainOption%==7 (
 	exit
 )
 set choice=main
 set mainOption=
+goto invalidOption
+
+:moreChoice
+if %echoName%==true (
+	echo David Miller Certificate Tool
+	set echoName=false
+)
+echo Please disable antivirus program before starting!
+echo [1] Install production root CA and intermediate CA
+echo [2] Install TEST CA
+echo [3] Uninstall TEST CA
+echo [4] Return to main menu
+echo [5] Exit
+set /p moreOption=Please enter your choice ^(1-5^):
+if not defined moreOption (
+	set choice=more
+	goto invalidOption
+)
+if %moreOption%==1 (
+	set moreOption=
+	set installationMode=production
+	set installIntermediateCA=true
+	goto installationPrecheck
+)
+if %moreOption%==2 (
+	set moreOption=
+	set installationMode=test
+	goto testInstallationPrecheck
+)
+if %moreOption%==3 (
+	set moreOption=
+	goto testUninstallation
+)
+if %moreOption%==4 (
+	set moreOption=
+	set echoName=true
+	cls
+	goto choice
+)
+if %moreOption%==5 (
+	exit
+)
+set choice=more
+set moreOption=
 goto invalidOption
 
 :installationPrecheck
@@ -578,6 +611,9 @@ echo Your choice is invalid. Please try again.
 if %choice%==main (
 	goto choice
 )
+if %choice%==more (
+	goto moreChoice
+)
 if %choice%==loop (
 	exit
 )
@@ -632,14 +668,14 @@ goto invalidOption
 cls
 echo David Miller Certificate Tool
 echo Starting your default browser...
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || set start https://go.davidmiller.top/ct2
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage >nul 2>nul | find "0804" && start https://go.davidmiller.top/ct || start https://go.davidmiller.top/ct2
 exit
 
 :credits
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.3.1
+echo Version 2.3.2 ^(Build 1^)
 goto loopChoice
 
 :loopChoice
