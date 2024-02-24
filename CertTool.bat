@@ -1004,7 +1004,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.4 ^(Pre-release Build 2^)
+echo Version 2.4 ^(Pre-release Build 3^)
 goto loopChoice
 
 :loopChoice
@@ -1018,12 +1018,12 @@ if not defined loopOption (
 if %loopOption%==1 (
 	cls
 	set echoName=true
-	set installFailedOption=
+	set loopOption=
 	goto choice
 )
 if %loopOption%==2 (
 	exit
 )
 set choice=loop
-set installFailedOption=
+set loopOption=
 goto invalidOption
