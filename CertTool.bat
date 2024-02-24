@@ -219,9 +219,9 @@ if %installIntermediateCA%==true (
 ) else (
 	echo All 5 files successfully validated!
 )
-goto install
+goto installation
 
-:install
+:installation
 echo Installing David Miller Root CA - R1 ^(cross-signed by R4^)...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R1RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R2 ^(cross-signed by R4^)...
@@ -259,6 +259,34 @@ if %installIntermediateCA%==true (
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
 	echo Installing David Miller Timestamping CA - G8 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
+)
+goto credits
+
+:installationRecheck
+if %installIntermediateCA%==true (
+	echo Checking if all root CA and intermediate CA certificates have been installed...
+) else (
+	echo Checking if all root CA certificates have been installed...
+)
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\B569242CF35783FAFEF62AFB9989DBE1175F3A62" >nul 2>nul || goto installationRecheckFailed
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\852BE1231EF1C9AC3865E69D69843BC1E4818801" >nul 2>nul || goto installationRecheckFailed
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" >nul 2>nul || goto installationRecheckFailed
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" >nul 2>nul || goto installationRecheckFailed
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" >nul 2>nul || goto installationRecheckFailed
+if %installIntermediateCA%==true (
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\3CD6E170B9491B7D48C739FAFFC9297DCA1FE8AD" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ACDC4FEFAA6BB0DEAFB4D1B3CE6B2E7C2D1B52DE" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\671C57EFA9031AAC98406758C96B2C66EF10122F" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EFFF0E2D44A21F20DA9AEEFBF9480BC919A1D661" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\961113EBC0FAEB80F5D17F22B67DA53641622B83" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EA2F26175237A54066E9AAD9F6D3189B886818E9" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8A0105B6F5795E11D1E6AD11A1DF4D7FA7B063C7" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\BDC027633F1893336C718B1E72738D25CB690704" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\774B37BFD0CDDFAF8B179809BBADE5BA392B3ADF" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1221503CA1E1011B8EB539B15702F3BDBD016CF8" >nul 2>nul || goto installationRecheckFailed
+	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" >nul 2>nul || goto installationRecheckFailed
 )
 goto credits
 
@@ -857,6 +885,9 @@ if %choice%==installationFailed (
 if %choice%==uninstallationRecheckFailed (
 	goto uninstallationRecheckFailed
 )
+if %choice%==uninstallationRecheckFailed (
+	goto uninstallationRecheckFailed
+)
 
 :installationFailed
 cls
@@ -910,7 +941,7 @@ echo [3] Return to main menu
 echo [4] Exit
 set /p uninstallationRecheckFailedOption=Please enter your choice ^(1-4^):
 if not defined uninstallationRecheckFailedOption (
-	set choice=installationFailed
+	set choice=uninstallationRecheckFailed
 	goto invalidOption
 )
 if %uninstallationRecheckFailedOption%==1 (
@@ -934,11 +965,46 @@ set choice=uninstallationRecheckFailed
 set uninstallationRecheckFailedOption=
 goto invalidOption
 
+:installationRecheckFailed
+cls
+echo David Miller Certificate Tool
+echo Some certficates are not installed to your system!
+echo The access may denied by the antivirus program or UAC
+echo [1] Try installing again ^(Recommended^)
+echo [2] Re-download the software through your default browser
+echo [3] Return to main menu
+echo [4] Exit
+set /p installationRecheckFailedOption=Please enter your choice ^(1-4^):
+if not defined installationRecheckFailedOption (
+	set choice=installationFailed
+	goto invalidOption
+)
+if %installationRecheckFailedOption%==1 (
+	goto installation
+)
+if %installationRecheckFailedOption%==2 (
+	set installationRecheckFailedOption=
+	set url=dl
+	goto openURL
+)
+if %installationRecheckFailedOption%==3 (
+	set installationRecheckFailedOption=
+	cls
+	set echoName=true
+	goto choice
+)
+if %installationRecheckFailedOption%==4 (
+	exit
+)
+set choice=installationRecheckFailed
+set installationRecheckFailedOption=
+goto invalidOption
+
 :credits
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.4 ^(Pre-release Build 1^)
+echo Version 2.4 ^(Pre-release Build 2^)
 goto loopChoice
 
 :loopChoice
