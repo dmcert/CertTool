@@ -647,9 +647,9 @@ if %choice%==more (
 if %choice%==loop (
 	exit
 )
-if %choice%==installationFailedChoice (
+if %choice%==installationFailed (
 	echo Some files are missing or corrupted!
-	goto installationFailed
+	goto installationFailedChoice
 )
 
 :installationFailed
@@ -700,7 +700,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.3.3 ^(LTS Release Build 2^)
+echo Version 2.3.3 ^(LTS Release Build 3^)
 goto loopChoice
 
 :loopChoice
