@@ -15,7 +15,7 @@ if %echoName%==true (
 )
 echo Please disable antivirus program before starting!
 echo [1] Install root CA certificates ^(Recommended^)
-echo [2] Uninstall root CA and intermediate CA certificates ^(Recommended^)
+echo [2] Uninstall root and intermediate CA certificates ^(Recommended^)
 echo [3] Visit our website
 echo [4] Show more options
 echo [5] Download the latest version
@@ -71,9 +71,9 @@ if %echoName%==true (
 	set echoName=false
 )
 echo Please disable antivirus program before starting!
-echo [1] Install production root CA and intermediate CA certificates
-echo [2] Install TEST CA
-echo [3] Uninstall TEST CA
+echo [1] Install production root and intermediate CA certificates
+echo [2] Install TEST CA certificates
+echo [3] Uninstall TEST CA certificates
 echo [4] Return to main menu
 echo [5] Exit
 set /p moreOption=Please enter your choice ^(1-5^):
