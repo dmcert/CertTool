@@ -1004,7 +1004,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.4 ^(Pre-release Build 3^)
+echo Version 2.4 ^(Pre-release Build 4^)
 goto loopChoice
 
 :loopChoice
