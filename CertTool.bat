@@ -566,6 +566,9 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\78077CDEF
 echo Removing David Miller Global Services CA2 - G3 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\325B039AA85A97403B454E33AA6EC1A22B1715B8" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\325B039AA85A97403B454E33AA6EC1A22B1715B8" /f >nul 2>nul
+echo Removing David Miller Global Services CA2 - G4 - SHA256...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2183A69EC5C4BBBDA2DD9F7D65697AAE1115ED77" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2183A69EC5C4BBBDA2DD9F7D65697AAE1115ED77" /f >nul 2>nul
 echo Removing David Miller Global Services CA3 - G1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7CE074777FECA7C4902EEDDFBDDBDA1C" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\C4D9738D7CE074777FECA7C4902EEDDFBDDBDA1C" /f >nul 2>nul
@@ -703,7 +706,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.4 ^(Pre-release Build 6^)
+echo Version 2.4 ^(Release Build 7^)
 goto loopChoice
 
 :loopChoice
