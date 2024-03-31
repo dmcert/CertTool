@@ -1,8 +1,8 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(x64 LTS Release^)
-::title David Miller Certificate Tool ^(x86 LTS Release^)
+title David Miller Certificate Tool ^(x64 Release^)
+::title David Miller Certificate Tool ^(x86 Release^)
 md temp >nul 2>nul
 
 set echoName=true
@@ -706,7 +706,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.4 ^(Release Build 8^)
+echo Version 2.4 ^(Release Build 9^)
 goto loopChoice
 
 :loopChoice
