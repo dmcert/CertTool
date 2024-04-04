@@ -147,9 +147,6 @@ if %installIntermediateCA%==true (
 	if not exist "%~dp0\intermediate\ExternalCAG4SHA384.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\OVServerCAG5SHA256.crt" (
-		goto installationFailed
-	)
 	if not exist "%~dp0\intermediate\OVServerCAG6SHA256.crt" (
 		goto installationFailed
 	)
@@ -175,7 +172,6 @@ if %installIntermediateCA%==true (
 	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" SHA256 > "%~dp0\temp\ECCOVServerCAG6SHA256.crt.sha256"
 	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\EVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\EVServerCAG4SHA256.crt.sha256"
 	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ExternalCAG4SHA384.crt" SHA256 > "%~dp0\temp\ExternalCAG4SHA384.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\OVServerCAG5SHA256.crt" SHA256 > "%~dp0\temp\OVServerCAG5SHA256.crt.sha256"
 	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\OVServerCAG6SHA256.crt" SHA256 > "%~dp0\temp\OVServerCAG6SHA256.crt.sha256"
 	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" SHA256 > "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256"
 	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TimestampingCAG8SHA256.crt" SHA256 > "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256"
@@ -195,13 +191,12 @@ if %installIntermediateCA%==true (
 	findstr 34d98e0e1e60f7121f22e68d75e397bd0eea8970dc8710afc00122a5b55f05dc "%~dp0\temp\ECCOVServerCAG6SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 	findstr 3e191ad3d0bee6333b34b6e5bab844ca0b32c88d240f8e0469d71f35d5e6801a "%~dp0\temp\EVServerCAG4SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 	findstr 49827bf2365f057bda6ce55a0e6f7758f30280a13835fc79326ca48f1c95e467 "%~dp0\temp\ExternalCAG4SHA384.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 37155abeb071af179410c4368c6154c262efe0c362fc572d448c9303ba8edd8f "%~dp0\temp\OVServerCAG5SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 	findstr 2d80d1d7e9d8d7ae71602842a7a350ed3f9fd84f1b60acaaf6333f604777b268 "%~dp0\temp\OVServerCAG6SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 	findstr 412556f536caf1295eeaacc093f6dee5d10b08796110a4667e908b2b1fa99d4c "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 	findstr 487fcfb818b20c395e03baf22fc470df5845b2785c372505b48f6ba257938935 "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 )
 if %installIntermediateCA%==true (
-	echo All 18 files successfully validated!
+	echo All 17 files successfully validated!
 ) else (
 	echo All 5 files successfully validated!
 )
@@ -238,8 +233,6 @@ if %installIntermediateCA%==true (
 	echo Installing David Miller External CA - G4 - SHA384...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ExternalCAG4SHA384.crt" >nul 2>nul
 	echo Installing David Miller Organization Validation Server CA - G5 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\OVServerCAG5SHA256.crt" >nul 2>nul
-	echo Installing David Miller Organization Validation Server CA - G6 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\OVServerCAG6SHA256.crt" >nul 2>nul
 	echo Installing David Miller Secure Email CA - G5 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
@@ -706,7 +699,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://go.davidmiller.top/pki
-echo Version 2.4 ^(Release Build 9^)
+echo Version 2.4.1 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
