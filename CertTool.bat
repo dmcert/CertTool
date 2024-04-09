@@ -127,6 +127,7 @@ goto invalidOption
 
 :installationPrecheck
 cls
+echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
@@ -231,7 +232,7 @@ if %installIntermediateCA%==true (
 ) else (
 	echo                All 5 files successfully validated!
 )
-echo           %lineLong%
+echo                %lineShort%
 echo.
 goto installation
 
@@ -278,6 +279,7 @@ goto credits
 
 :uninstallation
 cls
+echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
@@ -369,7 +371,7 @@ echo                Removing Code Signing CA - G3...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\271A3451AA0567DC45B2675FAFE96622EB1474C1" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\271A3451AA0567DC45B2675FAFE96622EB1474C1" /f >nul 2>nul
 echo.
-echo                Removing Trust Services External RSA CA - G2...
+echo                Removing External RSA CA - G2...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E65B658FECAF89159C1FCAA06CEEFE038E2887AE" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\E65B658FECAF89159C1FCAA06CEEFE038E2887AE" /f >nul 2>nul
 echo.
@@ -525,7 +527,7 @@ echo                Removing SHA2 Timestamping CA - G4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\02E9634F821255D60CF199937A62DC022FB302B1" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\02E9634F821255D60CF199937A62DC022FB302B1" /f >nul 2>nul
 echo.
-echo                Removing Trust Services External ECC CA - G2...
+echo                Removing External ECC CA - G2...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\9BF24354862FC3AA2CECDABE2C0D499FED2CDA9F" /f >nul 2>nul
 echo.
@@ -720,12 +722,12 @@ echo.
 echo                Removing Test Timestamping CA - G1 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
-echo.
-echo                You may still need to remove personal certificates manually.
+set uninstallationNotice=true
 goto credits
 
 :openURL
 cls
+echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
@@ -743,6 +745,7 @@ if %url%==dl (
 
 :testInstallationPrecheck
 cls
+echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
@@ -766,18 +769,21 @@ goto testInstallation
 :testInstallation
 echo                Installing Test Root CA - T4...
 "%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0\root\T4RootCA.crt" >nul 2>nul
+echo.
 echo                Installing Test Timestamping CA - G1 - SHA256...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TestTimestampingCASHA256.crt" >nul 2>nul
 goto credits
 
 :testUninstallation
 cls
+echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
 echo                Removing Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
+echo.
 echo                Removing Test Timestamping CA - G1 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
@@ -820,14 +826,16 @@ goto installationFailedChoice
 :installationFailedChoice
 echo                %lineShort%
 echo.
-echo                [1] Re-download the software through your default browser ^(Recommended^)
+echo                [1] Re-download the software ^(Recommended^)
 echo.
-echo                [2] Continue installing ^(may damage your system^)
+echo                [2] Continue installing
 echo.
 echo                [3] Return to main menu
 echo.
 echo                [4] Exit
-set /p installationFailedOption=Please enter your choice ^(1-4^):
+echo           %lineLong%
+echo.
+set /p installationFailedOption=^>           Please enter your choice ^(1-4^):
 if not defined installationFailedOption (
 	set choice=installationFailed
 	goto invalidOption
@@ -840,7 +848,10 @@ if %installationFailedOption%==1 (
 if %installationFailedOption%==2 (
 	set installationFailedOption=
 	cls
-	echo David Miller Certificate Tool
+	echo.
+	echo                          David Miller Certificate Tool
+	echo           %lineLong%
+	echo.
 	if %installationMode%==production (
 		goto installation
 	) else (
@@ -865,24 +876,26 @@ echo           %lineLong%
 echo.
 echo                Finished!
 echo.
+if defined uninstallationNotice (
+	echo                You may still need to remove some certificates manually.
+	echo.
+)
 echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.5 ^(Pre-release Build 2^)
+echo                Version 2.5 ^(Release Build 3^)
 goto loopChoice
 
 :loopChoice
-echo           %lineLong%
+echo                %lineShort%
 echo.
 echo                [1] Return to main menu
 echo.
-echo                [2] Pause
-echo.
-echo                [3] Exit ^(By default^)
+echo                [2] Exit ^(By default^)
 echo           %lineLong%
 echo.
-set /p loopOption=^>           Please enter your choice ^(1-3^):
+set /p loopOption=^>           Please enter your choice ^(1-2^):
 if not defined loopOption (
 	set choice=loop
 	goto invalidOption
@@ -894,9 +907,6 @@ if %loopOption%==1 (
 	goto choice
 )
 if %loopOption%==2 (
-	pause
-)
-if %loopOption%==3 (
 	exit
 )
 set choice=loop
