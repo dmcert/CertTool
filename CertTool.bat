@@ -797,7 +797,7 @@ echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
-echo                 Your choice is invalid. Please try again.
+echo                Your choice is invalid. Please try again.
 if %choice%==main (
 	goto choice
 )
@@ -884,7 +884,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.5 ^(Release Build 3^)
+echo                Version 2.5.1 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
