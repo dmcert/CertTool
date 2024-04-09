@@ -21,7 +21,6 @@ if %echoName%==true (
 echo           %lineLong%
 echo.
 echo                Please disable antivirus program before starting!
-
 echo                %lineShort%
 echo.
 echo                [1] Install root CA certificates ^(Recommended^)
@@ -807,7 +806,6 @@ if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
 )
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0\temp\TestTimestampingCASHA256.crt.sha256"
-
 findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul || goto installationFailed
 findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0\temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul || goto installationFailed
 echo                All 2 files successfully validated!
@@ -953,7 +951,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.5.1 ^(Release Build 3^)
+echo                Version 2.6 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
@@ -961,10 +959,12 @@ echo                %lineShort%
 echo.
 echo                [1] Return to main menu
 echo.
-echo                [2] Exit ^(By default^)
+echo                [2] Visit our website
+echo.
+echo                [3] Exit ^(By default^)
 echo           %lineLong%
 echo.
-set /p loopOption=^>           Please enter your choice ^(1-2^):
+set /p loopOption=^>           Please enter your choice ^(1-3^):
 if not defined loopOption (
 	set choice=loop
 	goto invalidOption
@@ -976,6 +976,13 @@ if %loopOption%==1 (
 	goto choice
 )
 if %loopOption%==2 (
+	cls
+	set echoName=true
+	set loopOption=
+	set url=pki
+	goto openURL
+)
+if %loopOption%==3 (
 	exit
 )
 set choice=loop
