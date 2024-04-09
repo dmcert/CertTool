@@ -1,5 +1,5 @@
 @echo off
-mode con cols=80 lines=34
+mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
 title David Miller Certificate Tool ^(x64 Release^)
@@ -136,6 +136,7 @@ if %installIntermediateCA%==true (
 ) else (
 	echo                Validating integrity of 5 files...
 )
+echo.
 if not exist "%~dp0\cross-sign\R4_R1RootCA.crt" (
 	goto installationFailed
 )
@@ -239,12 +240,16 @@ goto installation
 :installation
 echo                Installing Root CA - R1 ^(R4^)...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R1RootCA.crt" >nul 2>nul
+echo.
 echo                Installing Root CA - R2 ^(R4^)...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R2RootCA.crt" >nul 2>nul
+echo.
 echo                Installing Root CA - R3 ^(R4^)...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R3RootCA.crt" >nul 2>nul
+echo.
 echo                Installing Root CA - R4...
 regedit.exe /s "%~dp0\root\R4RootCA.reg" >nul 2>nul
+echo.
 echo                Installing Root Certificate Authority ^(R4^)...
 regedit.exe /s "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" >nul 2>nul
 if %installIntermediateCA%==true (
@@ -252,26 +257,37 @@ if %installIntermediateCA%==true (
 	echo.
 	echo                Installing Client Authentication CA - G3 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing Code Signing CA - G3 - SHA384...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" >nul 2>nul
+	echo.
 	echo                Installing Document Signing CA - G2 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DVServerCAG4SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing Domain Validation Server CA - G4 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing ECC Domain Validation Server CA - G5 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing ECC Extended Validation Server CA - G4 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing ECC Organization Validation Server CA - G6 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing Extended Validation Server CA - G4 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\EVServerCAG4SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing External CA - G4 - SHA384...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ExternalCAG4SHA384.crt" >nul 2>nul
+	echo.
 	echo                Installing Organization Validation Server CA - G5 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\OVServerCAG6SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing Secure Email CA - G5 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
+	echo.
 	echo                Installing Timestamping CA - G8 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
 )
@@ -884,7 +900,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.5.1 ^(Pre-release Build 1^)
+echo                Version 2.5.1 ^(Pre-release Build 2^)
 goto loopChoice
 
 :loopChoice
