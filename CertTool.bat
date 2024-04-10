@@ -11,6 +11,7 @@ set echoName=true
 goto choice
 
 :choice
+setlocal disabledelayedexpansion
 if %echoName%==true (
 	echo.
 	echo.
@@ -47,6 +48,7 @@ if %mainOption%==1 (
 )
 if %mainOption%==2 (
 	set mainOption=
+	set uninstallationMode=all
 	goto uninstallation
 )
 if %mainOption%==3 (
@@ -109,6 +111,7 @@ if %moreOption%==2 (
 )
 if %moreOption%==3 (
 	set moreOption=
+	set uninstallationMode=test
 	goto testUninstallation
 )
 if %moreOption%==4 (
@@ -1253,7 +1256,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 2^)
+echo                Version 2.6 ^(Pre-release Build 3^)
 goto loopChoice
 
 :loopChoice
@@ -1261,33 +1264,105 @@ echo                %lineShort%
 echo.
 echo                [1] Return to main menu
 echo.
-echo                [2] Visit our website
-echo.
-echo                [3] Exit ^(By default^)
-echo           %lineLong%
-echo.
-set /p loopOption=^>           Please enter your choice ^(1-3^):
-if not defined loopOption (
-	set choice=loop
-	goto invalidOption
-)
-if %loopOption%==1 (
-	cls
-	set result=
-	set echoName=true
-	set loopOption=
-	goto choice
-)
-if %loopOption%==2 (
-	cls
-	set result=
-	set echoName=true
-	set loopOption=
-	set url=pki
-	goto openURL
-)
-if %loopOption%==3 (
-	exit
+setlocal enabledelayedexpansion
+if !result!==success (
+	echo                [2] Visit our website
+	echo.
+	echo                [3] Exit ^(By default^)
+	echo           !lineLong!
+	echo.
+	set /p loopOption=^>           Please enter your choice ^(1-3^):
+	if not defined loopOption (
+		set choice=loop
+		goto invalidOption
+	)
+	if !loopOption!==1 (
+		cls
+		set result=
+		set installationMode=
+		set uninstallationMode=
+		set echoName=true
+		set loopOption=
+		goto choice
+	)
+	if !loopOption!==2 (
+		cls
+		set result=
+		set installationMode=
+		set uninstallationMode=
+		set echoName=true
+		set loopOption=
+		set url=pki
+		goto openURL
+	)
+	if !loopOption!==3 (
+		exit
+	)
+) 
+if !result!==fail (
+	if defined installationMode (
+		echo                [2] Try to install again
+	) else (
+		echo                [2] Try to uninstall again
+	)
+	echo.
+	echo                [3] Visit our website
+	echo.
+	echo                [4] Exit ^(By default^)
+	echo           !lineLong!
+	echo.
+	set /p loopOption=^>           Please enter your choice ^(1-4^):
+	if not defined loopOption (
+		set choice=loop
+		goto invalidOption
+	)
+	if !loopOption!==1 (
+		cls
+		set installationMode=
+		set uninstallationMode=
+		set result=
+		set echoName=true
+		set loopOption=
+		goto choice
+	)
+	if !loopOption!==2 (
+		cls
+		set result=
+		set echoName=true
+		set loopOption=
+		if defined installationMode (
+			if !installationMode!==production (
+				set installationMode=
+				goto installationPrecheck
+			)
+			if !installationMode!==test (
+				set installationMode=
+				goto testInstallationPrecheck
+			)
+		) else (
+			if !uninstallationMode!==all (
+				set uninstallationMode=
+				goto uninstallation
+			)
+			if !uninstallationMode!==test (
+				set uninstallationMode=
+				goto testUninstallation
+			)
+		)
+	)
+	if !loopOption!==3 (
+		cls
+		set result=
+		set installationMode=
+		set uninstallationMode=
+		set echoName=true
+		set loopOption=
+		set url=pki
+		goto openURL
+	)
+	if !loopOption!==4 (
+		exit
+	)
 )
 set choice=loop
 set loopOption=
