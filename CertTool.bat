@@ -48,7 +48,6 @@ if %mainOption%==1 (
 )
 if %mainOption%==2 (
 	set mainOption=
-	set uninstallationMode=all
 	goto uninstallation
 )
 if %mainOption%==3 (
@@ -111,7 +110,6 @@ if %moreOption%==2 (
 )
 if %moreOption%==3 (
 	set moreOption=
-	set uninstallationMode=test
 	goto testUninstallation
 )
 if %moreOption%==4 (
@@ -309,6 +307,7 @@ if %installIntermediateCA%==true (
 	echo                Installing Timestamping CA - G8 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
 	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" >nul 2>nul || set notInstalledCert=true
+	echo %notInstalledCert%
 )
 if defined notInstalledCert (
 	set result=fail
@@ -431,7 +430,7 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" >nul 2>nul && set notUninstalledCert=true
 reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\88398923B5F33CB231DB9DAD711A137C1B8563A1" >nul 2>nul && set notUninstalledCert=true
 echo.
-echo                Removing CA Certificate Authority ^(R4^)...
+echo                Removing Root Certificate Authority ^(R4^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" /f >nul 2>nul
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2A68652C2C14CD0A7404E58C72085726602D36EE" >nul 2>nul && set notUninstalledCert=true
@@ -1246,7 +1245,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 4^)
+echo                Version 2.6 ^(Pre-release Build 5^)
 goto loopChoice
 
 :loopChoice
