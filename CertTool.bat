@@ -1245,7 +1245,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 5^)
+echo                Version 2.6 ^(Pre-release Build 6^)
 goto loopChoice
 
 :loopChoice
