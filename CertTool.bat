@@ -11,7 +11,6 @@ set echoName=true
 goto choice
 
 :choice
-setlocal disabledelayedexpansion
 if %echoName%==true (
 	echo.
 	echo.
@@ -1245,7 +1244,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 6^)
+echo                Version 2.6 ^(Pre-release Build 7^)
 goto loopChoice
 
 :loopChoice
