@@ -338,7 +338,8 @@ echo.
 echo                Removing Root CA - R1 ^(Raytonne^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6F739F4233ACACFB0A564068CD09CAB6280881C6" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6F739F4233ACACFB0A564068CD09CAB6280881C6" /f >nul 2>nul
-
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6F739F4233ACACFB0A564068CD09CAB6280881C6" >nul 2>nul && set notUninstalledCert=true
+reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6F739F4233ACACFB0A564068CD09CAB6280881C6" >nul 2>nul && set notUninstalledCert=true
 echo.
 echo                Removing Root CA - R2...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\4A24E7FC6C80EA54BEF5883DD83248F9A1509362" /f >nul 2>nul
@@ -367,20 +368,20 @@ echo.
 echo                Removing Root CA - R3 ^(R1^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" /f >nul 2>nul
-reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" >nul 2>nul && set notUninstalledCert=true
-reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" >nul 2>nul && set notUninstalledCert=true
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" >nul 2>nul && set notUninstalledCert=true
+reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\903174AC770839306CE043B6A4EA6FD74AD262C0" >nul 2>nul && set notUninstalledCert=true
 echo.
 echo                Removing Root CA - R3 ^(R4^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" /f >nul 2>nul
-reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" >nul 2>nul && set notUninstalledCert=true
-reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" >nul 2>nul && set notUninstalledCert=true
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" >nul 2>nul && set notUninstalledCert=true
+reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\03CBB967495A68DA5B180DCB728810A77C6E1BA9" >nul 2>nul && set notUninstalledCert=true
 echo.
 echo                Removing Root CA - R3 ^(Raytonne^)...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A4605540C381910F27FD63169D6B6E5FD8E54369" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A4605540C381910F27FD63169D6B6E5FD8E54369" /f >nul 2>nul
-reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\A4605540C381910F27FD63169D6B6E5FD8E54369" >nul 2>nul && set notUninstalledCert=true
-reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\A4605540C381910F27FD63169D6B6E5FD8E54369" >nul 2>nul && set notUninstalledCert=true
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A4605540C381910F27FD63169D6B6E5FD8E54369" >nul 2>nul && set notUninstalledCert=true
+reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\A4605540C381910F27FD63169D6B6E5FD8E54369" >nul 2>nul && set notUninstalledCert=true
 echo.
 echo                Removing Root CA - R4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\227A08FD5D7641A2B2D2AB1A4DE00C8AF665BD50" /f >nul 2>nul
@@ -571,9 +572,9 @@ echo.
 echo                Removing SHA2 DV Server CA - G2...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" /f >nul 2>nul
-echo.
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" >nul 2>nul && set notUninstalledCert=true
 reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\5A7349FCBD122BF84E2A00B5A0EA4E74561E6E63" >nul 2>nul && set notUninstalledCert=true
+echo.
 echo                Removing SHA2 DV Server CA - G3...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CD1648DEA60B093672A8CBC9F11A95A7862E0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7B5CD1648DEA60B093672A8CBC9F11A95A7862E0" /f >nul 2>nul
@@ -949,9 +950,9 @@ echo.
 echo                Removing Global Services CA2 - G3 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\325B039AA85A97403B454E33AA6EC1A22B1715B8" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\325B039AA85A97403B454E33AA6EC1A22B1715B8" /f >nul 2>nul
-echo.
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\325B039AA85A97403B454E33AA6EC1A22B1715B8" >nul 2>nul && set notUninstalledCert=true
 reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\325B039AA85A97403B454E33AA6EC1A22B1715B8" >nul 2>nul && set notUninstalledCert=true
+echo.
 echo                Removing Global Services CA2 - G4 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2183A69EC5C4BBBDA2DD9F7D65697AAE1115ED77" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\2183A69EC5C4BBBDA2DD9F7D65697AAE1115ED77" /f >nul 2>nul
@@ -1041,6 +1042,7 @@ if defined notUninstalledCert (
 goto credits
 
 :openURL
+
 cls
 echo.
 echo                          David Miller Certificate Tool
@@ -1101,18 +1103,6 @@ cls
 echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
-echo.
-echo                Removing MitM CA - G1...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\021AA04BC0ED7222AF68DA4710711F48C030BDE4" /f >nul 2>nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\021AA04BC0ED7222AF68DA4710711F48C030BDE4" /f >nul 2>nul
-reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\021AA04BC0ED7222AF68DA4710711F48C030BDE4" >nul 2>nul && set notUninstalledCert=true
-reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\021AA04BC0ED7222AF68DA4710711F48C030BDE4" >nul 2>nul && set notUninstalledCert=true
-echo.
-echo                Removing MitM CA - G2...
-reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\51BDB9B4D9F52364A08A642BA86CCB35133BECA4" /f >nul 2>nul
-reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\51BDB9B4D9F52364A08A642BA86CCB35133BECA4" /f >nul 2>nul
-reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\51BDB9B4D9F52364A08A642BA86CCB35133BECA4" >nul 2>nul && set notUninstalledCert=true
-reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\51BDB9B4D9F52364A08A642BA86CCB35133BECA4" >nul 2>nul && set notUninstalledCert=true
 echo.
 echo                Removing Test Root CA - T1...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\1101C8D8663F5EB1BE0925D3195051364E0F0274" /f >nul 2>nul
@@ -1243,20 +1233,20 @@ if %result%==success (
 )
 echo.
 if defined notUninstalledCert (
-	set notUninstalledCert=
 	echo                Some CA are not properly removed from your system!
 	echo.
 )
 if defined notInstalledCert (
-	set notInstalledCert=
 	echo                Some CA are not properly installed to your system!
 	echo.
 )
+set notUninstalledCert=
+set notInstalledCert=
 echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 3^)
+echo                Version 2.6 ^(Pre-release Build 4^)
 goto loopChoice
 
 :loopChoice
@@ -1264,106 +1254,33 @@ echo                %lineShort%
 echo.
 echo                [1] Return to main menu
 echo.
-setlocal enabledelayedexpansion
-if !result!==success (
-	echo                [2] Visit our website
-	echo.
-	echo                [3] Exit ^(By default^)
-	echo           !lineLong!
-	echo.
-	set /p loopOption=^>           Please enter your choice ^(1-3^):
-	if not defined loopOption (
-		set choice=loop
-		goto invalidOption
-	)
-	if !loopOption!==1 (
-		cls
-		set result=
-		set installationMode=
-		set uninstallationMode=
-		set echoName=true
-		set loopOption=
-		goto choice
-	)
-	if !loopOption!==2 (
-		cls
-		set result=
-		set installationMode=
-		set uninstallationMode=
-		set echoName=true
-		set loopOption=
-		set url=pki
-		goto openURL
-	)
-	if !loopOption!==3 (
-		exit
-	)
-) 
-if !result!==fail (
-	if defined installationMode (
-		echo                [2] Try to install again
-	) else (
-		echo                [2] Try to uninstall again
-	)
-	echo.
-	echo                [3] Visit our website
-	echo.
-	echo                [4] Exit ^(By default^)
-	echo           !lineLong!
-	echo.
-	set /p loopOption=^>           Please enter your choice ^(1-4^):
-	if not defined loopOption (
-		set choice=loop
-		goto invalidOption
-	)
-	if !loopOption!==1 (
-		cls
-		set installationMode=
-		set uninstallationMode=
-		set result=
-		set echoName=true
-		set loopOption=
-		goto choice
-	)
-	if !loopOption!==2 (
-		cls
-		set result=
-		set echoName=true
-		set loopOption=
-		if defined installationMode (
-			if !installationMode!==production (
-				set installationMode=
-				goto installationPrecheck
-			)
-			if !installationMode!==test (
-				set installationMode=
-				goto testInstallationPrecheck
-			)
-		) else (
-			if !uninstallationMode!==all (
-				set uninstallationMode=
-				goto uninstallation
-			)
-			if !uninstallationMode!==test (
-				set uninstallationMode=
-				goto testUninstallation
-			)
-		)
-	)
-	if !loopOption!==3 (
-		cls
-		set result=
-		set installationMode=
-		set uninstallationMode=
-		set echoName=true
-		set loopOption=
-		set url=pki
-		goto openURL
-	)
-	if !loopOption!==4 (
-		exit
-	)
+echo                [2] Visit our website
+echo.
+echo                [3] Exit ^(By default^)
+echo           %lineLong%
+echo.
+set /p loopOption=^>           Please enter your choice ^(1-4^):
+if not defined loopOption (
+	set choice=loop
+	goto invalidOption
 )
+if %loopOption%==1 (
+	cls
+	set result=
+	set echoName=true
+	set loopOption=
+	goto choice
+)
+if %loopOption%==2 (
+	cls
+	set result=
+	set echoName=true
+	set loopOption=
+	set url=pki
+	goto openURL
+)
+if %loopOption%==3 (
+	exit
 set choice=loop
 set loopOption=
 goto invalidOption
