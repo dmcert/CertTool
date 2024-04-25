@@ -306,7 +306,6 @@ if %installIntermediateCA%==true (
 	echo                Installing Timestamping CA - G8 - SHA256...
 	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
 	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\6784D4AC177E0BD6D69E53A7FF608F55AC7C3D3A" >nul 2>nul || set notInstalledCert=true
-	echo %notInstalledCert%
 )
 if defined notInstalledCert (
 	set result=fail
@@ -1244,7 +1243,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 7^)
+echo                Version 2.6 ^(Pre-release Build 8^)
 goto loopChoice
 
 :loopChoice
