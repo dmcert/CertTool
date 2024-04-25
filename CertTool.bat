@@ -268,11 +268,11 @@ if %installIntermediateCA%==true (
 	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\84F765BDD8E712068B296FB09594EA0AAF116E98" >nul 2>nul || set notInstalledCert=true
 	echo.
 	echo                Installing Document Signing CA - G2 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DVServerCAG4SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" >nul 2>nul
 	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\7F9D6BDC5FE8FE59D56863CFAF29BFEDC3D93ECF" >nul 2>nul || set notInstalledCert=true
 	echo.
 	echo                Installing DV Server CA - G4 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DVServerCAG4SHA256.crt" >nul 2>nul
 	reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\ACDC4FEFAA6BB0DEAFB4D1B3CE6B2E7C2D1B52DE" >nul 2>nul || set notInstalledCert=true
 	echo.
 	echo                Installing ECC DV Server CA - G5 - SHA256...
@@ -1243,7 +1243,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Pre-release Build 8^)
+echo                Version 2.6 ^(Pre-release Build 9^)
 goto loopChoice
 
 :loopChoice
