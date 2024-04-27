@@ -211,7 +211,7 @@ if %installIntermediateCA%==true (
 findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "%~dp0\temp\R4_R1RootCA.crt.sha256" >nul 2>nul || goto installationCheckFailed
 findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "%~dp0\temp\R4_R2RootCA.crt.sha256" >nul 2>nul || goto installationCheckFailed
 findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "%~dp0\temp\R4_R3RootCA.crt.sha256" >nul 2>nul || goto installationCheckFailed
-findstr 00714cecb03a5eec64570e5b0ccf90a9a1bb429825c2a83a9e719558c7738248 "%~dp0\temp\R4RootCA.reg.sha256" >nul 2>nul || goto installationCheckFailed
+findstr 51aa09a59873c7afd4c7a18443a79d16ba832ae2e37bb3513328f9c958c23407 "%~dp0\temp\R4RootCA.reg.sha256" >nul 2>nul || goto installationCheckFailed
 findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "%~dp0\temp\R4_RootCertificateAuthority.reg.sha256" >nul 2>nul || goto installationCheckFailed
 if %installIntermediateCA%==true (
 	findstr 0c27b946daeb726ac8d84bcbe2c7cc6355262a68989532e94050db10c8aa71f4 "%~dp0\temp\ClientAuthCAG3SHA256.crt.sha256"  >nul 2>nul || goto installationCheckFailed
@@ -1243,7 +1243,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://go.davidmiller.top/pki
 echo.
-echo                Version 2.6 ^(Release Build 10^)
+echo                Version 2.6.1 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
