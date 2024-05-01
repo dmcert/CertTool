@@ -1047,7 +1047,7 @@ echo           %lineLong%
 echo.
 echo                Starting your default browser...
 if %url%==pki (
-	start https://go.davidmiller.top/pki
+	start https://pki.davidmiller.top
 	cls
 	set echoName=true
 	goto choice
@@ -1241,9 +1241,9 @@ set uninstallationFailed=
 set installationFailed=
 echo                Author: David Miller Trust Services Team
 echo.
-echo                Website: https://go.davidmiller.top/pki
+echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.6.1 ^(Pre-release Build 1^)
+echo                Version 2.6.1 ^(Release Build 2^)
 goto loopChoice
 
 :loopChoice
