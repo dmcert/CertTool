@@ -2,8 +2,13 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(x64 Release^)
-::title David Miller Certificate Tool ^(x86 Release^)
+title David Miller Certificate Tool ^(x64 Pre-release^)
+::title David Miller Certificate Tool ^(x86 Pre-release^)
+setlocal EnableDelayedExpansion
+for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
+  set "color=%%a"
+)
+setlocal DisableDelayedExpansion
 md temp >nul 2>nul
 set lineShort=__________________________________________________
 set lineLong=____________________________________________________________
@@ -20,7 +25,8 @@ if %echoName%==true (
 )
 echo           %lineLong%
 echo.
-echo                Please disable antivirus program before starting!
+call :color 0C "               Please disable antivirus program before starting!
+echo.
 echo                %lineShort%
 echo.
 echo                [1] Install root CA certificates ^(Recommended^)
@@ -1168,7 +1174,8 @@ echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
-echo                Some files are missing or corrupted!
+call :color 0C "                Some files are missing or corrupted!"
+echo.
 goto installationCheckFailedChoice
 
 :installationCheckFailedChoice
@@ -1243,7 +1250,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.6.1 ^(Release Build 2^)
+echo                Version 2.7 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
@@ -1281,3 +1288,9 @@ if %loopOption%==3 (
 set choice=loop
 set loopOption=
 goto invalidOption
+
+:color
+<nul set /p ".=%color%" > "%~2"
+findstr /v /a:%1 /R "^$" "%~2" nul
+del "%~2" > nul 2>&1
+goto :eof
