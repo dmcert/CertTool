@@ -83,7 +83,8 @@ if %echoName%==true (
 )
 echo           %lineLong%
 echo.
-echo                Please disable antivirus program before starting!
+call :color 0C "               Please disable antivirus program before starting!"
+echo.
 echo                %lineShort%
 echo.
 echo                [1] Install root and intermediate CA certificates
@@ -1151,7 +1152,8 @@ echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
-echo                Your choice is invalid. Please try again.
+call :color 0C "                    Your choice is invalid. Please try again"
+echo.
 if %choice%==main (
 	goto choice
 )
@@ -1174,7 +1176,7 @@ echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
-call :color 0C "                Some files are missing or corrupted!"
+call :color 0C "                      Some files are missing or corrupted!"
 echo.
 goto installationCheckFailedChoice
 
@@ -1230,18 +1232,22 @@ goto invalidOption
 echo           %lineLong%
 echo.
 if %result%==fail (
-	echo                Failed!
+	call :color 0C "               Failed!"
+	echo.
 )
 if %result%==success (
-	echo                Finished!
+	call :color 0C "               Finished!"
+	echo.
 )
 echo.
 if defined uninstallationFailed (
-	echo                Some CA certificates are not removed from your system!
+	call :color 0C "               Some CA certificates are not removed from your system!"
+	echo.
 	echo.
 )
 if defined installationFailed (
-	echo                Some CA certificates are not installed to your system!
+	call :color 0C "               Some CA certificates are not installed to your system!"
+	echo.
 	echo.
 )
 set uninstallationFailed=
@@ -1250,7 +1256,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7 ^(Pre-release Build 1^)
+echo                Version 2.7 ^(Pre-release Build 2^)
 goto loopChoice
 
 :loopChoice
