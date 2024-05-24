@@ -2,8 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(x64 Pre-release^)
-::title David Miller Certificate Tool ^(x86 Pre-release^)
+title David Miller Certificate Tool ^(Pre-release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -33,14 +32,16 @@ echo                [1] Install root CA certificates ^(Recommended^)
 echo.
 echo                [2] Uninstall all CA certificates
 echo.
-echo                [3] Visit our website
+echo                [3] Switch to LTS version
 echo.
-echo                [4] Show more options
+echo                [4] Visit our website
 echo.
-echo                [5] Exit
+echo                [5] Show more options
+echo.
+echo                [6] Exit
 echo           %lineLong%
 echo.
-set /p mainOption=^>           Please enter your choice ^(1-5^):
+set /p mainOption=^>           Please enter your choice ^(1-6^):
 if not defined mainOption (
 	set choice=main
 	goto invalidOption
@@ -53,20 +54,35 @@ if %mainOption%==1 (
 )
 if %mainOption%==2 (
 	set mainOption=
+	set uninstallationMode=all
 	goto uninstallation
 )
 if %mainOption%==3 (
+	if exist CertTool_LTS.exe (
+		start CertTool_LTS.exe
+		exit
+	)
+	if exist CertTool_LTS.bat (
+		start CertTool_LTS.bat
+		exit
+	)
+	set mainOption=
+	set choice=main
+	goto invalidOption
+)
+if %mainOption%==4 (
 	set mainOption=
 	set url=pki
 	goto openURL
 )
-if %mainOption%==4 (
+if %mainOption%==5 (
 	set mainOption=
 	set echoName=true
 	cls
 	goto moreChoice
 )
-if %mainOption%==5 (
+
+if %mainOption%==6 (
 	exit
 )
 set choice=main
@@ -116,6 +132,7 @@ if %moreOption%==2 (
 )
 if %moreOption%==3 (
 	set moreOption=
+	set uninstallationMode=test
 	goto testUninstallation
 )
 if %moreOption%==4 (
@@ -1256,7 +1273,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7 ^(Pre-release Build 2^)
+echo                Version 2.7 ^(Pre-release Build 3^)
 goto loopChoice
 
 :loopChoice
@@ -1264,33 +1281,106 @@ echo                %lineShort%
 echo.
 echo                [1] Return to main menu
 echo.
-echo                [2] Visit our website
-echo.
-echo                [3] Exit
-echo           %lineLong%
-echo.
-set /p loopOption=^>           Please enter your choice ^(1-3^):
-if not defined loopOption (
-	set choice=loop
-	goto invalidOption
+setlocal enabledelayedexpansion
+if !result!==success (
+	echo                [2] Visit our website
+	echo.
+	echo                [3] Exit
+	echo           !lineLong!
+	echo.
+	set /p loopOption=^>           Please enter your choice ^(1-3^):
+	if not defined loopOption (
+		set choice=loop
+		goto invalidOption
+	)
+	if !loopOption!==1 (
+		cls
+		set result=
+		set installationMode=
+		set uninstallationMode=
+		set echoName=true
+		set loopOption=
+		goto choice
+	)
+	if !loopOption!==2 (
+		cls
+		set result=
+		set installationMode=
+		set uninstallationMode=
+		set echoName=true
+		set loopOption=
+		set url=pki
+		goto openURL
+	)
+	if !loopOption!==3 (
+		exit
+	)
 )
-if %loopOption%==1 (
-	cls
-	set result=
-	set echoName=true
-	set loopOption=
-	goto choice
+if !result!==fail (
+	if defined installationMode (
+		echo                [2] Try to install again
+	) else (
+		echo                [2] Try to uninstall again
+	)
+	echo.
+	echo                [3] Visit our website
+	echo.
+	echo                [4] Exit
+	echo           !lineLong!
+	echo.
+	set /p loopOption=^>           Please enter your choice ^(1-4^):
+	if not defined loopOption (
+		set choice=loop
+		goto invalidOption
+	)
+	if !loopOption!==1 (
+		cls
+		set installationMode=
+		set uninstallationMode=
+		set result=
+		set echoName=true
+		set loopOption=
+		goto choice
+	)
+	if !loopOption!==2 (
+		cls
+		set result=
+		set echoName=true
+		set loopOption=
+		if defined installationMode (
+			if !installationMode!==production (
+				set installationMode=
+				goto installationPrecheck
+			)
+			if !installationMode!==test (
+				set installationMode=
+				goto testInstallationPrecheck
+			)
+		) else (
+			if !uninstallationMode!==all (
+				set uninstallationMode=
+				goto uninstallation
+			)
+			if !uninstallationMode!==test (
+				set uninstallationMode=
+				goto testUninstallation
+			)
+		)
+	)
+	if !loopOption!==3 (
+		cls
+		set result=
+		set installationMode=
+		set uninstallationMode=
+		set echoName=true
+		set loopOption=
+		set url=pki
+		goto openURL
+	)
+	if !loopOption!==4 (
+		exit
+	)
 )
-if %loopOption%==2 (
-	cls
-	set result=
-	set echoName=true
-	set loopOption=
-	set url=pki
-	goto openURL
-)
-if %loopOption%==3 (
-	exit
 set choice=loop
 set loopOption=
 goto invalidOption
