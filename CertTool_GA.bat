@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Release^)
+title David Miller Certificate Tool ^(GA Pre-release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -61,7 +61,13 @@ if %mainOption%==2 (
 )
 if %mainOption%==3 (
 	if exist CertTool_LTS.exe (
+		set mainOption=
 		start CertTool_LTS.exe
+		exit
+	)
+	if exist CertTool_LTS.bat (
+		set mainOption=
+		start CertTool_LTS.bat
 		exit
 	)
 	set mainOption=
@@ -1289,7 +1295,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7 ^(Release Build 6^)
+echo                Version 2.7.1 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
