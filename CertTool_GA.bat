@@ -64,10 +64,6 @@ if %mainOption%==3 (
 		start CertTool_LTS.exe
 		exit
 	)
-	if exist CertTool_LTS.bat (
-		start CertTool_LTS.bat
-		exit
-	)
 	set mainOption=
 	set choice=main
 	goto openLTSeXeFailed
@@ -1293,7 +1289,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7 ^(Release Build 5^)
+echo                Version 2.7 ^(Release Build 6^)
 goto loopChoice
 
 :loopChoice
