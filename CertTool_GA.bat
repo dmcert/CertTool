@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(Pre-release^)
+title David Miller Certificate Tool ^(GA Release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -15,6 +15,8 @@ set echoName=true
 goto choice
 
 :choice
+set installationMode=
+set uninstallationMode=
 if %echoName%==true (
 	echo.
 	echo.
@@ -1291,7 +1293,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7 ^(Pre-release Build 4^)
+echo                Version 2.7 ^(Release Build 5^)
 goto loopChoice
 
 :loopChoice
@@ -1314,8 +1316,7 @@ if !result!==success (
 	if !loopOption!==1 (
 		cls
 		set result=
-		set installationMode=
-		set uninstallationMode=
+
 		set echoName=true
 		set loopOption=
 		setlocal DisableDelayedExpansion
@@ -1324,8 +1325,6 @@ if !result!==success (
 	if !loopOption!==2 (
 		cls
 		set result=
-		set installationMode=
-		set uninstallationMode=
 		set echoName=true
 		set loopOption=
 		set url=pki
@@ -1355,8 +1354,6 @@ if !result!==fail (
 	)
 	if !loopOption!==1 (
 		cls
-		set installationMode=
-		set uninstallationMode=
 		set result=
 		set echoName=true
 		set loopOption=
@@ -1368,35 +1365,26 @@ if !result!==fail (
 		set result=
 		set echoName=true
 		set loopOption=
-		if defined installationMode (
-			if !installationMode!==production (
-				set installationMode=
-				setlocal DisableDelayedExpansion
-				goto installationPrecheck
-			)
-			if !installationMode!==test (
-				set installationMode=
-				setlocal DisableDelayedExpansion
-				goto testInstallationPrecheck
-			)
-		) else (
-			if !uninstallationMode!==all (
-				set uninstallationMode=
-				setlocal DisableDelayedExpansion
-				goto uninstallation
-			)
-			if !uninstallationMode!==test (
-				set uninstallationMode=
-				setlocal DisableDelayedExpansion
-				goto testUninstallation
-			)
+		if !installationMode!==production (
+			setlocal DisableDelayedExpansion
+			goto installationPrecheck
+		)
+		if !installationMode!==test (
+			setlocal DisableDelayedExpansion
+			goto testInstallationPrecheck
+		)
+		if !uninstallationMode!==all (
+			setlocal DisableDelayedExpansion
+			goto uninstallation
+		)
+		if !uninstallationMode!==test (
+			setlocal DisableDelayedExpansion
+			goto testUninstallation
 		)
 	)
 	if !loopOption!==3 (
 		cls
 		set result=
-		set installationMode=
-		set uninstallationMode=
 		set echoName=true
 		set loopOption=
 		set url=pki
