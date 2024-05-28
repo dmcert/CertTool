@@ -32,7 +32,7 @@ echo                [1] Install root CA certificates ^(Recommended^)
 echo.
 echo                [2] Uninstall all CA certificates
 echo.
-echo                [3] Switch to LTS version
+echo                [3] Switch to LTS release
 echo.
 echo                [4] Visit our website
 echo.
@@ -68,7 +68,7 @@ if %mainOption%==3 (
 	)
 	set mainOption=
 	set choice=main
-	goto invalidOption
+	goto openLTSeXeFailed
 )
 if %mainOption%==4 (
 	set mainOption=
@@ -109,12 +109,14 @@ echo                [2] Install TEST CA certificates
 echo.
 echo                [3] Uninstall TEST CA certificates
 echo.
-echo                [4] Return to main menu
+echo                [4] Re-download CertTool
 echo.
-echo                [5] Exit
+echo                [5] Return to main menu
+echo.
+echo                [6] Exit
 echo           %lineLong%
 echo.
-set /p moreOption=^>           Please enter your choice ^(1-5^):
+set /p moreOption=^>           Please enter your choice ^(1-6^):
 if not defined moreOption (
 	set choice=more
 	goto invalidOption
@@ -136,12 +138,16 @@ if %moreOption%==3 (
 	goto testUninstallation
 )
 if %moreOption%==4 (
+	set url=dl
+	goto openURL
+)
+if %moreOption%==5 (
 	set moreOption=
 	set echoName=true
 	cls
 	goto choice
 )
-if %moreOption%==5 (
+if %moreOption%==6 (
 	exit
 )
 set choice=more
@@ -1185,6 +1191,19 @@ if %choice%==installationCheckFailed (
 	goto installationCheckFailedChoice
 )
 
+:openLTSeXeFailed
+cls
+set echoName=false
+echo.
+echo.
+echo.
+echo                          David Miller Certificate Tool
+echo           %lineLong%
+echo.
+call :color 0C "                        The executable file is missing!"
+echo.
+goto choice
+
 :installationCheckFailed
 cls
 echo.
@@ -1200,7 +1219,7 @@ goto installationCheckFailedChoice
 :installationCheckFailedChoice
 echo                %lineShort%
 echo.
-echo                [1] Re-download the software ^(Recommended^)
+echo                [1] Re-download CertTool ^(Recommended^)
 echo.
 echo                [2] Continue installing
 echo.
@@ -1215,7 +1234,6 @@ if not defined installationCheckFailedOption (
 	goto invalidOption
 )
 if %installationCheckFailedOption%==1 (
-	set installationCheckFailedOption=
 	set url=dl
 	goto openURL
 )
@@ -1273,7 +1291,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7 ^(Pre-release Build 3^)
+echo                Version 2.7 ^(Pre-release Build 4^)
 goto loopChoice
 
 :loopChoice
@@ -1300,6 +1318,7 @@ if !result!==success (
 		set uninstallationMode=
 		set echoName=true
 		set loopOption=
+		setlocal DisableDelayedExpansion
 		goto choice
 	)
 	if !loopOption!==2 (
@@ -1310,6 +1329,7 @@ if !result!==success (
 		set echoName=true
 		set loopOption=
 		set url=pki
+		setlocal DisableDelayedExpansion
 		goto openURL
 	)
 	if !loopOption!==3 (
@@ -1340,6 +1360,7 @@ if !result!==fail (
 		set result=
 		set echoName=true
 		set loopOption=
+		setlocal DisableDelayedExpansion
 		goto choice
 	)
 	if !loopOption!==2 (
@@ -1350,19 +1371,23 @@ if !result!==fail (
 		if defined installationMode (
 			if !installationMode!==production (
 				set installationMode=
+				setlocal DisableDelayedExpansion
 				goto installationPrecheck
 			)
 			if !installationMode!==test (
 				set installationMode=
+				setlocal DisableDelayedExpansion
 				goto testInstallationPrecheck
 			)
 		) else (
 			if !uninstallationMode!==all (
 				set uninstallationMode=
+				setlocal DisableDelayedExpansion
 				goto uninstallation
 			)
 			if !uninstallationMode!==test (
 				set uninstallationMode=
+				setlocal DisableDelayedExpansion
 				goto testUninstallation
 			)
 		)
@@ -1375,6 +1400,7 @@ if !result!==fail (
 		set echoName=true
 		set loopOption=
 		set url=pki
+		setlocal DisableDelayedExpansion
 		goto openURL
 	)
 	if !loopOption!==4 (
