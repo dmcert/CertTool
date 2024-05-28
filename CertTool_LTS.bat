@@ -35,12 +35,8 @@ if %mainOption%==2 (
 	goto uninstallation
 )
 if %mainOption%==3 (
-	if exist CertTool.exe (
-		start CertTool.exe
-		exit
-	)
-	if exist CertTool.bat (
-		start CertTool.bat
+	if exist CertTool_GA.exe (
+		start CertTool_GA.exe
 		exit
 	)
 	set choice=main
@@ -763,7 +759,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.3 ^(LTS Release Build 2^)
+echo Version 2.4.3 ^(LTS Release Build 3^)
 goto loopChoice
 
 :loopChoice
