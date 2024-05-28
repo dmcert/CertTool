@@ -1,7 +1,7 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(LTS Release^)
+title David Miller Certificate Tool ^(LTS Pre-release^)
 md temp >nul 2>nul
 
 set echoName=true
@@ -36,7 +36,13 @@ if %mainOption%==2 (
 )
 if %mainOption%==3 (
 	if exist CertTool_GA.exe (
+		set mainOption=
 		start CertTool_GA.exe
+		exit
+	)
+	if exist CertTool_GA.bat (
+		set mainOption=
+		start CertTool_GA.bat
 		exit
 	)
 	set choice=main
@@ -759,7 +765,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.3 ^(LTS Release Build 3^)
+echo Version 2.4.4 ^(LTS Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
