@@ -1,7 +1,7 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(LTS Pre-release^)
+title David Miller Certificate Tool ^(LTS Release^)
 md temp >nul 2>nul
 
 set echoName=true
@@ -763,7 +763,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.3 ^(LTS Pre-release Build 2^)
+echo Version 2.4.3 ^(LTS Release Build 2^)
 goto loopChoice
 
 :loopChoice
