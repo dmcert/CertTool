@@ -1,7 +1,7 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(LTS Pre-release^)
+title David Miller Certificate Tool ^(LTS Release^)
 md temp >nul 2>nul
 
 set echoName=true
@@ -40,11 +40,6 @@ if %mainOption%==3 (
 		start CertTool_GA.exe
 		exit
 	)
-	if exist CertTool_GA.bat (
-		set mainOption=
-		start CertTool_GA.bat
-		exit
-	)
 	set choice=main
 	set mainOption=
 	goto openGAeXeFailed
@@ -73,7 +68,7 @@ if %echoName%==true (
 	set echoName=false
 )
 echo Please disable antivirus program before starting!
-echo [1] Install production root and intermediate CA certificates
+echo [1] Install root and intermediate CA certificates
 echo [2] Install TEST CA certificates
 echo [3] Uninstall TEST CA certificates
 echo [4] Re-download CertTool
@@ -725,7 +720,7 @@ echo Some files are missing or corrupted!
 goto installationFailedChoice
 
 :installationFailedChoice
-echo [1] Re-download the software ^(Recommended^)
+echo [1] Re-download CertTool ^(Recommended^)
 echo [2] Continue installing ^(may damage your system^)
 echo [3] Return to main menu
 echo [4] Exit
@@ -765,7 +760,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.4 ^(LTS Pre-release Build 1^)
+echo Version 2.4.4 ^(LTS Release Build 2^)
 goto loopChoice
 
 :loopChoice
