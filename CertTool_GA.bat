@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Pre-release^)
+title David Miller Certificate Tool ^(GA Release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -26,7 +26,7 @@ if %echoName%==true (
 )
 echo           %lineLong%
 echo.
-call :color 0C "               Please disable antivirus program before starting!
+call :color 0C "               Please disable antivirus program before starting!"
 echo.
 echo                %lineShort%
 echo.
@@ -63,11 +63,6 @@ if %mainOption%==3 (
 	if exist CertTool_LTS.exe (
 		set mainOption=
 		start CertTool_LTS.exe
-		exit
-	)
-	if exist CertTool_LTS.bat (
-		set mainOption=
-		start CertTool_LTS.bat
 		exit
 	)
 	set mainOption=
@@ -1295,7 +1290,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7.1 ^(Pre-release Build 1^)
+echo                Version 2.7.1 ^(GA Release Build 2^)
 goto loopChoice
 
 :loopChoice
@@ -1303,7 +1298,7 @@ echo                %lineShort%
 echo.
 echo                [1] Return to main menu
 echo.
-setlocal enabledelayedexpansion
+setlocal EnableDelayedExpansion
 if !result!==success (
 	echo                [2] Visit our website
 	echo.
@@ -1318,7 +1313,6 @@ if !result!==success (
 	if !loopOption!==1 (
 		cls
 		set result=
-
 		set echoName=true
 		set loopOption=
 		setlocal DisableDelayedExpansion
@@ -1334,14 +1328,15 @@ if !result!==success (
 		goto openURL
 	)
 	if !loopOption!==3 (
+		setlocal DisableDelayedExpansion
 		exit
 	)
 )
 if !result!==fail (
 	if defined installationMode (
-		echo                [2] Try to install again
+		echo                [2] Retry installation
 	) else (
-		echo                [2] Try to uninstall again
+		echo                [2] Retry uninstallation
 	)
 	echo.
 	echo                [3] Visit our website
@@ -1394,6 +1389,7 @@ if !result!==fail (
 		goto openURL
 	)
 	if !loopOption!==4 (
+		setlocal DisableDelayedExpansion
 		exit
 	)
 )
