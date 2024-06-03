@@ -15,7 +15,7 @@ if %echoName%==true (
 echo Please disable antivirus program before starting!
 echo [1] Install root CA certificates ^(Recommended^)
 echo [2] Uninstall all CA certificates
-echo [3] Switch to the GA release
+echo [3] Switch to GA release
 echo [4] Visit our website
 echo [5] Show more options
 echo [6] Exit
@@ -760,7 +760,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.4 ^(LTS Release Build 2^)
+echo Version 2.4.4 ^(LTS Release Build 3^)
 goto loopChoice
 
 :loopChoice
