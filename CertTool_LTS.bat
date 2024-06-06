@@ -1,7 +1,7 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(LTS Release^)
+title David Miller Certificate Tool ^(LTS Pre-release^)
 md temp >nul 2>nul
 
 set echoName=true
@@ -721,7 +721,7 @@ goto installationFailedChoice
 
 :installationFailedChoice
 echo [1] Re-download CertTool ^(Recommended^)
-echo [2] Continue installing ^(may damage your system^)
+echo [2] Continue installing
 echo [3] Return to main menu
 echo [4] Exit
 set /p installationFailedOption=Please enter your choice ^(1-4^):
@@ -760,7 +760,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.4 ^(LTS Release Build 3^)
+echo Version 2.4.5 ^(Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
