@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Release^)
+title David Miller Certificate Tool ^(GA Pre-release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -1186,7 +1186,6 @@ if %choice%==loop (
 	exit
 )
 if %choice%==installationCheckFailed (
-	echo Some files are missing or corrupted!
 	goto installationCheckFailedChoice
 )
 
@@ -1201,7 +1200,12 @@ echo           %lineLong%
 echo.
 call :color 0C "                        The executable file is missing!"
 echo.
-goto choice
+if %choice%==main (
+	goto choice
+)
+if %choice%==installationCheckFailed (
+	goto installationCheckFailedChoice
+)
 
 :installationCheckFailed
 cls
@@ -1218,25 +1222,37 @@ goto installationCheckFailedChoice
 :installationCheckFailedChoice
 echo                %lineShort%
 echo.
-echo                [1] Re-download CertTool ^(Recommended^)
+echo                [1] Switch to LTS release ^(Recommended^)
 echo.
-echo                [2] Continue installing
+echo                [2] Re-download CertTool
 echo.
-echo                [3] Return to main menu
+echo                [3] Continue installing
 echo.
-echo                [4] Exit
+echo                [4] Return to main menu
+echo.
+echo                [5] Exit
 echo           %lineLong%
 echo.
-set /p installationCheckFailedOption=^>           Please enter your choice ^(1-4^):
+set /p installationCheckFailedOption=^>           Please enter your choice ^(1-5^):
 if not defined installationCheckFailedOption (
 	set choice=installationCheckFailed
 	goto invalidOption
 )
 if %installationCheckFailedOption%==1 (
+	if exist CertTool_LTS.exe (
+		set installationCheckFailedOption=
+		start CertTool_LTS.exe
+		exit
+	)
+	set installationCheckFailedOption=
+	set choice=installationCheckFailed
+	goto openLTSeXeFailed
+)
+if %installationCheckFailedOption%==2 (
 	set url=dl
 	goto openURL
 )
-if %installationCheckFailedOption%==2 (
+if %installationCheckFailedOption%==3 (
 	set installationCheckFailedOption=
 	cls
 	echo.
@@ -1249,13 +1265,13 @@ if %installationCheckFailedOption%==2 (
 		goto testInstallation
 	)
 )
-if %installationCheckFailedOption%==3 (
+if %installationCheckFailedOption%==4 (
 	set installationCheckFailedOption=
 	cls
 	set echoName=true
 	goto choice
 )
-if %installationCheckFailedOption%==4 (
+if %installationCheckFailedOption%==5 (
 	exit
 )
 set choice=installationCheckFailed
@@ -1290,7 +1306,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.7.1 ^(GA Release Build 2^)
+echo                Version 2.8 ^(GA Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
