@@ -13,9 +13,9 @@ if %echoName%==true (
 	set echoName=false
 )
 echo Please disable antivirus program before starting!
-echo [1] Install root CA certificates ^(Recommended^)
+echo [1] Install root CA certificates
 echo [2] Uninstall all CA certificates
-echo [3] Switch to GA release
+echo [3] Switch to GA release ^(Recommended^)
 echo [4] Visit our website
 echo [5] Show more options
 echo [6] Exit
@@ -58,6 +58,11 @@ if %mainOption%==5 (
 if %mainOption%==6 (
 	exit
 )
+if %mainOption%==egg (
+	set mainOption=
+	set URL=egg
+	goto openURL
+)
 set choice=main
 set mainOption=
 goto invalidOption
@@ -69,8 +74,8 @@ if %echoName%==true (
 )
 echo Please disable antivirus program before starting!
 echo [1] Install root and intermediate CA certificates
-echo [2] Install TEST CA certificates
-echo [3] Uninstall TEST CA certificates
+echo [2] Install test CA certificates
+echo [3] Uninstall test CA certificates
 echo [4] Re-download CertTool
 echo [5] Return to main menu
 echo [6] Exit
@@ -601,6 +606,9 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\BC18457
 echo Removing David Miller Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
+echo Removing David Miller Test Code Signing CA - G1 - SHA384...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\59A06FA24A579CB8491BEE0DC768A18C412947F8" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\59A06FA24A579CB8491BEE0DC768A18C412947F8" /f >nul 2>nul
 echo Removing David Miller Test Timestamping CA - G1 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
@@ -632,6 +640,12 @@ if %url%==dl (
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || start https://go.davidmiller.top/ct2
 	exit
 )
+if %url%==egg (
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ctegg1 || start https://go.davidmiller.top/ctegg2
+	cls
+	set echoName=true
+	goto choice
+)
 
 :dl
 cls
@@ -641,7 +655,7 @@ echo Starting your default browser...
 :testInstallationPrecheck
 cls
 echo David Miller Certificate Tool
-echo Validating integrity of 2 files...
+echo Validating integrity of 3 files...
 if not exist "%~dp0\root\T4RootCA.crt" (
 	goto installationFailed
 )
@@ -649,16 +663,20 @@ if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
 	goto installationFailed
 )
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestCodeSigningCASHA384.crt" SHA256 > "%~dp0\temp\TestCodeSigningCASHA384.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0\temp\TestTimestampingCASHA256.crt.sha256"
 
 findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul || goto installationFailed
+findstr a8931393d7927043f3cdd00b1408ab1f8272aca1102d230d22f8396074bc54f5 "%~dp0\temp\TestCodeSigningCASHA384.crt.sha256" >nul 2>nul || goto installationFailed
 findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0\temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul || goto installationFailed
-echo All 2 files successfully validated!
+echo All 3 files successfully validated!
 goto testInstallation
 
 :testInstallation
 echo Installing David Miller Test Root CA - T4...
 "%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0\root\T4RootCA.crt" >nul 2>nul
+echo Installing David Miller Test Code Signing CA - G1 - SHA384...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TestCodeSigningCASHA384.crt" >nul 2>nul
 echo Installing David Miller Test Timestamping CA - G1 - SHA256...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TestTimestampingCASHA256.crt" >nul 2>nul
 goto credits
@@ -684,6 +702,9 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\BC18457
 echo Removing David Miller Test Root CA - T4...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\E234E4828DD5EC9E726A88ED768AA11582BDA4CC" /f >nul 2>nul
+echo Removing David Miller Test Code Signing CA - G1 - SHA384...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\59A06FA24A579CB8491BEE0DC768A18C412947F8" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\59A06FA24A579CB8491BEE0DC768A18C412947F8" /f >nul 2>nul
 echo Removing David Miller Test Timestamping CA - G1 - SHA256...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
@@ -692,7 +713,7 @@ goto credits
 :invalidOption
 cls
 echo David Miller Certificate Tool
-echo Your choice is invalid. Please try again.
+echo Your choice is invalid. Please try again
 if %choice%==main (
 	goto choice
 )
@@ -760,7 +781,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.5 ^(Pre-release Build 1^)
+echo Version 2.4.5 ^(LTS Pre-release Build 2^)
 goto loopChoice
 
 :loopChoice
