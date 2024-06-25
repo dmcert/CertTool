@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Pre-release^)
+title David Miller Certificate Tool ^(GA Release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -12,6 +12,12 @@ md temp >nul 2>nul
 set lineShort=__________________________________________________
 set lineLong=____________________________________________________________
 set echoName=true
+goto precheck
+
+:precheck
+if not exist "%Windir%\System32\certutil.exe" (
+	goto precheckFailed
+)
 goto choice
 
 :choice
@@ -1237,6 +1243,20 @@ if %choice%==installationCheckFailed (
 	goto installationCheckFailedChoice
 )
 
+:precheckFailed
+cls
+echo.
+echo.
+echo.
+echo                          David Miller Certificate Tool
+echo           %lineLong%
+echo.
+call :color 0C "                            "certutil.exe" is missing!"
+echo.
+set precheckFailed=true
+set result=fail
+goto credits
+
 :installationCheckFailed
 cls
 echo.
@@ -1336,8 +1356,15 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.8 ^(GA Pre-release Build 2^)
-goto loopChoice
+echo                Version 2.8 ^(GA Release Build 3^)
+if defined precheckFailed (
+	echo           %lineLong%
+	echo.
+	echo                This program can now be safely closed! & pause >nul 2>nul
+	exit
+) else (
+	goto loopChoice
+)
 
 :loopChoice
 echo                %lineShort%
@@ -1384,12 +1411,16 @@ if !result!==fail (
 		echo                [2] Retry uninstallation
 	)
 	echo.
-	echo                [3] Visit our website
+	echo                [3] Open Certificate Manager Tool ^(Local Machine^)
 	echo.
-	echo                [4] Exit
+	echo                [4] Open Certificate Manager Tool ^(Current User^)
+	echo.
+	echo                [5] Visit our website
+	echo.
+	echo                [6] Exit
 	echo           !lineLong!
 	echo.
-	set /p loopOption=^>           Please enter your choice ^(1-4^):
+	set /p loopOption=^>           Please enter your choice ^(1-6^):
 	if not defined loopOption (
 		set choice=loop
 		goto invalidOption
@@ -1429,11 +1460,29 @@ if !result!==fail (
 		set result=
 		set echoName=true
 		set loopOption=
+		setlocal DisableDelayedExpansion
+		start certlm.msc
+		goto choice
+	)
+	if !loopOption!==4 (
+		cls
+		set result=
+		set echoName=true
+		set loopOption=
+		setlocal DisableDelayedExpansion
+		start certmgr.msc
+		goto choice
+	)
+	if !loopOption!==5 (
+		cls
+		set result=
+		set echoName=true
+		set loopOption=
 		set url=pki
 		setlocal DisableDelayedExpansion
 		goto openURL
 	)
-	if !loopOption!==4 (
+	if !loopOption!==6 (
 		exit
 	)
 )
