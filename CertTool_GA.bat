@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Release^)
+title David Miller Certificate Tool ^(GA Pre-release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -1089,19 +1089,50 @@ echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
 echo.
-echo                Starting your default browser...
+echo                         Starting your default browser...
 if %url%==pki (
 	start https://pki.davidmiller.top
+	echo                %lineShort%
+	echo.
+	echo                If the website is not opened,
+	echo.
+	echo                please open this URL manually:
+	echo.
+	echo                https://pki.davidmiller.top
+	echo           %lineLong%
+	echo.
+	echo                Press any key to return to main menu & pause >nul 2>nul
 	cls
 	set echoName=true
 	goto choice
 )
 if %url%==dl (
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || start https://go.davidmiller.top/ct2
+	echo                %lineShort%
+	echo.
+	echo                If the website is not opened,
+	echo.
+	echo                please open this URL manually:
+	echo.
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ct || echo                https://go.davidmiller.top/ct2
+	echo           %lineLong%
+	echo.
+	echo                Press any key to exit & pause >nul 2>nul
 	exit
 )
 if %url%==egg (
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ctegg1 || start https://go.davidmiller.top/ctegg2
+	start https://pki.davidmiller.top
+	echo                %lineShort%
+	echo.
+	echo                If the website is not opened,
+	echo.
+	echo                please open this URL manually:
+	echo.
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ctegg1 || echo                https://go.davidmiller.top/ctegg2
+	echo           %lineLong%
+	echo.
+	echo                Press any key to return to main menu & pause >nul 2>nul
 	cls
 	set echoName=true
 	goto choice
@@ -1356,7 +1387,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.8 ^(GA Release Build 3^)
+echo                Version 2.8.1 ^(GA Pre-release Build 1^)
 if defined precheckFailed (
 	echo           %lineLong%
 	echo.
