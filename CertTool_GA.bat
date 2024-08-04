@@ -42,9 +42,9 @@ echo                [2] Uninstall all CA certificates
 echo.
 echo                [3] Switch to LTS release
 echo.
-echo                [4] Visit our website
+echo                [4] Show more options
 echo.
-echo                [5] Show more options
+echo                [5] About
 echo.
 echo                [6] Exit
 echo           %lineLong%
@@ -77,14 +77,14 @@ if %mainOption%==3 (
 )
 if %mainOption%==4 (
 	set mainOption=
-	set url=pki
-	goto openURL
-)
-if %mainOption%==5 (
-	set mainOption=
 	set echoName=true
 	cls
 	goto moreChoice
+)
+if %mainOption%==5 (
+	set mainOption=
+	set about=true
+	goto credits
 )
 if %mainOption%==6 (
 	exit
@@ -1357,9 +1357,20 @@ if %installationCheckFailedOption%==5 (
 )
 set choice=installationCheckFailed
 set installationCheckFailedOption=
-goto invalidOption
+goto invalidOption         
 
 :credits
+if defined about (
+	set result=unknown
+	cls
+	echo.
+	echo                       About David Miller Certificate Tool
+	echo           %lineLong%
+	echo.
+	echo                CertTool provides the easiest and the safest way
+	echo.
+	echo                to trust David Miller Trust Services CA certificates.
+)
 echo           %lineLong%
 echo.
 if %result%==fail (
@@ -1387,7 +1398,17 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.8.1 ^(GA Pre-release Build 1^)
+echo                Version 2.9 ^(GA Pre-release Build 2^)
+if %about%==true (
+	set result=
+	set about=
+	echo           %lineLong%
+	echo.
+	echo                Press any key to return to main menu & pause >nul 2>nul
+	cls
+	set echoName=true
+	goto choice
+)
 if defined precheckFailed (
 	echo           %lineLong%
 	echo.

@@ -1,7 +1,7 @@
 @echo off
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(LTS Release^)
+title David Miller Certificate Tool ^(LTS Pre-release^)
 md temp >nul 2>nul
 
 set echoName=true
@@ -111,6 +111,11 @@ if %moreOption%==5 (
 )
 if %moreOption%==6 (
 	exit
+)
+if %mainOption%==egg (
+	set mainOption=
+	set URL=egg
+	goto openURL
 )
 set choice=more
 set moreOption=
@@ -781,7 +786,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.5 ^(LTS Release Build 2^)
+echo Version 2.4.6 ^(LTS Pre-release Build 1^)
 goto loopChoice
 
 :loopChoice
