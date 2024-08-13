@@ -118,9 +118,9 @@ echo                [2] Install test CA certificates
 echo.
 echo                [3] Uninstall test CA certificates
 echo.
-echo                [4] Re-download CertTool
+echo                [4] Return to main menu
 echo.
-echo                [5] Return to main menu
+echo                [5] Re-download CertTool
 echo.
 echo                [6] Exit
 echo           %lineLong%
@@ -147,14 +147,14 @@ if %moreOption%==3 (
 	goto testUninstallation
 )
 if %moreOption%==4 (
-	set url=dl
-	goto openURL
-)
-if %moreOption%==5 (
 	set moreOption=
 	set echoName=true
 	cls
 	goto choice
+)
+if %moreOption%==5 (
+	set url=dl
+	goto openURL
 )
 if %moreOption%==6 (
 	exit
@@ -1398,8 +1398,8 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9 ^(GA Pre-release Build 2^)
-if %about%==true (
+echo                Version 2.9 ^(GA Pre-release Build 3^)
+if defined about (
 	set result=
 	set about=
 	echo           %lineLong%

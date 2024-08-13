@@ -16,8 +16,8 @@ echo Please disable antivirus program before starting!
 echo [1] Install root CA certificates
 echo [2] Uninstall all CA certificates
 echo [3] Switch to GA release ^(Recommended^)
-echo [4] Visit our website
-echo [5] Show more options
+echo [4] Show more options
+echo [5] Visit our website
 echo [6] Exit
 set /p mainOption=Please enter your choice ^(1-6^):
 if not defined mainOption (
@@ -46,14 +46,14 @@ if %mainOption%==3 (
 )
 if %mainOption%==4 (
 	set mainOption=
-	set url=pki
-	goto openURL
-)
-if %mainOption%==5 (
-	set mainOption=
 	set echoName=true
 	cls
 	goto moreChoice
+)
+if %mainOption%==5 (
+	set mainOption=
+	set url=pki
+	goto openURL
 )
 if %mainOption%==6 (
 	exit
@@ -76,8 +76,8 @@ echo Please disable antivirus program before starting!
 echo [1] Install root and intermediate CA certificates
 echo [2] Install test CA certificates
 echo [3] Uninstall test CA certificates
-echo [4] Re-download CertTool
-echo [5] Return to main menu
+echo [4] Return to main menu
+echo [5] Re-download CertTool
 echo [6] Exit
 set /p moreOption=Please enter your choice ^(1-6^):
 if not defined moreOption (
@@ -100,20 +100,20 @@ if %moreOption%==3 (
 	goto testUninstallation
 )
 if %moreOption%==4 (
-	set url=dl
-	goto openURL
-)
-if %moreOption%==5 (
 	set moreOption=
 	set echoName=true
 	cls
 	goto choice
 )
+if %moreOption%==5 (
+	set url=dl
+	goto openURL
+)
 if %moreOption%==6 (
 	exit
 )
-if %mainOption%==egg (
-	set mainOption=
+if %moreOption%==egg (
+	set moreOption=
 	set URL=egg
 	goto openURL
 )
@@ -778,6 +778,11 @@ if %installationFailedOption%==3 (
 if %installationFailedOption%==4 (
 	exit
 )
+if %installationFailedOption%==egg (
+	set installationFailedOption=
+	set URL=egg
+	goto openURL
+)
 set choice=installationFailed
 set installationFailedOption=
 goto invalidOption
@@ -786,7 +791,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.6 ^(LTS Pre-release Build 1^)
+echo Version 2.4.6 ^(LTS Pre-release Build 2^)
 goto loopChoice
 
 :loopChoice
@@ -811,6 +816,11 @@ if %loopOption%==2 (
 )
 if %loopOption%==3 (
 	exit
+)
+if %loopOption%==egg (
+	set loopOption=
+	set URL=egg
+	goto openURL
 )
 set choice=loop
 set loopOption=
