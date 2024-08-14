@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Pre-release^)
+title David Miller Certificate Tool ^(GA Release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -1394,7 +1394,9 @@ if defined about (
 	set result=unknown
 	cls
 	echo.
-	echo                       About David Miller Certificate Tool
+	echo.
+	echo.
+	echo                          David Miller Certificate Tool
 	echo           %lineLong%
 	echo.
 	echo                CertTool provides the easiest and the safest way
@@ -1429,7 +1431,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9 ^(GA Pre-release Build 4^)
+echo                Version 2.9 ^(GA Release Build 5^)
 if defined about (
 	set result=
 	set about=
