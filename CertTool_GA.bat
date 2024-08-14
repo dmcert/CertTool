@@ -159,6 +159,11 @@ if %moreOption%==5 (
 if %moreOption%==6 (
 	exit
 )
+if %moreOption%==egg (
+	set moreOption=
+	set URL=egg
+	goto openURL
+)
 set choice=more
 set moreOption=
 goto invalidOption
@@ -1099,6 +1104,13 @@ if %url%==pki (
 	echo                please open this URL manually:
 	echo.
 	echo                https://pki.davidmiller.top
+	echo                %lineShort%
+	echo.
+	echo                If the website is working as expected,
+	echo.
+	echo                please open this URL instead:
+	echo.
+	echo                https://pki2.davidmiller.top
 	echo           %lineLong%
 	echo.
 	echo                Press any key to return to main menu & pause >nul 2>nul
@@ -1115,6 +1127,13 @@ if %url%==dl (
 	echo                please open this URL manually:
 	echo.
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ct || echo                https://go.davidmiller.top/ct2
+	echo                %lineShort%
+	echo.
+	echo                If the website is working as expected,
+	echo.
+	echo                please open this URL instead:
+	echo.
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ct2 || echo                https://go.davidmiller.top/ct
 	echo           %lineLong%
 	echo.
 	echo                Press any key to exit & pause >nul 2>nul
@@ -1122,7 +1141,6 @@ if %url%==dl (
 )
 if %url%==egg (
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ctegg1 || start https://go.davidmiller.top/ctegg2
-	start https://pki.davidmiller.top
 	echo                %lineShort%
 	echo.
 	echo                If the website is not opened,
@@ -1130,6 +1148,13 @@ if %url%==egg (
 	echo                please open this URL manually:
 	echo.
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ctegg1 || echo                https://go.davidmiller.top/ctegg2
+	echo                %lineShort%
+	echo.
+	echo                If the website is working as expected,
+	echo.
+	echo                please open this URL instead:
+	echo.
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ctegg2 || echo                https://go.davidmiller.top/ctegg1
 	echo           %lineLong%
 	echo.
 	echo                Press any key to return to main menu & pause >nul 2>nul
@@ -1355,6 +1380,11 @@ if %installationCheckFailedOption%==4 (
 if %installationCheckFailedOption%==5 (
 	exit
 )
+if %installationCheckFailedOption%==egg (
+	set installationCheckFailedOption=
+	set URL=egg
+	goto openURL
+)
 set choice=installationCheckFailed
 set installationCheckFailedOption=
 goto invalidOption         
@@ -1372,12 +1402,13 @@ if defined about (
 	echo                to trust David Miller Trust Services CA certificates.
 )
 echo           %lineLong%
-echo.
 if %result%==fail (
+	echo.
 	call :color 0C "               Failed!"
 	echo.
 )
 if %result%==success (
+	echo.
 	call :color 0C "               Finished!"
 	echo.
 )
@@ -1398,7 +1429,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9 ^(GA Pre-release Build 3^)
+echo                Version 2.9 ^(GA Pre-release Build 4^)
 if defined about (
 	set result=
 	set about=
@@ -1454,6 +1485,11 @@ if !result!==success (
 	)
 	if !loopOption!==3 (
 		exit
+	)
+	if !loopOption!==egg (
+		set loopOption=
+		set URL=egg
+		goto openURL
 	)
 )
 if !result!==fail (
@@ -1536,6 +1572,11 @@ if !result!==fail (
 	)
 	if !loopOption!==6 (
 		exit
+	)
+	if !loopOption!==egg (
+		set loopOption=
+		set URL=egg
+		goto openURL
 	)
 )
 set choice=loop
