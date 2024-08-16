@@ -1340,6 +1340,7 @@ if not defined precheckFailedOption (
 )
 if %precheckFailedOption%==1 (
 	cls
+	set echoName=true
 	goto choice
 )
 if %precheckFailedOption%==2 (
@@ -1476,7 +1477,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9.1 ^(GA Pre-release Build 2^)
+echo                Version 2.9.1 ^(GA Pre-release Build 3^)
 if defined about (
 	set result=
 	set about=
