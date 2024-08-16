@@ -1157,10 +1157,17 @@ if %url%==egg (
 	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ctegg2 || echo                https://go.davidmiller.top/ctegg1
 	echo           %lineLong%
 	echo.
-	echo                Press any key to return to main menu & pause >nul 2>nul
-	cls
-	set echoName=true
-	goto choice
+	if defined precheckFailed (
+		echo                Press any key to return to precheck warning page & pause >nul 2>nul
+		cls
+		goto precheckFailed
+	) else (
+		echo                Press any key to return to main menu & pause >nul 2>nul
+		cls
+		set echoName=true
+		goto choice
+	)
+	
 )
 
 :testInstallationPrecheck
@@ -1268,6 +1275,10 @@ echo           %lineLong%
 echo.
 call :color 0C "                    Your choice is invalid. Please try again"
 echo.
+if %choice%==precheckFailed (
+	echo           %lineLong%
+	goto precheckFailedChoice
+)
 if %choice%==main (
 	goto choice
 )
@@ -1280,6 +1291,7 @@ if %choice%==loop (
 if %choice%==installationCheckFailed (
 	goto installationCheckFailedChoice
 )
+exit
 
 :openLTSeXeFailed
 cls
@@ -1306,9 +1318,42 @@ echo.
 echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
+
+:precheckFailedChoice
 echo.
 call :color 0C "                            "certutil.exe" is missing!"
 echo.
+echo.
+call :color 0C "                      CertTool may not working as expected"
+echo.
+echo                %lineShort%
+echo.
+echo                [1] Continue using CertTool
+echo.
+echo                [2] Exit
+echo           %lineLong%
+echo.
+set /p precheckFailedOption=^>           Please enter your choice ^(1-2^):
+if not defined precheckFailedOption (
+	set choice=precheckFailed
+	goto invalidOption
+)
+if %precheckFailedOption%==1 (
+	cls
+	goto choice
+)
+if %precheckFailedOption%==2 (
+	exit
+)
+if %precheckFailedOption%==egg (
+	set precheckFailed=true
+	set precheckFailedOption=
+	set URL=egg
+	goto openURL
+)
+set choice=more
+set moreOption=
+goto invalidOption
 set precheckFailed=true
 set result=fail
 goto credits
@@ -1431,7 +1476,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9.1 ^(GA Pre-release Build 1^)
+echo                Version 2.9.1 ^(GA Pre-release Build 2^)
 if defined about (
 	set result=
 	set about=
