@@ -32,7 +32,7 @@ if %echoName%==true (
 )
 echo           %lineLong%
 echo.
-call :color 0C "               Please disable antivirus program before starting!"
+call :color 0C "               Please disable antivirus software before starting!"
 echo.
 echo                %lineShort%
 echo.
@@ -108,7 +108,7 @@ if %echoName%==true (
 )
 echo           %lineLong%
 echo.
-call :color 0C "               Please disable antivirus program before starting!"
+call :color 0C "               Please disable antivirus software before starting!"
 echo.
 echo                %lineShort%
 echo.
@@ -1114,8 +1114,8 @@ if %url%==pki (
 	echo           %lineLong%
 	echo.
 	echo                Press any key to return to main menu & pause >nul 2>nul
-	cls
 	set echoName=true
+	cls
 	goto choice
 )
 if %url%==dl (
@@ -1163,8 +1163,8 @@ if %url%==egg (
 		goto precheckFailed
 	) else (
 		echo                Press any key to return to main menu & pause >nul 2>nul
-		cls
 		set echoName=true
+		cls
 		goto choice
 	)
 	
@@ -1280,6 +1280,7 @@ if %choice%==precheckFailed (
 	goto precheckFailedChoice
 )
 if %choice%==main (
+	set echoName=false
 	goto choice
 )
 if %choice%==more (
@@ -1339,8 +1340,8 @@ if not defined precheckFailedOption (
 	goto invalidOption
 )
 if %precheckFailedOption%==1 (
-	cls
 	set echoName=true
+	cls
 	goto choice
 )
 if %precheckFailedOption%==2 (
@@ -1437,7 +1438,7 @@ goto invalidOption
 
 :credits
 if defined about (
-	set result=unknown
+	set result=aboutOnly
 	cls
 	echo.
 	echo.
@@ -1462,12 +1463,12 @@ if %result%==success (
 )
 echo.
 if defined uninstallationFailed (
-	call :color 0C "               Some CA certificates are not removed from your system!"
+	call :color 0C "               Some CA certificates are not removed from your device!"
 	echo.
 	echo.
 )
 if defined installationFailed (
-	call :color 0C "               Some CA certificates are not installed to your system!"
+	call :color 0C "               Some CA certificates are not installed on your device!"
 	echo.
 	echo.
 )
@@ -1477,15 +1478,51 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9.1 ^(GA Pre-release Build 3^)
+echo                Version 2.9.1 ^(GA Pre-release Build 4^)
 if defined about (
+	setlocal EnableDelayedExpansion
 	set result=
 	set about=
-	echo           %lineLong%
+	echo           !lineLong!
 	echo.
-	echo                Press any key to return to main menu & pause >nul 2>nul
-	cls
+	echo                [1] Visit Our Website
+	echo.
+	echo                [2] Return to main menu
+	echo.
+	echo                [3] Exit
+	echo           !lineLong!
+	echo.
+	set /p aboutOption=^>           Please enter your choice ^(1-3^):
+	if not defined aboutOption (
+		set echoName=true
+		cls
+		setlocal DisableDelayedExpansion
+		goto choice
+	)
+	if !aboutOption!==1 (
+		set aboutOption=
+		set url=pki
+		setlocal DisableDelayedExpansion
+		goto openURL
+	)
+	if !aboutOption!==2 (
+		set aboutOption=
+		set echoName=true
+		cls
+		setlocal DisableDelayedExpansion
+		goto choice
+	)
+	if !aboutOption!==3 (
+		exit
+	)
+	if !aboutOption!==egg (
+		set aboutOption=
+		set URL=egg
+		setlocal DisableDelayedExpansion
+		goto openURL
+	)
 	set echoName=true
+	cls
 	goto choice
 )
 if defined precheckFailed (
@@ -1504,7 +1541,7 @@ echo                [1] Return to main menu
 echo.
 setlocal EnableDelayedExpansion
 if !result!==success (
-	echo                [2] Visit our website
+	echo                [2] About
 	echo.
 	echo                [3] Exit
 	echo           !lineLong!
@@ -1515,21 +1552,18 @@ if !result!==success (
 		goto invalidOption
 	)
 	if !loopOption!==1 (
-		cls
 		set result=
 		set echoName=true
 		set loopOption=
 		setlocal DisableDelayedExpansion
+		cls
 		goto choice
 	)
 	if !loopOption!==2 (
-		cls
-		set result=
-		set echoName=true
 		set loopOption=
-		set url=pki
+		set about=true
 		setlocal DisableDelayedExpansion
-		goto openURL
+		goto credits
 	)
 	if !loopOption!==3 (
 		exit
@@ -1551,7 +1585,7 @@ if !result!==fail (
 	echo.
 	echo                [4] Open Certificate Manager Tool ^(Current User^)
 	echo.
-	echo                [5] Visit our website
+	echo                [5] About
 	echo.
 	echo                [6] Exit
 	echo           !lineLong!
@@ -1562,11 +1596,11 @@ if !result!==fail (
 		goto invalidOption
 	)
 	if !loopOption!==1 (
-		cls
 		set result=
 		set echoName=true
 		set loopOption=
 		setlocal DisableDelayedExpansion
+		cls
 		goto choice
 	)
 	if !loopOption!==2 (
@@ -1592,31 +1626,28 @@ if !result!==fail (
 		)
 	)
 	if !loopOption!==3 (
-		cls
 		set result=
 		set echoName=true
 		set loopOption=
 		setlocal DisableDelayedExpansion
 		start certlm.msc
+		cls
 		goto choice
 	)
 	if !loopOption!==4 (
-		cls
 		set result=
 		set echoName=true
 		set loopOption=
 		setlocal DisableDelayedExpansion
 		start certmgr.msc
+		cls
 		goto choice
 	)
 	if !loopOption!==5 (
-		cls
-		set result=
-		set echoName=true
 		set loopOption=
-		set url=pki
+		set about=true
 		setlocal DisableDelayedExpansion
-		goto openURL
+		goto credits
 	)
 	if !loopOption!==6 (
 		exit
