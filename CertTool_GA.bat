@@ -1090,6 +1090,7 @@ goto credits
 
 :openURL
 cls
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && set country=CN || set country=RoW
 echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
@@ -1119,42 +1120,66 @@ if %url%==pki (
 	goto choice
 )
 if %url%==dl (
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ct || start https://go.davidmiller.top/ct2
+	if %country%==CN (
+		start https://go.davidmiller.top/ct
+	) else (
+		start https://go.davidmiller.top/ct2
+	)
 	echo                %lineShort%
 	echo.
 	echo                If the website is not opened,
 	echo.
 	echo                please open this URL manually:
 	echo.
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ct || echo                https://go.davidmiller.top/ct2
+	if %country%==CN (
+		echo                https://go.davidmiller.top/ct
+	) else (
+		echo                https://go.davidmiller.top/ct2
+	)
 	echo                %lineShort%
 	echo.
 	echo                If the website is not working as expected,
 	echo.
 	echo                please open this URL instead:
 	echo.
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ct2 || echo                https://go.davidmiller.top/ct
+	if %country%==CN (
+		echo                https://go.davidmiller.top/ct2
+	) else (
+		echo                https://go.davidmiller.top/ct
+	)
 	echo           %lineLong%
 	echo.
 	echo                Press any key to exit & pause >nul 2>nul
 	exit
 )
 if %url%==egg (
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ctegg1 || start https://go.davidmiller.top/ctegg2
+	if %country%==CN (
+		start https://go.davidmiller.top/ctegg1
+	) else (
+		start https://go.davidmiller.top/ctegg2
+	)
 	echo                %lineShort%
 	echo.
 	echo                If the website is not opened,
 	echo.
 	echo                please open this URL manually:
 	echo.
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ctegg1 || echo                https://go.davidmiller.top/ctegg2
+	if %country%==CN (
+		echo                https://go.davidmiller.top/ctegg1
+	) else (
+		echo                https://go.davidmiller.top/ctegg2
+	)
 	echo                %lineShort%
 	echo.
 	echo                If the website is not working as expected,
 	echo.
 	echo                please open this URL instead:
 	echo.
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && echo                https://go.davidmiller.top/ctegg2 || echo                https://go.davidmiller.top/ctegg1
+	if %country%==CN (
+		echo                https://go.davidmiller.top/ctegg2
+	) else (
+		echo                https://go.davidmiller.top/ctegg1
+	)
 	echo           %lineLong%
 	echo.
 	if defined precheckFailed (
@@ -1478,7 +1503,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9.1 ^(GA Pre-release Build 4^)
+echo                Version 2.9.1 ^(GA Pre-release Build 5^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
