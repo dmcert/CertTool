@@ -646,7 +646,7 @@ if %url%==dl (
 	exit
 )
 if %url%==egg (
-	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ctegg1 || start https://go.davidmiller.top/ctegg2
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Nls\Language" /v InstallLanguage | find "0804" >nul 2>nul && start https://go.davidmiller.top/ctegg || start https://go.davidmiller.top/ctegg2
 	cls
 	set echoName=true
 	goto choice
@@ -791,7 +791,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.7 ^(LTS Release Build 1^)
+echo Version 2.4.7 ^(LTS Release Build 2^)
 goto loopChoice
 
 :loopChoice
