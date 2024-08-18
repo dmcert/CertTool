@@ -1606,7 +1606,7 @@ if defined uninstallationFailed (
 	echo.
 	echo.
 )
-if not defined installationFailed (
+if defined installationFailed (
 	call :color 0C "               Some certificates are not installed on your device!"
 	echo.
 	echo.
