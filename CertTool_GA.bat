@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Pre-release^)
+title David Miller Certificate Tool ^(GA Release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -37,9 +37,9 @@ call :color 0C "               Please disable antivirus software before starting
 echo.
 echo                %lineShort%
 echo.
-echo                [1] Install root CA certificates ^(Recommended^)
+echo                [1] Install root certificates ^(Recommended^)
 echo.
-echo                [2] Uninstall all CA certificates
+echo                [2] Uninstall all certificates
 echo.
 echo                [3] Switch to LTS release
 echo.
@@ -113,11 +113,11 @@ call :color 0C "               Please disable antivirus software before starting
 echo.
 echo                %lineShort%
 echo.
-echo                [1] Install root and intermediate CA certificates
+echo                [1] Install root and intermediate certificates
 echo.
-echo                [2] Install test CA certificates
+echo                [2] Install test certificates
 echo.
-echo                [3] Uninstall test CA certificates
+echo                [3] Uninstall test certificates
 echo.
 echo                [4] Return to main menu
 echo.
@@ -1460,6 +1460,7 @@ echo.
 echo.
 echo                          David Miller Certificate Tool
 echo           %lineLong%
+goto precheckFailedChoice
 
 :precheckFailedChoice
 echo.
@@ -1497,9 +1498,6 @@ if %precheckFailedOption%==egg (
 set choice=more
 set moreOption=
 goto invalidOption
-set precheckFailed=true
-set result=fail
-goto credits
 
 :installationCheckFailed
 cls
@@ -1589,7 +1587,7 @@ if defined about (
 	echo.
 	echo                CertTool provides the easiest and the safest way
 	echo.
-	echo                to trust David Miller Trust Services CA certificates.
+	echo                to trust David Miller Trust Services^'s certificates.
 )
 echo           %lineLong%
 if %result%==fail (
@@ -1604,12 +1602,12 @@ if %result%==success (
 )
 echo.
 if defined uninstallationFailed (
-	call :color 0C "               Some CA certificates are not removed from your device!"
+	call :color 0C "               Some certificates are not removed from your device!"
 	echo.
 	echo.
 )
-if defined installationFailed (
-	call :color 0C "               Some CA certificates are not installed on your device!"
+if not defined installationFailed (
+	call :color 0C "               Some certificates are not installed on your device!"
 	echo.
 	echo.
 )
@@ -1619,7 +1617,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.10.1 ^(GA Pre-release Build 1^)
+echo                Version 2.10.1 ^(GA Release Build 2^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
@@ -1649,8 +1647,8 @@ if defined about (
 	if !aboutOption!==2 (
 		set aboutOption=
 		set echoName=true
-		cls
 		setlocal DisableDelayedExpansion
+		cls
 		goto choice
 	)
 	if !aboutOption!==3 (
