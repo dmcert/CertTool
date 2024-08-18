@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(GA Release^)
+title David Miller Certificate Tool ^(GA Pre-release^)
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -1619,7 +1619,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.10 ^(GA Release Build 7^)
+echo                Version 2.10.1 ^(GA Pre-release Build 1^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
@@ -1665,14 +1665,6 @@ if defined about (
 	set echoName=true
 	cls
 	goto choice
-)
-if defined precheckFailed (
-	echo           %lineLong%
-	echo.
-	echo                This program can now be safely closed! & pause >nul 2>nul
-	exit
-) else (
-	goto loopChoice
 )
 
 :loopChoice
