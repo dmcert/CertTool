@@ -23,6 +23,7 @@ goto choice
 :choice
 set installationMode=
 set uninstallationMode=
+set precheckFailed=
 if %echoName%==true (
 	echo.
 	echo.
@@ -1097,103 +1098,218 @@ echo           %lineLong%
 echo.
 echo                         Starting your default browser...
 if %url%==pki (
-	start https://pki.davidmiller.top
+	if defined countryTemp (
+		start https://pki2.davidmiller.top
+	) else (
+		start https://pki.davidmiller.top
+	)
 	echo                %lineShort%
 	echo.
 	echo                If the website is not opened,
 	echo.
 	echo                please open this URL manually:
 	echo.
-	echo                https://pki.davidmiller.top
+	if defined countryTemp (
+		echo                https://pki2.davidmiller.top
+	) else (
+		echo                https://pki.davidmiller.top
+	)
 	echo                %lineShort%
 	echo.
 	echo                If the website is not working as expected,
 	echo.
 	echo                please open this URL instead:
 	echo.
-	echo                https://pki2.davidmiller.top
-	echo           %lineLong%
+	if defined countryTemp (
+		echo                https://pki.davidmiller.top
+	) else (
+		echo                https://pki2.davidmiller.top
+	)
+)
+if %url%==dl (
+	if defined countryTemp (
+		if %country%==CN (
+			start https://go.davidmiller.top/ct2
+		)
+		if %country%==RoW (
+			start https://go.davidmiller.top/ct
+		)
+	) else (
+		if %country%==CN (
+			start https://go.davidmiller.top/ct
+		)
+		if %country%==RoW (
+			start https://go.davidmiller.top/ct2
+		)
+	)
+	echo                %lineShort%
 	echo.
-	echo                Press any key to return to main menu & pause >nul 2>nul
+	echo                If the website is not opened,
+	echo.
+	echo                please open this URL manually:
+	echo.
+	if defined countryTemp (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ct2
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ct
+		)
+	) else (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ct
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ct2
+		)
+	)
+	echo                %lineShort%
+	echo.
+	echo                If the website is not working as expected,
+	echo.
+	echo                please open this URL instead:
+	echo.
+	if defined countryTemp (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ct
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ct2
+		)
+	) else (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ct2
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ct
+		)
+	)
+)
+if %url%==egg (
+	if defined countryTemp (
+		if %country%==CN (
+			start https://go.davidmiller.top/ctegg2
+		)
+		if %country%==RoW (
+			start https://go.davidmiller.top/ctegg
+		)
+	) else (
+		if %country%==CN (
+			start https://go.davidmiller.top/ctegg
+		)
+		if %country%==RoW (
+			start https://go.davidmiller.top/ctegg2
+		)
+	)
+	echo                %lineShort%
+	echo.
+	echo                If the website is not opened,
+	echo.
+	echo                please open this URL manually:
+	echo.
+	if defined countryTemp (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ctegg2
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ctegg
+		)
+	) else (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ctegg
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ctegg2
+		)
+	)
+	echo                %lineShort%
+	echo.
+	echo                If the website is not working as expected,
+	echo.
+	echo                please open this URL instead:
+	echo.
+	if defined countryTemp (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ctegg
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ctegg2
+		)
+	) else (
+		if %country%==CN (
+			echo                https://go.davidmiller.top/ctegg2
+		)
+		if %country%==RoW (
+			echo                https://go.davidmiller.top/ctegg
+		)
+	)
+)
+echo           %lineLong%
+echo.
+if defined countryTemp (
+	echo                [1] Reopen alternative URL
+	echo.
+	echo                [2] Open original URL
+) else (
+	echo                [1] Reopen URL
+	echo.
+	echo                [2] Open alternative URL
+)
+echo.
+if defined precheckFailed (
+	echo                [3] Return to certutil.exe warning
+) else (
+	echo                [3] Return to main menu
+)
+echo.
+echo                [4] Exit
+echo           %lineLong%
+echo.
+set /p openURLOption=^>           Please enter your choice ^(1-4^):
+if not defined openURLOption (
 	set echoName=true
 	cls
 	goto choice
 )
-if %url%==dl (
-	if %country%==CN (
-		start https://go.davidmiller.top/ct
-	) else (
-		start https://go.davidmiller.top/ct2
-	)
-	echo                %lineShort%
-	echo.
-	echo                If the website is not opened,
-	echo.
-	echo                please open this URL manually:
-	echo.
-	if %country%==CN (
-		echo                https://go.davidmiller.top/ct
-	) else (
-		echo                https://go.davidmiller.top/ct2
-	)
-	echo                %lineShort%
-	echo.
-	echo                If the website is not working as expected,
-	echo.
-	echo                please open this URL instead:
-	echo.
-	if %country%==CN (
-		echo                https://go.davidmiller.top/ct2
-	) else (
-		echo                https://go.davidmiller.top/ct
-	)
-	echo           %lineLong%
-	echo.
-	echo                Press any key to exit & pause >nul 2>nul
-	exit
+if %openURLOption%==1 (
+	set openURLOption=
+	goto openURL
 )
-if %url%==egg (
-	if %country%==CN (
-		start https://go.davidmiller.top/ctegg1
+if %openURLOption%==2 (
+	set openURLOption=
+	if defined countryTemp (
+		set countryTemp=
 	) else (
-		start https://go.davidmiller.top/ctegg2
+		set countryTemp=true
 	)
-	echo                %lineShort%
-	echo.
-	echo                If the website is not opened,
-	echo.
-	echo                please open this URL manually:
-	echo.
-	if %country%==CN (
-		echo                https://go.davidmiller.top/ctegg1
-	) else (
-		echo                https://go.davidmiller.top/ctegg2
-	)
-	echo                %lineShort%
-	echo.
-	echo                If the website is not working as expected,
-	echo.
-	echo                please open this URL instead:
-	echo.
-	if %country%==CN (
-		echo                https://go.davidmiller.top/ctegg2
-	) else (
-		echo                https://go.davidmiller.top/ctegg1
-	)
-	echo           %lineLong%
-	echo.
+	goto openURL
+)
+if %openURLOption%==3 (
+	set countryTemp=
 	if defined precheckFailed (
-		echo                Press any key to return to precheck warning page & pause >nul 2>nul
 		cls
 		goto precheckFailed
 	) else (
-		echo                Press any key to return to main menu & pause >nul 2>nul
+		set openURLOption=
 		set echoName=true
 		cls
 		goto choice
 	)
-	
 )
+if %openURLOption%==4 (
+	exit
+)
+if %openURLOption%==egg (
+	set openURLOption=
+	set countryTemp=
+	set URL=egg
+	goto openURL
+)
+set openURLOption=
+set countryTemp=
+set echoName=true
+cls
+goto choice
 
 :testInstallationPrecheck
 cls
@@ -1503,14 +1619,14 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.9.1 ^(GA Pre-release Build 5^)
+echo                Version 2.10 ^(GA Release Build 6^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
 	set about=
 	echo           !lineLong!
 	echo.
-	echo                [1] Visit Our Website
+	echo                [1] Visit our website
 	echo.
 	echo                [2] Return to main menu
 	echo.
