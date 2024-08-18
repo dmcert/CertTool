@@ -1107,7 +1107,7 @@ if %url%==pki (
 	echo.
 	echo                If the website is not opened,
 	echo.
-	echo                please open this URL manually:
+	echo                please enter ^"1^" or open this URL manually:
 	echo.
 	if defined countryTemp (
 		echo                https://pki2.davidmiller.top
@@ -1118,7 +1118,7 @@ if %url%==pki (
 	echo.
 	echo                If the website is not working as expected,
 	echo.
-	echo                please open this URL instead:
+	echo                please enter ^"2^" or open this URL manually:
 	echo.
 	if defined countryTemp (
 		echo                https://pki.davidmiller.top
@@ -1146,7 +1146,7 @@ if %url%==dl (
 	echo.
 	echo                If the website is not opened,
 	echo.
-	echo                please open this URL manually:
+	echo                please enter ^"1^" or open this URL manually:
 	echo.
 	if defined countryTemp (
 		if %country%==CN (
@@ -1167,7 +1167,7 @@ if %url%==dl (
 	echo.
 	echo                If the website is not working as expected,
 	echo.
-	echo                please open this URL instead:
+	echo                please enter ^"2^" or open this URL manually:
 	echo.
 	if defined countryTemp (
 		if %country%==CN (
@@ -1205,7 +1205,7 @@ if %url%==egg (
 	echo.
 	echo                If the website is not opened,
 	echo.
-	echo                please open this URL manually:
+	echo                please enter ^"1^" or open this URL manually:
 	echo.
 	if defined countryTemp (
 		if %country%==CN (
@@ -1226,7 +1226,7 @@ if %url%==egg (
 	echo.
 	echo                If the website is not working as expected,
 	echo.
-	echo                please open this URL instead:
+	echo                please enter ^"2^" or open this URL manually:
 	echo.
 	if defined countryTemp (
 		if %country%==CN (
@@ -1619,7 +1619,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.10 ^(GA Release Build 6^)
+echo                Version 2.10 ^(GA Release Build 7^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
