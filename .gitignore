@@ -1,3 +1,4 @@
 temp/
-manifest_GA.txt
-manifest_LTS.txt
+manifest.txt
+VersionInfo_GA.txt
+VersionInfo_LTS.txt
