@@ -1116,7 +1116,7 @@ if %url%==pki (
 	)
 	echo                %lineShort%
 	echo.
-	echo                If the website is not working as expected,
+	echo                If the website did not work as expected,
 	echo.
 	echo                please enter ^"2^" or open this URL manually:
 	echo.
@@ -1165,7 +1165,7 @@ if %url%==dl (
 	)
 	echo                %lineShort%
 	echo.
-	echo                If the website is not working as expected,
+	echo                If the website did not work as expected,
 	echo.
 	echo                please enter ^"2^" or open this URL manually:
 	echo.
@@ -1224,7 +1224,7 @@ if %url%==egg (
 	)
 	echo                %lineShort%
 	echo.
-	echo                If the website is not working as expected,
+	echo                If the website did not work as expected,
 	echo.
 	echo                please enter ^"2^" or open this URL manually:
 	echo.
@@ -1617,7 +1617,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.10.2 ^(GA Release Build 2^)
+echo                Version 2.10.2 ^(GA Release Build 3^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
