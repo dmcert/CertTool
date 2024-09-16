@@ -129,96 +129,96 @@ if %installIntermediateCA%==true (
 ) else (
 	echo Validating integrity of 5 files...
 )
-if not exist "%~dp0\cross-sign\R4_R1RootCA.crt" (
+if not exist "%~dp0cross-sign\R4_R1RootCA.crt" (
 	goto installationFailed
 )
-if not exist "%~dp0\cross-sign\R4_R2RootCA.crt" (
+if not exist "%~dp0cross-sign\R4_R2RootCA.crt" (
 	goto installationFailed
 )
-if not exist "%~dp0\cross-sign\R4_R3RootCA.crt" (
+if not exist "%~dp0cross-sign\R4_R3RootCA.crt" (
 	goto installationFailed
 )
-if not exist "%~dp0\root\R4RootCA.reg" (
+if not exist "%~dp0root\R4RootCA.reg" (
 	goto installationFailed
 )
-if not exist "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" (
+if not exist "%~dp0cross-sign\R4_RootCertificateAuthority.reg" (
 	goto installationFailed
 )
 if %installIntermediateCA%==true (
-	if not exist "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" (
+	if not exist "%~dp0intermediate\ClientAuthCAG3SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" (
+	if not exist "%~dp0intermediate\CodeSigningCAG3SHA384.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" (
+	if not exist "%~dp0intermediate\DocumentSigningCAG2SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\DVServerCAG4SHA256.crt" (
+	if not exist "%~dp0intermediate\DVServerCAG4SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" (
+	if not exist "%~dp0intermediate\ECCDVServerCAG5SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" (
+	if not exist "%~dp0intermediate\ECCEVServerCAG4SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" (
+	if not exist "%~dp0intermediate\ECCOVServerCAG6SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\EVServerCAG4SHA256.crt" (
+	if not exist "%~dp0intermediate\EVServerCAG4SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\ExternalCAG4SHA384.crt" (
+	if not exist "%~dp0intermediate\ExternalCAG4SHA384.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\OVServerCAG6SHA256.crt" (
+	if not exist "%~dp0intermediate\OVServerCAG6SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" (
+	if not exist "%~dp0intermediate\SecureEmailCAG5SHA256.crt" (
 		goto installationFailed
 	)
-	if not exist "%~dp0\intermediate\TimestampingCAG8SHA256.crt" (
+	if not exist "%~dp0intermediate\TimestampingCAG8SHA256.crt" (
 		goto installationFailed
 	)
 )
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R1RootCA.crt" SHA256 > "%~dp0\temp\R4_R1RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R2RootCA.crt" SHA256 > "%~dp0\temp\R4_R2RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_R3RootCA.crt" SHA256 > "%~dp0\temp\R4_R3RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\R4RootCA.reg" SHA256 > "%~dp0\temp\R4RootCA.reg.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" SHA256 > "%~dp0\temp\R4_RootCertificateAuthority.reg.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0cross-sign\R4_R1RootCA.crt" SHA256 > "%~dp0temp\R4_R1RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0cross-sign\R4_R2RootCA.crt" SHA256 > "%~dp0temp\R4_R2RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0cross-sign\R4_R3RootCA.crt" SHA256 > "%~dp0temp\R4_R3RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0root\R4RootCA.reg" SHA256 > "%~dp0temp\R4RootCA.reg.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0cross-sign\R4_RootCertificateAuthority.reg" SHA256 > "%~dp0temp\R4_RootCertificateAuthority.reg.sha256"
 if %installIntermediateCA%==true (
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" SHA256 > "%~dp0\temp\ClientAuthCAG3SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" SHA256 > "%~dp0\temp\CodeSigningCAG3SHA384.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\DocumentSigningCAG2SHA256.crt" SHA256 > "%~dp0\temp\DocumentSigningCAG2SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\DVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\DVServerCAG4SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" SHA256 > "%~dp0\temp\ECCDVServerCAG5SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\ECCEVServerCAG4SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" SHA256 > "%~dp0\temp\ECCOVServerCAG6SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\EVServerCAG4SHA256.crt" SHA256 > "%~dp0\temp\EVServerCAG4SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\ExternalCAG4SHA384.crt" SHA256 > "%~dp0\temp\ExternalCAG4SHA384.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\OVServerCAG6SHA256.crt" SHA256 > "%~dp0\temp\OVServerCAG6SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" SHA256 > "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256"
-	"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TimestampingCAG8SHA256.crt" SHA256 > "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\ClientAuthCAG3SHA256.crt" SHA256 > "%~dp0temp\ClientAuthCAG3SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\CodeSigningCAG3SHA384.crt" SHA256 > "%~dp0temp\CodeSigningCAG3SHA384.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\DocumentSigningCAG2SHA256.crt" SHA256 > "%~dp0temp\DocumentSigningCAG2SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\DVServerCAG4SHA256.crt" SHA256 > "%~dp0temp\DVServerCAG4SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\ECCDVServerCAG5SHA256.crt" SHA256 > "%~dp0temp\ECCDVServerCAG5SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\ECCEVServerCAG4SHA256.crt" SHA256 > "%~dp0temp\ECCEVServerCAG4SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\ECCOVServerCAG6SHA256.crt" SHA256 > "%~dp0temp\ECCOVServerCAG6SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\EVServerCAG4SHA256.crt" SHA256 > "%~dp0temp\EVServerCAG4SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\ExternalCAG4SHA384.crt" SHA256 > "%~dp0temp\ExternalCAG4SHA384.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\OVServerCAG6SHA256.crt" SHA256 > "%~dp0temp\OVServerCAG6SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\SecureEmailCAG5SHA256.crt" SHA256 > "%~dp0temp\SecureEmailCAG5SHA256.crt.sha256"
+	"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\TimestampingCAG8SHA256.crt" SHA256 > "%~dp0temp\TimestampingCAG8SHA256.crt.sha256"
 )
-findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "%~dp0\temp\R4_R1RootCA.crt.sha256" >nul 2>nul || goto installationFailed
-findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "%~dp0\temp\R4_R2RootCA.crt.sha256" >nul 2>nul || goto installationFailed
-findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "%~dp0\temp\R4_R3RootCA.crt.sha256" >nul 2>nul || goto installationFailed
-findstr 51aa09a59873c7afd4c7a18443a79d16ba832ae2e37bb3513328f9c958c23407 "%~dp0\temp\R4RootCA.reg.sha256" >nul 2>nul || goto installationFailed
-findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "%~dp0\temp\R4_RootCertificateAuthority.reg.sha256" >nul 2>nul || goto installationFailed
+findstr f56e728f435af6322561fa9a62c366a6032de8c371155572004f7fe4a48c0371 "%~dp0temp\R4_R1RootCA.crt.sha256" >nul 2>nul || goto installationFailed
+findstr a33f7f708fbb18326315bf469e8a77feb234478683b249ad5ad3a13f4f631742 "%~dp0temp\R4_R2RootCA.crt.sha256" >nul 2>nul || goto installationFailed
+findstr cfe2a8c5ec0d2828e06b2a6306c5fb6722581dc10864059463356904915750a4 "%~dp0temp\R4_R3RootCA.crt.sha256" >nul 2>nul || goto installationFailed
+findstr 51aa09a59873c7afd4c7a18443a79d16ba832ae2e37bb3513328f9c958c23407 "%~dp0temp\R4RootCA.reg.sha256" >nul 2>nul || goto installationFailed
+findstr 674095a879128f7e13d8336051cf1a622eda5a29e93faca302fbf7b59e90031b "%~dp0temp\R4_RootCertificateAuthority.reg.sha256" >nul 2>nul || goto installationFailed
 if %installIntermediateCA%==true (
-	findstr 0c27b946daeb726ac8d84bcbe2c7cc6355262a68989532e94050db10c8aa71f4 "%~dp0\temp\ClientAuthCAG3SHA256.crt.sha256"  >nul 2>nul || goto installationFailed
-	findstr 53999bfc6b657f8975f131a30c1f4c8b2b4600854570e99d97ce6ff08ab8596d "%~dp0\temp\CodeSigningCAG3SHA384.crt.sha256"  >nul 2>nul || goto installationFailed
-	findstr 564eb266594a6a48b57c3139dcd679b7b358e6ee277001643f007af460532663 "%~dp0\temp\DVServerCAG4SHA256.crt.sha256"  >nul 2>nul || goto installationFailed
-	findstr 24e33eeb2553d919c68c912da4c8b37b99228567d209f867f9fcd6930c2d7fb8 "%~dp0\temp\DocumentSigningCAG2SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 6977c709a643b4c8afe0756c9337dfce6bbe871891c6f6f501714e08e187f1ec "%~dp0\temp\ECCDVServerCAG5SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr c28eec34793954c458e281b47a8ae4d47c80f067041b2c4ba11ec98d578b907b "%~dp0\temp\ECCEVServerCAG4SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 34d98e0e1e60f7121f22e68d75e397bd0eea8970dc8710afc00122a5b55f05dc "%~dp0\temp\ECCOVServerCAG6SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 3e191ad3d0bee6333b34b6e5bab844ca0b32c88d240f8e0469d71f35d5e6801a "%~dp0\temp\EVServerCAG4SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 49827bf2365f057bda6ce55a0e6f7758f30280a13835fc79326ca48f1c95e467 "%~dp0\temp\ExternalCAG4SHA384.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 2d80d1d7e9d8d7ae71602842a7a350ed3f9fd84f1b60acaaf6333f604777b268 "%~dp0\temp\OVServerCAG6SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 412556f536caf1295eeaacc093f6dee5d10b08796110a4667e908b2b1fa99d4c "%~dp0\temp\SecureEmailCAG5SHA256.crt.sha256" >nul 2>nul || goto installationFailed
-	findstr 487fcfb818b20c395e03baf22fc470df5845b2785c372505b48f6ba257938935 "%~dp0\temp\TimestampingCAG8SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 0c27b946daeb726ac8d84bcbe2c7cc6355262a68989532e94050db10c8aa71f4 "%~dp0temp\ClientAuthCAG3SHA256.crt.sha256"  >nul 2>nul || goto installationFailed
+	findstr 53999bfc6b657f8975f131a30c1f4c8b2b4600854570e99d97ce6ff08ab8596d "%~dp0temp\CodeSigningCAG3SHA384.crt.sha256"  >nul 2>nul || goto installationFailed
+	findstr 564eb266594a6a48b57c3139dcd679b7b358e6ee277001643f007af460532663 "%~dp0temp\DVServerCAG4SHA256.crt.sha256"  >nul 2>nul || goto installationFailed
+	findstr 24e33eeb2553d919c68c912da4c8b37b99228567d209f867f9fcd6930c2d7fb8 "%~dp0temp\DocumentSigningCAG2SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 6977c709a643b4c8afe0756c9337dfce6bbe871891c6f6f501714e08e187f1ec "%~dp0temp\ECCDVServerCAG5SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr c28eec34793954c458e281b47a8ae4d47c80f067041b2c4ba11ec98d578b907b "%~dp0temp\ECCEVServerCAG4SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 34d98e0e1e60f7121f22e68d75e397bd0eea8970dc8710afc00122a5b55f05dc "%~dp0temp\ECCOVServerCAG6SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 3e191ad3d0bee6333b34b6e5bab844ca0b32c88d240f8e0469d71f35d5e6801a "%~dp0temp\EVServerCAG4SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 49827bf2365f057bda6ce55a0e6f7758f30280a13835fc79326ca48f1c95e467 "%~dp0temp\ExternalCAG4SHA384.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 2d80d1d7e9d8d7ae71602842a7a350ed3f9fd84f1b60acaaf6333f604777b268 "%~dp0temp\OVServerCAG6SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 412556f536caf1295eeaacc093f6dee5d10b08796110a4667e908b2b1fa99d4c "%~dp0temp\SecureEmailCAG5SHA256.crt.sha256" >nul 2>nul || goto installationFailed
+	findstr 487fcfb818b20c395e03baf22fc470df5845b2785c372505b48f6ba257938935 "%~dp0temp\TimestampingCAG8SHA256.crt.sha256" >nul 2>nul || goto installationFailed
 )
 if %installIntermediateCA%==true (
 	echo All 17 files successfully validated!
@@ -229,40 +229,40 @@ goto installation
 
 :installation
 echo Installing David Miller Root CA - R1 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R1RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0cross-sign\R4_R1RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R2 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R2RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0cross-sign\R4_R2RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R3 ^(cross-signed by R4^)...
-"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\cross-sign\R4_R3RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0cross-sign\R4_R3RootCA.crt" >nul 2>nul
 echo Installing David Miller Root CA - R4...
-regedit.exe /s "%~dp0\root\R4RootCA.reg" >nul 2>nul
+regedit.exe /s "%~dp0root\R4RootCA.reg" >nul 2>nul
 echo Installing David Miller Root Certificate Authority ^(cross-signed by R4^)...
-regedit.exe /s "%~dp0\cross-sign\R4_RootCertificateAuthority.reg" >nul 2>nul
+regedit.exe /s "%~dp0cross-sign\R4_RootCertificateAuthority.reg" >nul 2>nul
 if %installIntermediateCA%==true (
 	echo Installing David Miller Client Authentication CA - G3 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ClientAuthCAG3SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\ClientAuthCAG3SHA256.crt" >nul 2>nul
 	echo Installing David Miller Code Signing CA - G3 - SHA384...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\CodeSigningCAG3SHA384.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\CodeSigningCAG3SHA384.crt" >nul 2>nul
 	echo Installing David Miller Document Signing CA - G2 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DocumentSigningCAG2SHA256" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\DocumentSigningCAG2SHA256" >nul 2>nul
 	echo Installing David Miller DV Server CA - G4 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\DVServerCAG4SHA256.crt.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\DVServerCAG4SHA256.crt.crt" >nul 2>nul
 	echo Installing David Miller ECC DV Server CA - G5 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCDVServerCAG5SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\ECCDVServerCAG5SHA256.crt" >nul 2>nul
 	echo Installing David Miller ECC EV Server CA - G4 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCEVServerCAG4SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\ECCEVServerCAG4SHA256.crt" >nul 2>nul
 	echo Installing David Miller ECC OV Server CA - G6 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ECCOVServerCAG6SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\ECCOVServerCAG6SHA256.crt" >nul 2>nul
 	echo Installing David Miller EV Server CA - G4 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\EVServerCAG4SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\EVServerCAG4SHA256.crt" >nul 2>nul
 	echo Installing David Miller External CA - G4 - SHA384...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\ExternalCAG4SHA384.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\ExternalCAG4SHA384.crt" >nul 2>nul
 	echo Installing David Miller OV Server CA - G5 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\OVServerCAG6SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\OVServerCAG6SHA256.crt" >nul 2>nul
 	echo Installing David Miller Secure Email CA - G5 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\SecureEmailCAG5SHA256.crt" >nul 2>nul
 	echo Installing David Miller Timestamping CA - G8 - SHA256...
-	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
+	"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\TimestampingCAG8SHA256.crt" >nul 2>nul
 )
 goto credits
 
@@ -661,29 +661,29 @@ echo Starting your default browser...
 cls
 echo David Miller Certificate Tool
 echo Validating integrity of 3 files...
-if not exist "%~dp0\root\T4RootCA.crt" (
+if not exist "%~dp0root\T4RootCA.crt" (
 	goto installationFailed
 )
-if not exist "%~dp0\intermediate\TestTimestampingCASHA256.crt" (
+if not exist "%~dp0intermediate\TestTimestampingCASHA256.crt" (
 	goto installationFailed
 )
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\root\T4RootCA.crt" SHA256 > "%~dp0\temp\T4RootCA.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestCodeSigningCASHA384.crt" SHA256 > "%~dp0\temp\TestCodeSigningCASHA384.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0\intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0\temp\TestTimestampingCASHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0root\T4RootCA.crt" SHA256 > "%~dp0temp\T4RootCA.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\TestCodeSigningCASHA384.crt" SHA256 > "%~dp0temp\TestCodeSigningCASHA384.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0temp\TestTimestampingCASHA256.crt.sha256"
 
-findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0\temp\T4RootCA.crt.sha256" >nul 2>nul || goto installationFailed
-findstr a8931393d7927043f3cdd00b1408ab1f8272aca1102d230d22f8396074bc54f5 "%~dp0\temp\TestCodeSigningCASHA384.crt.sha256" >nul 2>nul || goto installationFailed
-findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0\temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul || goto installationFailed
+findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0temp\T4RootCA.crt.sha256" >nul 2>nul || goto installationFailed
+findstr a8931393d7927043f3cdd00b1408ab1f8272aca1102d230d22f8396074bc54f5 "%~dp0temp\TestCodeSigningCASHA384.crt.sha256" >nul 2>nul || goto installationFailed
+findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul || goto installationFailed
 echo All 3 files successfully validated!
 goto testInstallation
 
 :testInstallation
 echo Installing David Miller Test Root CA - T4...
-"%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0\root\T4RootCA.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore ROOT "%~dp0root\T4RootCA.crt" >nul 2>nul
 echo Installing David Miller Test Code Signing CA - G1 - SHA384...
-"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TestCodeSigningCASHA384.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\TestCodeSigningCASHA384.crt" >nul 2>nul
 echo Installing David Miller Test Timestamping CA - G1 - SHA256...
-"%Windir%\System32\certutil.exe" -addstore CA "%~dp0\intermediate\TestTimestampingCASHA256.crt" >nul 2>nul
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\TestTimestampingCASHA256.crt" >nul 2>nul
 goto credits
 
 :testUninstallation
@@ -791,7 +791,7 @@ goto invalidOption
 echo Finished!
 echo Author: David Miller Trust Services Team
 echo Website: https://pki.davidmiller.top
-echo Version 2.4.7 ^(LTS Release Build 2^)
+echo Version 2.4.8 ^(LTS Release Build 1^)
 goto loopChoice
 
 :loopChoice
