@@ -41,9 +41,9 @@ echo                [1] Install root certificates ^(Recommended^)
 echo.
 echo                [2] Uninstall all certificates
 echo.
-echo                [3] Show more options
+echo                [3] About CertTool
 echo.
-echo                [4] About
+echo                [4] Show more options
 echo.
 echo                [5] Exit
 echo           %lineLong%
@@ -66,14 +66,14 @@ if %mainOption%==2 (
 )
 if %mainOption%==3 (
 	set mainOption=
-	set echoName=true
-	cls
-	goto moreChoice
+	set about=true
+	goto credits
 )
 if %mainOption%==4 (
 	set mainOption=
-	set about=true
-	goto credits
+	set echoName=true
+	cls
+	goto moreChoice
 )
 if %mainOption%==5 (
 	exit
@@ -1569,7 +1569,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.11 ^(Release Build 4^)
+echo                Version 2.11 ^(Release Build 5^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
