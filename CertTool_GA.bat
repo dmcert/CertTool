@@ -1467,7 +1467,7 @@ echo.
 call :color 0C "                            "certutil.exe" is missing!"
 echo.
 echo.
-call :color 0C "                      CertTool may not working as expected"
+call :color 0C "                        CertTool may not work as expected"
 echo.
 echo                %lineShort%
 echo.
@@ -1617,7 +1617,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.10.2 ^(GA Release Build 1^)
+echo                Version 2.10.2 ^(GA Release Build 2^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
