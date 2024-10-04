@@ -2,7 +2,7 @@
 mode con cols=80 lines=36
 cd /d %~dp0
 chcp 65001 >nul 2>nul
-title David Miller Certificate Tool ^(Release^)
+title David Miller Certificate Tool
 setlocal EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "color=%%a"
@@ -37,7 +37,7 @@ call :color 0C "               Please disable antivirus software before starting
 echo.
 echo                %lineShort%
 echo.
-echo                [1] Install root certificates ^(Recommended^)
+echo                [1] Install root certificates
 echo.
 echo                [2] Uninstall all certificates
 echo.
@@ -48,7 +48,7 @@ echo.
 echo                [5] Exit
 echo           %lineLong%
 echo.
-set /p mainOption=^>           Please enter your choice ^(1-5^):
+set /p mainOption=^>              Please input your choice and press ^"Enter^" ^(1-5^):
 if not defined mainOption (
 	set choice=main
 	goto invalidOption
@@ -112,7 +112,7 @@ echo.
 echo                [5] Exit
 echo           %lineLong%
 echo.
-set /p moreOption=^>           Please enter your choice ^(1-5^):
+set /p moreOption=^>              Please input your choice and press ^"Enter^" ^(1-5^):
 if not defined moreOption (
 	set choice=more
 	goto invalidOption
@@ -1247,7 +1247,7 @@ echo.
 echo                [4] Exit
 echo           %lineLong%
 echo.
-set /p openURLOption=^>           Please enter your choice ^(1-4^):
+set /p openURLOption=^>              Please input your choice and press ^"Enter^" ^(1-4^):
 if not defined openURLOption (
 	set echoName=true
 	cls
@@ -1440,7 +1440,7 @@ echo.
 echo                [2] Exit
 echo           %lineLong%
 echo.
-set /p precheckFailedOption=^>           Please enter your choice ^(1-2^):
+set /p precheckFailedOption=^>              Please input your choice and press ^"Enter^" ^(1-2^):
 if not defined precheckFailedOption (
 	set choice=precheckFailed
 	goto invalidOption
@@ -1478,7 +1478,7 @@ goto installationCheckFailedChoice
 :installationCheckFailedChoice
 echo                %lineShort%
 echo.
-echo                [1] Re-download CertTool ^(Recommended^)
+echo                [1] Re-download CertTool
 echo.
 echo                [2] Continue installing
 echo.
@@ -1487,7 +1487,7 @@ echo.
 echo                [4] Exit
 echo           %lineLong%
 echo.
-set /p installationCheckFailedOption=^>           Please enter your choice ^(1-4^):
+set /p installationCheckFailedOption=^>              Please input your choice and press ^"Enter^" ^(1-4^):
 if not defined installationCheckFailedOption (
 	set choice=installationCheckFailed
 	goto invalidOption
@@ -1569,7 +1569,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.11 ^(Release Build 5^)
+echo                Version 2.12 ^(Pre-release Build 1^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
@@ -1583,7 +1583,7 @@ if defined about (
 	echo                [3] Exit
 	echo           !lineLong!
 	echo.
-	set /p aboutOption=^>           Please enter your choice ^(1-3^):
+	set /p aboutOption=^>              Please input your choice and press ^"Enter^" ^(1-3^):
 	if not defined aboutOption (
 		set echoName=true
 		cls
@@ -1629,7 +1629,7 @@ if !result!==success (
 	echo                [3] Exit
 	echo           !lineLong!
 	echo.
-	set /p loopOption=^>           Please enter your choice ^(1-3^):
+	set /p loopOption=^>              Please input your choice and press ^"Enter^" ^(1-3^):
 	if not defined loopOption (
 		set choice=loop
 		goto invalidOption
@@ -1673,7 +1673,7 @@ if !result!==fail (
 	echo                [6] Exit
 	echo           !lineLong!
 	echo.
-	set /p loopOption=^>           Please enter your choice ^(1-6^):
+	set /p loopOption=^>              Please input your choice and press ^"Enter^" ^(1-6^):
 	if not defined loopOption (
 		set choice=loop
 		goto invalidOption
