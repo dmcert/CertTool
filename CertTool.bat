@@ -48,7 +48,7 @@ echo.
 echo                [5] Exit
 echo           %lineLong%
 echo.
-set /p mainOption=^>              Please input your choice and press ^"Enter^" ^(1-5^):
+set /p mainOption=^>              Please input your choice and press ^"Enter^" ^(1-5^): 
 if not defined mainOption (
 	set choice=main
 	goto invalidOption
@@ -77,11 +77,6 @@ if %mainOption%==4 (
 )
 if %mainOption%==5 (
 	exit
-)
-if %mainOption%==egg (
-	set mainOption=
-	set URL=egg
-	goto openURL
 )
 set choice=main
 set mainOption=
@@ -112,7 +107,7 @@ echo.
 echo                [5] Exit
 echo           %lineLong%
 echo.
-set /p moreOption=^>              Please input your choice and press ^"Enter^" ^(1-5^):
+set /p moreOption=^>              Please input your choice and press ^"Enter^" ^(1-5^): 
 if not defined moreOption (
 	set choice=more
 	goto invalidOption
@@ -141,11 +136,6 @@ if %moreOption%==4 (
 )
 if %moreOption%==5 (
 	exit
-)
-if %moreOption%==egg (
-	set moreOption=
-	set URL=egg
-	goto openURL
 )
 set choice=more
 set moreOption=
@@ -1167,65 +1157,6 @@ if %url%==dl (
 		)
 	)
 )
-if %url%==egg (
-	if defined countryTemp (
-		if %country%==CN (
-			start https://go.davidmiller.top/ctegg2
-		)
-		if %country%==RoW (
-			start https://go.davidmiller.top/ctegg
-		)
-	) else (
-		if %country%==CN (
-			start https://go.davidmiller.top/ctegg
-		)
-		if %country%==RoW (
-			start https://go.davidmiller.top/ctegg2
-		)
-	)
-	echo                %lineShort%
-	echo.
-	echo                If the website is not opened,
-	echo.
-	echo                please enter ^"1^" or open this URL manually:
-	echo.
-	if defined countryTemp (
-		if %country%==CN (
-			echo                https://go.davidmiller.top/ctegg2
-		)
-		if %country%==RoW (
-			echo                https://go.davidmiller.top/ctegg
-		)
-	) else (
-		if %country%==CN (
-			echo                https://go.davidmiller.top/ctegg
-		)
-		if %country%==RoW (
-			echo                https://go.davidmiller.top/ctegg2
-		)
-	)
-	echo                %lineShort%
-	echo.
-	echo                If the website did not work as expected,
-	echo.
-	echo                please enter ^"2^" or open this URL manually:
-	echo.
-	if defined countryTemp (
-		if %country%==CN (
-			echo                https://go.davidmiller.top/ctegg
-		)
-		if %country%==RoW (
-			echo                https://go.davidmiller.top/ctegg2
-		)
-	) else (
-		if %country%==CN (
-			echo                https://go.davidmiller.top/ctegg2
-		)
-		if %country%==RoW (
-			echo                https://go.davidmiller.top/ctegg
-		)
-	)
-)
 echo           %lineLong%
 echo.
 if defined countryTemp (
@@ -1247,7 +1178,7 @@ echo.
 echo                [4] Exit
 echo           %lineLong%
 echo.
-set /p openURLOption=^>              Please input your choice and press ^"Enter^" ^(1-4^):
+set /p openURLOption=^>              Please input your choice and press ^"Enter^" ^(1-4^): 
 if not defined openURLOption (
 	set echoName=true
 	cls
@@ -1280,12 +1211,6 @@ if %openURLOption%==3 (
 )
 if %openURLOption%==4 (
 	exit
-)
-if %openURLOption%==egg (
-	set openURLOption=
-	set countryTemp=
-	set URL=egg
-	goto openURL
 )
 set openURLOption=
 set countryTemp=
@@ -1440,7 +1365,7 @@ echo.
 echo                [2] Exit
 echo           %lineLong%
 echo.
-set /p precheckFailedOption=^>              Please input your choice and press ^"Enter^" ^(1-2^):
+set /p precheckFailedOption=^>              Please input your choice and press ^"Enter^" ^(1-2^): 
 if not defined precheckFailedOption (
 	set choice=precheckFailed
 	goto invalidOption
@@ -1452,12 +1377,6 @@ if %precheckFailedOption%==1 (
 )
 if %precheckFailedOption%==2 (
 	exit
-)
-if %precheckFailedOption%==egg (
-	set precheckFailed=true
-	set precheckFailedOption=
-	set URL=egg
-	goto openURL
 )
 set choice=more
 set moreOption=
@@ -1487,7 +1406,7 @@ echo.
 echo                [4] Exit
 echo           %lineLong%
 echo.
-set /p installationCheckFailedOption=^>              Please input your choice and press ^"Enter^" ^(1-4^):
+set /p installationCheckFailedOption=^>              Please input your choice and press ^"Enter^" ^(1-4^): 
 if not defined installationCheckFailedOption (
 	set choice=installationCheckFailed
 	goto invalidOption
@@ -1518,18 +1437,13 @@ if %installationCheckFailedOption%==3 (
 if %installationCheckFailedOption%==4 (
 	exit
 )
-if %installationCheckFailedOption%==egg (
-	set installationCheckFailedOption=
-	set URL=egg
-	goto openURL
-)
 set choice=installationCheckFailed
 set installationCheckFailedOption=
 goto invalidOption         
 
 :credits
 if defined about (
-	set result=aboutOnly
+	set result=about
 	cls
 	echo.
 	echo.
@@ -1569,7 +1483,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version 2.12 ^(Pre-release Build 1^)
+echo                Version: 2.12 ^(Release^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
@@ -1583,7 +1497,7 @@ if defined about (
 	echo                [3] Exit
 	echo           !lineLong!
 	echo.
-	set /p aboutOption=^>              Please input your choice and press ^"Enter^" ^(1-3^):
+	set /p aboutOption=^>              Please input your choice and press ^"Enter^" ^(1-3^): 
 	if not defined aboutOption (
 		set echoName=true
 		cls
@@ -1606,12 +1520,6 @@ if defined about (
 	if !aboutOption!==3 (
 		exit
 	)
-	if !aboutOption!==egg (
-		set aboutOption=
-		set URL=egg
-		setlocal DisableDelayedExpansion
-		goto openURL
-	)
 	set echoName=true
 	cls
 	goto choice
@@ -1629,7 +1537,7 @@ if !result!==success (
 	echo                [3] Exit
 	echo           !lineLong!
 	echo.
-	set /p loopOption=^>              Please input your choice and press ^"Enter^" ^(1-3^):
+	set /p loopOption=^>              Please input your choice and press ^"Enter^" ^(1-3^): 
 	if not defined loopOption (
 		set choice=loop
 		goto invalidOption
@@ -1651,11 +1559,6 @@ if !result!==success (
 	if !loopOption!==3 (
 		exit
 	)
-	if !loopOption!==egg (
-		set loopOption=
-		set URL=egg
-		goto openURL
-	)
 )
 if !result!==fail (
 	if defined installationMode (
@@ -1673,7 +1576,7 @@ if !result!==fail (
 	echo                [6] Exit
 	echo           !lineLong!
 	echo.
-	set /p loopOption=^>              Please input your choice and press ^"Enter^" ^(1-6^):
+	set /p loopOption=^>              Please input your choice and press ^"Enter^" ^(1-6^): 
 	if not defined loopOption (
 		set choice=loop
 		goto invalidOption
@@ -1734,11 +1637,6 @@ if !result!==fail (
 	)
 	if !loopOption!==6 (
 		exit
-	)
-	if !loopOption!==egg (
-		set loopOption=
-		set URL=egg
-		goto openURL
 	)
 )
 set choice=loop
