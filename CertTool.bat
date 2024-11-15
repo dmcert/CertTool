@@ -1033,6 +1033,12 @@ reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF80
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" >nul 2>nul && set uninstallationFailed=true
 reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" >nul 2>nul && set uninstallationFailed=true
 echo.
+echo                Removing Test Timestamping CA - G2 - SHA256...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" /f >nul 2>nul
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" >nul 2>nul && set uninstallationFailed=true
+reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" >nul 2>nul && set uninstallationFailed=true
+echo.
 echo                Removing other certificates...
 reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8D01F5FF2686520649E9A4BC62BE16D1932D5214" /f >nul 2>nul
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\8D01F5FF2686520649E9A4BC62BE16D1932D5214" /f >nul 2>nul
@@ -1229,7 +1235,7 @@ echo.
 if not exist "%~dp0root\T4RootCA.crt" (
 	goto installationCheckFailed
 )
-if not exist "%~dp0intermediate\TestTimestampingCASHA256.crt" (
+if not exist "%~dp0intermediate\TestTimestampingCAG2SHA256.crt" (
 	goto installationCheckFailed
 )
 if not exist "%~dp0intermediate\TestCodeSigningCASHA384.crt" (
@@ -1237,10 +1243,10 @@ if not exist "%~dp0intermediate\TestCodeSigningCASHA384.crt" (
 )
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0root\T4RootCA.crt" SHA256 > "%~dp0temp\T4RootCA.crt.sha256"
 "%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\TestCodeSigningCASHA384.crt" SHA256 > "%~dp0temp\TestCodeSigningCASHA384.crt.sha256"
-"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\TestTimestampingCASHA256.crt" SHA256 > "%~dp0temp\TestTimestampingCASHA256.crt.sha256"
+"%Windir%\System32\certutil.exe" -hashfile "%~dp0intermediate\TestTimestampingCAG2SHA256.crt" SHA256 > "%~dp0temp\TestTimestampingCAG2SHA256.crt.sha256"
 findstr 7c842e48c25ce222b3b7d003c76bd433c2c18a8a34cf73013d67a7298ab4d0f6 "%~dp0temp\T4RootCA.crt.sha256" >nul 2>nul || goto installationCheckFailed
 findstr a8931393d7927043f3cdd00b1408ab1f8272aca1102d230d22f8396074bc54f5 "%~dp0temp\TestCodeSigningCASHA384.crt.sha256" >nul 2>nul || goto installationCheckFailed
-findstr 9fba19871469a9aebf2f15cef7ed5fb4101608c587b4057118d92f14572da544 "%~dp0temp\TestTimestampingCASHA256.crt.sha256" >nul 2>nul || goto installationCheckFailed
+findstr 4acbc44db2b060edb31e2244439f8999243864defad1f44f9c90fcfd28881587 "%~dp0temp\TestTimestampingCAG2SHA256.crt.sha256" >nul 2>nul || goto installationCheckFailed
 echo                All 3 files successfully validated!
 echo           %lineLong%
 echo.
@@ -1255,9 +1261,9 @@ echo                Installing Test Code Signing CA - G1 - SHA384...
 "%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\TestCodeSigningCASHA384.crt" >nul 2>nul
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\59A06FA24A579CB8491BEE0DC768A18C412947F8" >nul 2>nul || set installationFailed=true
 echo.
-echo                Installing Test Timestamping CA - G1 - SHA256...
-"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\TestTimestampingCASHA256.crt" >nul 2>nul
-reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" >nul 2>nul || set installationFailed=true
+echo                Installing Test Timestamping CA - G2 - SHA256...
+"%Windir%\System32\certutil.exe" -addstore CA "%~dp0intermediate\TestTimestampingCAG2SHA256.crt" >nul 2>nul
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" >nul 2>nul || set installationFailed=true
 if defined installationFailed (
 	set result=fail
 ) else (
@@ -1306,6 +1312,12 @@ reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF80
 reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" /f >nul 2>nul
 reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" >nul 2>nul && set uninstallationFailed=true
 reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\EAAF5AF802B6A614083F0379616F98A3ADC203D0" >nul 2>nul && set uninstallationFailed=true
+echo.
+echo                Removing Test Timestamping CA - G2 - SHA256...
+reg delete "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" /f >nul 2>nul
+reg delete "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" /f >nul 2>nul
+reg query "HKLM\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" >nul 2>nul && set uninstallationFailed=true
+reg query "HKCU\SOFTWARE\Microsoft\SystemCertificates\CA\Certificates\1E36060A102FBAA0EC6F6AE8A816A0E4EA53441F" >nul 2>nul && set uninstallationFailed=true
 if defined uninstallationFailed (
 	set result=fail
 ) else (
@@ -1483,7 +1495,7 @@ echo                Author: David Miller Trust Services Team
 echo.
 echo                Website: https://pki.davidmiller.top
 echo.
-echo                Version: 2.12 ^(Release^)
+echo                Version: 2.13 ^(Release^)
 if defined about (
 	setlocal EnableDelayedExpansion
 	set result=
